@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="hu" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>14. tétel — kondenzált</title>
+  <style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #faf9f5;
+  --surface: #ffffff;
+  --surface-2: #f3f1ea;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #e5e2d8;
+  --accent: #6d28d9;
+  --accent-soft: #ede9fe;
+  --code-bg: #f5f3ec;
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+}
+[data-theme="dark"] {
+  --bg: #0f0f12;
+  --surface: #1a1a1f;
+  --surface-2: #232329;
+  --text: #ececec;
+  --muted: #9a9a9a;
+  --border: #2d2d33;
+  --accent: #a78bfa;
+  --accent-soft: #2a1f50;
+  --code-bg: #1d1d24;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.3);
+}
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg); color: var(--text);
+  font-size: 16px; line-height: 1.7;
+}
+.wrap { max-width: 900px; margin: 0 auto; padding: 28px 24px 72px; }
+
+header.site {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 22px;
+}
+header.site h1 {
+  margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;
+}
+header.site h1 small {
+  display: block; font-size: 13px; font-weight: 400; color: var(--muted); margin-top: 4px;
+}
+.theme-toggle {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 14px;
+}
+.theme-toggle:hover { background: var(--surface-2); }
+
+/* Per-tetel page navigation */
+.page-nav {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 20px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 12px;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+.page-nav.bottom { margin: 28px 0 0; position: static; }
+.nav-btn {
+  padding: 8px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.nav-btn:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.nav-home {
+  background: var(--accent);
+  color: white !important;
+  border-color: var(--accent);
+}
+.nav-home:hover { opacity: 0.9; }
+.nav-disabled {
+  opacity: 0.4; cursor: not-allowed; pointer-events: none;
+  color: var(--muted);
+}
+.nav-spacer { flex: 1; }
+
+/* Index: tetel card grid */
+.tetel-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin: 20px 0 30px;
+}
+.tetel-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.15s;
+  box-shadow: var(--shadow);
+}
+.tetel-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(109, 40, 217, 0.16);
+}
+.tetel-card .tetel-num {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+  min-width: 48px;
+}
+.tetel-card .tetel-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.tetel-card .tetel-arrow {
+  color: var(--muted);
+  font-size: 20px;
+}
+.tetel-card:hover .tetel-arrow { color: var(--accent); }
+
+.index-note {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.index-note strong { color: var(--accent); }
+.index-note kbd {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+/* Tetel article */
+article.tetel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 26px 30px 30px;
+  margin-bottom: 12px;
+}
+
+article.tetel h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 0 0 22px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--accent-soft);
+  letter-spacing: -0.3px;
+}
+
+article.tetel h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 32px 0 16px;
+  padding: 10px 14px;
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+}
+
+article.tetel h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 26px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid var(--accent-soft);
+}
+
+article.tetel h4 {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 20px 0 8px;
+}
+
+article.tetel blockquote {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  padding: 12px 16px;
+  margin: 12px 0 22px;
+  border-radius: 0 8px 8px 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+article.tetel blockquote p { margin: 0; }
+article.tetel blockquote strong { color: var(--accent); }
+
+article.tetel p { margin: 0 0 13px; line-height: 1.72; }
+article.tetel p strong, article.tetel li strong {
+  color: var(--accent); font-weight: 700;
+}
+
+article.tetel ul, article.tetel ol {
+  margin: 10px 0 16px; padding-left: 26px;
+}
+article.tetel li { margin: 7px 0; line-height: 1.62; }
+article.tetel ul { list-style: none; padding-left: 6px; }
+article.tetel ul li { position: relative; padding-left: 22px; }
+article.tetel ul li::before {
+  content: ""; position: absolute; left: 4px; top: 10px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+}
+article.tetel ol { padding-left: 28px; }
+article.tetel ol li::marker { color: var(--accent); font-weight: 700; }
+
+article.tetel hr {
+  border: none;
+  border-top: 2px dashed var(--border);
+  margin: 32px 0;
+}
+
+article.tetel code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+article.tetel pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 14px 0;
+}
+article.tetel pre code {
+  background: none; padding: 0; color: var(--text);
+  font-size: 13px; line-height: 1.55;
+}
+
+article.tetel table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+article.tetel th, article.tetel td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+article.tetel th {
+  background: var(--surface-2);
+  font-weight: 700;
+  font-size: 13px;
+}
+article.tetel tr:last-child td { border-bottom: none; }
+article.tetel tbody tr:nth-child(even) { background: var(--surface-2); }
+
+footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 50px; }
+
+@media (max-width: 720px) {
+  .wrap { padding: 14px 12px 56px; }
+  header.site h1 { font-size: 19px; }
+  article.tetel { padding: 18px 18px 22px; }
+  article.tetel h1 { font-size: 20px; }
+  article.tetel h2 { font-size: 17px; }
+  article.tetel h3 { font-size: 15.5px; }
+  .page-nav { padding: 8px; gap: 6px; }
+  .nav-btn { padding: 6px 10px; font-size: 13px; }
+  .tetel-card { padding: 14px 16px; }
+  .tetel-card .tetel-num { font-size: 22px; min-width: 40px; }
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site">
+      <h1>14. tétel
+        <small>14. tétel — Programozási technológiák (OOP-alapelvek + minták) · Adatbázisok II (kurzor, trigger)</small>
+      </h1>
+      <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙 Sötét</button>
+    </header>
+
+    
+      <nav class="page-nav">
+        <a href="tetel_13.html" class="nav-btn nav-prev">← 13. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <span class="nav-btn nav-disabled nav-next">(utolsó) →</span>
+      </nav>
+
+    <article class="tetel">
+      <h1>14. tétel — Programozási technológiák (OOP-alapelvek + minták) · Adatbázisok II (kurzor, trigger)</h1>
+<h2>a) Programozási technológiák — osztály, OOP-elvek, tervezési minták részletesen</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+1. Az osztály jellemzői: felület és megvalósítás, az objektum jellemzői: felület, belső állapot és viselkedés
+2. Az OOP alapelvek megfogalmazása ezekkel a fogalmakkal
+3. A GOF1 és a GOF2 tervezési alapelvek bemutatása
+4. A stratégia részletes, illetve a viselkedési tervezési minták általános bemutatása
+5. Az egyke részletes, illetve a létrehozási tervezési minták általános bemutatása
+6. A díszítő részletes, illetve a szerkezeti tervezési minták általános bemutatása</p>
+</blockquote>
+<h3>Az osztály jellemzői</h3>
+<p>Az <strong>osztály</strong> két részből áll:</p>
+<p><strong>Felület (interface, kontraktus):</strong>
+- A "<strong>mit</strong>" — milyen szolgáltatások állnak rendelkezésre
+- Publikus metódusok, property-k szignatúrái
+- A többi osztály <strong>kívülről</strong> ezt látja és használja</p>
+<p><strong>Megvalósítás (implementation):</strong>
+- A "<strong>hogyan</strong>" — a felület mögötti tényleges kód
+- Privát mezők, segédmetódusok
+- A felhasználó számára <strong>rejtett</strong>, bármikor változhat</p>
+<h3>Az objektum jellemzői</h3>
+<p>Az <strong>objektum</strong> = osztály egy konkrét példánya. Három aspektussal jellemezhető:</p>
+<p><strong>Felület:</strong> a publikus metódusok, amikkel kívülről kommunikálunk vele. Megegyezik az osztály felületével.</p>
+<p><strong>Belső állapot:</strong> a privát mezők aktuális értékei — az objektum aktuális helyzete a futás közben. Két azonos osztályú objektum <strong>különböző állapotban</strong> lehet.</p>
+<p><strong>Viselkedés:</strong> hogyan reagál a metódushívásokra. A viselkedést a megvalósítás határozza meg, de <strong>függhet a belső állapottól</strong> (pl. üres verem <code>pop()</code>-jára kivételt dob).</p>
+<h3>OOP alapelvek a felület/állapot/viselkedés fogalmakkal</h3>
+<p><strong>Egységbe zárás (encapsulation):</strong>
+- Az adat (belső állapot) és a rajta értelmezett műveletek (viselkedés) egy egységben (osztály) vannak
+- A felület közvetít kifelé — kívülről csak a felületen keresztül lehet hatni az állapotra</p>
+<p><strong>Adatrejtés (information hiding):</strong>
+- A belső állapot <strong>közvetlenül nem elérhető</strong> kívülről
+- Csak a publikus felületen keresztül → biztosítható, hogy az állapot <strong>mindig konzisztens</strong> (invariánsok)
+- Lehetővé teszi a megvalósítás cseréjét anélkül, hogy a felhasználók kódját módosítani kellene</p>
+<p><strong>Öröklődés (inheritance):</strong>
+- Új osztály <strong>örökli</strong> egy meglévő osztály felületét és megvalósítását, és <strong>kibővítheti / specializálhatja</strong>
+- A leszármazott automatikusan az ős minden publikus szolgáltatását nyújtja</p>
+<p><strong>Polimorfizmus (többalakúság):</strong>
+- Ugyanaz a felület-művelet <strong>különböző viselkedést</strong> mutathat az osztály konkrét típusától függően
+- Megvalósítás: <code>virtual</code> + <code>override</code>, késői kötés (dinamikus diszpécs)
+- Lehetővé teszi, hogy a kliens csak a felülettel dolgozzon, és a konkrét típus a futás idején dőljön el</p>
+<h3>GOF1 — Programozz interfészre, ne implementációra</h3>
+<p>A változók, paraméterek típusát mindig a <strong>legabsztraktabb interface-en</strong> vagy absztrakt osztályon adjuk meg, amit elég. A konkrét típus csak a példányosításnál érdekes.</p>
+<pre><code class="language-csharp">// rossz
+List&lt;int&gt; lista = new List&lt;int&gt;();
+
+// jó
+IList&lt;int&gt; lista = new List&lt;int&gt;();
+// vagy ICollection&lt;int&gt;, IEnumerable&lt;int&gt;
+</code></pre>
+<p><strong>Előnyök:</strong>
+- A konkrét implementáció később cserélhető anélkül, hogy a klienseket módosítani kellene
+- A tesztelés könnyebb (mock-olható az interface)
+- Csökken az osztályok közötti <strong>csatolás</strong> (coupling)</p>
+<h3>GOF2 — Részesítsd előnyben a kompozíciót az öröklődéssel szemben</h3>
+<p><strong>Öröklődés (is-a):</strong>
+- Erős, <strong>fordításidőben rögzített</strong> kapcsolat
+- Az ős változása mindenki leszármazottját érinti
+- Nehezen változtatható a viselkedés futás közben
+- Egyszeres öröklődés korlátozó</p>
+<p><strong>Kompozíció (has-a):</strong>
+- Egy objektum <strong>birtokol</strong> egy másik objektumot
+- A birtokolt objektum <strong>futás közben cserélhető</strong>
+- <strong>Rugalmasabb, lazább kapcsolat</strong></p>
+<pre><code class="language-csharp">// Öröklődés - merev
+class Madar : Allat { void Repul() {} }
+class Pingvin : Madar { /* baj: a pingvin nem repül! */ }
+
+// Kompozíció - rugalmas
+class Madar {
+    private IRepules r;
+    public Madar(IRepules r) { this.r = r; }
+    void Akciot() { r.Tegyel(); }
+}
+new Madar(new Repkedo());
+new Madar(new NemRepkedo());
+</code></pre>
+<p>A Stratégia minta klasszikus alkalmazása a kompozíciónak.</p>
+<h3>Stratégia minta részletesen (viselkedési)</h3>
+<p><strong>Probléma:</strong> sok hasonló algoritmus (pl. rendezés, fizetés módja), és <strong>futás közben</strong> szeretnénk váltani közöttük, anélkül, hogy a kliens kódját módosítanánk.</p>
+<p><strong>Megoldás:</strong> definiálj egy közös <strong>interfészt</strong> az algoritmusoknak, és a kliens <strong>kompozíción</strong> keresztül tartson belőle egy példányt.</p>
+<pre><code class="language-csharp">public interface IRendezo {
+    void Rendezz(int[] arr);
+}
+
+public class Buborek : IRendezo {
+    public void Rendezz(int[] arr) { /* O(n²) */ }
+}
+
+public class Quicksort : IRendezo {
+    public void Rendezz(int[] arr) { /* O(n log n) */ }
+}
+
+public class Kontextus {
+    private IRendezo _strat;
+    public Kontextus(IRendezo s) { _strat = s; }
+    public void SetStrategy(IRendezo s) { _strat = s; }
+    public void Csinald(int[] arr) {
+        _strat.Rendezz(arr);
+    }
+}
+
+// Használat
+var k = new Kontextus(new Buborek());
+k.Csinald(arr);
+k.SetStrategy(new Quicksort());  // futás közben váltunk!
+k.Csinald(arr);
+</code></pre>
+<p><strong>Előny:</strong> új algoritmus = új osztály — a Kontextus változatlan. <strong>Nyitva-zárt elv</strong> teljesül.</p>
+<h3>Viselkedési tervezési minták általános bemutatása</h3>
+<p>A viselkedési minták az <strong>objektumok közötti kommunikációt és felelősség-elosztást</strong> strukturálják.</p>
+<p><strong>Példák:</strong>
+- <strong>Stratégia (Strategy)</strong> — cserélhető algoritmusok
+- <strong>Sablon metódus (Template Method)</strong> — algoritmus váza öröklődéssel
+- <strong>Megfigyelő (Observer)</strong> — esemény-értesítés
+- <strong>Iterátor (Iterator)</strong> — kollekció bejárása
+- <strong>Parancs (Command)</strong> — kérés objektumba csomagolva (undo, queue)
+- <strong>Állapot (State)</strong> — állapot-függő viselkedés objektumokba
+- <strong>Felelősséglánc (Chain of Responsibility)</strong> — kérés végigfut egy láncon, valaki kezeli
+- <strong>Közvetítő (Mediator)</strong> — objektumok közötti kapcsolatot egy közvetítő kezeli
+- <strong>Látogató (Visitor)</strong> — művelet egy objektumhierarchián</p>
+<h3>Egyke minta részletesen (létrehozási)</h3>
+<p><strong>Probléma:</strong> szeretnénk garantálni, hogy egy osztályból <strong>csak egyetlen példány</strong> legyen az alkalmazás futása során — és bárhonnan elérhető legyen.</p>
+<p><strong>Megoldás:</strong></p>
+<pre><code class="language-csharp">public sealed class Logger {
+    private static Logger _instance;
+    private static readonly object _lock = new object();
+
+    private Logger() { /* privát konstruktor! */ }
+
+    public static Logger Instance {
+        get {
+            if (_instance == null) {
+                lock (_lock) {
+                    if (_instance == null) {
+                        _instance = new Logger();
+                    }
+                }
+            }
+            return _instance;
+        }
+    }
+
+    public void Log(string msg) { ... }
+}
+
+// Használat
+Logger.Instance.Log(&quot;Üzenet&quot;);
+</code></pre>
+<p><strong>Kulcs elemek:</strong>
+- <strong>Privát konstruktor</strong> — kívülről nem példányosítható
+- <strong>Statikus <code>Instance</code> property</strong> — a globális elérési pont
+- <strong>Lazy init + lock</strong> — szálbiztos egyszeri inicializálás (double-checked locking)
+- <strong><code>sealed</code></strong> — ne lehessen leszármazottal megkerülni</p>
+<p><strong>Modern C#:</strong></p>
+<pre><code class="language-csharp">public sealed class Logger {
+    private static readonly Lazy&lt;Logger&gt; _instance =
+        new Lazy&lt;Logger&gt;(() =&gt; new Logger());
+    public static Logger Instance =&gt; _instance.Value;
+    private Logger() { }
+}
+</code></pre>
+<p><strong>Mikor használjuk:</strong> logger, konfiguráció, DB connection pool, cache.</p>
+<p><strong>Mikor kerüljük:</strong> ha tesztelhetőség fontos (mocking nehéz), ha valójában csak globális változót akarunk (anti-pattern). Modernben sokszor <strong>dependency injection</strong>-nel váltjuk ki.</p>
+<h3>Létrehozási tervezési minták általános bemutatása</h3>
+<p>Az objektum-példányosítást <strong>rugalmasabbá</strong> teszik.</p>
+<ul>
+<li><strong>Egyke (Singleton)</strong> — egyetlen példány</li>
+<li><strong>Gyár-metódus (Factory Method)</strong> — leszármazottak döntik el, milyen konkrét típust hoznak létre</li>
+<li><strong>Absztrakt gyár (Abstract Factory)</strong> — kapcsolódó objektum-családokat hoz létre</li>
+<li><strong>Építő (Builder)</strong> — komplex objektumot lépésről lépésre épít</li>
+<li><strong>Prototípus (Prototype)</strong> — meglévő példányt klónoz</li>
+</ul>
+<h3>Díszítő minta részletesen (szerkezeti)</h3>
+<p><strong>Probléma:</strong> egy objektumhoz <strong>futás közben</strong> szeretnénk plusz felelősséget rendelni, <strong>anélkül</strong>, hogy az osztály-hierarchiát módosítanánk vagy hatalmas leszármazott-fát építenénk.</p>
+<p><strong>Megoldás:</strong> a díszítő osztály ugyanazt az interfészt implementálja, mint a díszítendő objektum, és <strong>körbeveszi</strong> azt — előtte/utána tehet pluszt.</p>
+<pre><code class="language-csharp">public interface IStream {
+    void Write(string data);
+}
+
+public class FileStream : IStream {
+    public void Write(string data) { /* fájlba ír */ }
+}
+
+// Díszítő alaposztály
+public abstract class StreamDecorator : IStream {
+    protected IStream _wrapped;
+    public StreamDecorator(IStream s) { _wrapped = s; }
+    public abstract void Write(string data);
+}
+
+public class CompressDecorator : StreamDecorator {
+    public CompressDecorator(IStream s) : base(s) {}
+    public override void Write(string data) {
+        var compressed = Compress(data);
+        _wrapped.Write(compressed);
+    }
+}
+
+public class EncryptDecorator : StreamDecorator {
+    public EncryptDecorator(IStream s) : base(s) {}
+    public override void Write(string data) {
+        var encrypted = Encrypt(data);
+        _wrapped.Write(encrypted);
+    }
+}
+
+// Használat — bármelyik kombinációban
+IStream s = new EncryptDecorator(new CompressDecorator(new FileStream()));
+s.Write(&quot;titkos és tömörített adat&quot;);
+</code></pre>
+<p><strong>Előnyök:</strong>
+- <strong>Futás közben</strong> kombinálható a viselkedés
+- <strong>Nyitva-zárt</strong> — új díszítő = új osztály, a meglévők változatlanok
+- Több módosító kombinációja lehetséges (öröklődéssel exponenciális robbanás lenne)</p>
+<p>A .NET <code>Stream</code> osztály-családja klasszikusan így működik (<code>GZipStream</code>, <code>CryptoStream</code> stb.).</p>
+<h3>Szerkezeti tervezési minták általános bemutatása</h3>
+<p>Az objektumok és osztályok <strong>összeszerelését</strong> strukturálják.</p>
+<ul>
+<li><strong>Adapter</strong> — két inkompatibilis interface illesztése</li>
+<li><strong>Híd (Bridge)</strong> — absztrakció és implementáció szétválasztása</li>
+<li><strong>Összetétel (Composite)</strong> — fa-szerű hierarchia, ahol a kompozit és a levél ugyanazt az interfészt nyújtja</li>
+<li><strong>Díszítő (Decorator)</strong> — futás közbeni bővítés</li>
+<li><strong>Homlokzat (Facade)</strong> — egységes, egyszerű felület egy bonyolult alrendszerhez</li>
+<li><strong>Légyszúly (Flyweight)</strong> — sok hasonló objektum hatékony tárolása megosztott állapottal</li>
+<li><strong>Proxy</strong> — helyettesít egy másik objektumot, kontrollálja a hozzáférést (cache, lazy load, biztonság)</li>
+</ul>
+<hr />
+<h2>b) Adatbázisrendszerek II — Kurzorok, triggerek, kollekciók</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+7. Kurzorok: implicit és explicit kurzorok kezelése, kurzorattribútumok használatának lehetősége, kurzorváltozók
+8. Tranzakciókezelés, triggerek a PL/SQL nyelvben
+9. Összetett adatszerkezetek (kollekciók) típusai, jellemzői, használatának lehetőségei és előnyei, hátrányai</p>
+</blockquote>
+<h3>Kurzorok</h3>
+<p><strong>Probléma:</strong> egy SQL-utasítás eredménye gyakran <strong>több sor</strong> — ezeket egyenként szeretnénk feldolgozni.</p>
+<p><strong>Kurzor (cursor):</strong> a memóriában lévő <strong>környezeti terület</strong> azonosítója, ami az SQL-utasítás eredményét tartalmazza (aktív halmaz) + mutatót, hogy a sorokon belül hol járunk.</p>
+<p><strong>Analógia:</strong> telefonkönyvben keresés az ujjunkkal — az ujj a kurzor, ami az aktuális rekordra mutat.</p>
+<h3>Implicit kurzor</h3>
+<p>A PL/SQL <strong>automatikusan</strong> felépít egy implicit kurzort minden DML-utasításhoz és minden olyan SELECT-hez, ami <strong>pontosan egy sort</strong> ad vissza.</p>
+<p><strong>Attribútumai (a legutoljára végrehajtott utasításra vonatkoznak):</strong>
+- <strong><code>SQL%FOUND</code></strong> — TRUE, ha az INSERT/UPDATE/DELETE legalább egy sort érintett, vagy SELECT INTO visszaadott sort
+- <strong><code>SQL%NOTFOUND</code></strong> — TRUE, ha egyetlen sort sem érintett
+- <strong><code>SQL%ROWCOUNT</code></strong> — érintett sorok száma
+- <strong><code>SQL%ISOPEN</code></strong> — mindig FALSE (az Oracle implicit kurzort automatikusan lezárja)</p>
+<h3>Explicit kurzor</h3>
+<p>Több sort visszaadó lekérdezések eredményéhez. A programozó kezeli <strong>4 lépésben:</strong></p>
+<p><strong>1. Deklarálás:</strong></p>
+<pre><code class="language-plsql">CURSOR diak_cur IS
+    SELECT id, nev FROM Diakok WHERE szul_ev &gt; 2000;
+</code></pre>
+<p><strong>2. Megnyitás (<code>OPEN</code>):</strong>
+- Lefuttatja a lekérdezést
+- Meghatározza az aktív halmazt
+- A kurzormutató az <strong>első rekordra</strong> áll
+- Újra megnyitott kurzor → <code>CURSOR_ALREADY_OPEN</code> kivétel</p>
+<pre><code class="language-plsql">OPEN diak_cur;
+</code></pre>
+<p><strong>3. Sorok betöltése (<code>FETCH</code>):</strong>
+- Beolvassa az aktuális sort egy változóba/rekordba
+- A mutatót a következő sorra állítja
+- Nem létező sor betöltése <strong>nem dob kivételt</strong> — <code>%NOTFOUND</code> lesz TRUE</p>
+<pre><code class="language-plsql">FETCH diak_cur INTO v_id, v_nev;
+</code></pre>
+<p><strong>4. Lezárás (<code>CLOSE</code>):</strong>
+- Felszabadítja az erőforrást, érvényteleníti a mutatót</p>
+<pre><code class="language-plsql">CLOSE diak_cur;
+</code></pre>
+<p><strong>Teljes ciklus:</strong></p>
+<pre><code class="language-plsql">DECLARE
+    CURSOR c IS SELECT id, nev FROM Diakok;
+    v_id NUMBER; v_nev VARCHAR2(50);
+BEGIN
+    OPEN c;
+    LOOP
+        FETCH c INTO v_id, v_nev;
+        EXIT WHEN c%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE(v_id || ': ' || v_nev);
+    END LOOP;
+    CLOSE c;
+END;
+</code></pre>
+<p><strong>Egyszerűsített FOR-LOOP</strong> (automatikus open/fetch/close):</p>
+<pre><code class="language-plsql">FOR rec IN (SELECT id, nev FROM Diakok) LOOP
+    DBMS_OUTPUT.PUT_LINE(rec.id || ': ' || rec.nev);
+END LOOP;
+</code></pre>
+<h3>Kurzor-attribútumok (explicit)</h3>
+<p>Csak procedurális utasításokban használhatók, SQL-ben <strong>nem</strong>.</p>
+<ul>
+<li><strong><code>%FOUND</code></strong> — első sor előtt NULL; sikeres FETCH után TRUE, ha nem volt sor → FALSE</li>
+<li><strong><code>%NOTFOUND</code></strong> — fordítva: sikertelen FETCH után TRUE</li>
+<li><strong><code>%ISOPEN</code></strong> — TRUE, ha a kurzor meg van nyitva</li>
+<li><strong><code>%ROWCOUNT</code></strong> — eddig betöltött sorok száma (FETCH-enként +1)</li>
+</ul>
+<p>Ha az explicit kurzor <strong>nincs megnyitva</strong>, akkor <code>%ISOPEN</code> kivételével <code>INVALID_CURSOR</code> kivételt váltanak.</p>
+<h3>Kurzorváltozók (REF CURSOR)</h3>
+<p>A normál explicit kurzor <strong>statikusan</strong> kötődik egy konkrét SELECT-hez. A <strong>kurzorváltozó</strong> futás közben bármilyen kompatibilis lekérdezéshez köthető — <strong>dinamikus</strong>.</p>
+<p><strong>Deklarálás:</strong></p>
+<pre><code class="language-plsql">TYPE my_cur_t IS REF CURSOR [RETURN return_típus];
+my_cur my_cur_t;
+</code></pre>
+<ul>
+<li><strong>Erős (strong) ref cursor:</strong> ha van RETURN — a fordító ellenőrzi a kompatibilitást</li>
+<li><strong>Gyenge (weak) ref cursor:</strong> ha nincs RETURN — bármilyen kérdés hozzákapcsolható</li>
+</ul>
+<p><strong>Használat:</strong></p>
+<pre><code class="language-plsql">OPEN my_cur FOR SELECT id, nev FROM Diakok WHERE szul_ev &gt; 2000;
+FETCH my_cur INTO v_id, v_nev;
+CLOSE my_cur;
+</code></pre>
+<p><strong>Előny:</strong> futás közben más-más lekérdezést kapcsolhatunk hozzá, paraméterként átadható eljárásnak.</p>
+<h3>Tranzakciókezelés</h3>
+<p>Lásd 7.b részletesen — ACID, COMMIT, ROLLBACK, SAVEPOINT. PL/SQL-ben:</p>
+<ul>
+<li><strong><code>COMMIT;</code></strong> — véglegesít</li>
+<li><strong><code>ROLLBACK;</code></strong> vagy <strong><code>ROLLBACK TO SAVEPOINT sp;</code></strong> — visszagörget</li>
+<li><strong><code>SAVEPOINT sp;</code></strong> — köztes mentési pont</li>
+</ul>
+<p><strong>Implicit COMMIT</strong> — DDL utasítás vagy felhasználói kilépés esetén.
+<strong>Implicit ROLLBACK</strong> — alkalmazás rendellenes leállása esetén.</p>
+<h3>Triggerek</h3>
+<p><strong>Trigger:</strong> automatikusan végrehajtódó kód egy esemény hatására (tábla módosulása, nézet, rendszeresemény). Az adatbázis-objektum.</p>
+<p><strong>Jellemzők:</strong>
+- Megírható PL/SQL-ben, vagy Java/C-ben
+- <strong>Felhasználói rétegen átlátszó</strong> — a felhasználó nem hívja, automatikusan fut
+- <strong>Nem lehet kihagyni</strong> — speciális tárolt eljárás
+- Táblához vagy eseményhez kötődik
+- A tábla, amelyhez kötődik, az INSERT/UPDATE/DELETE után fut le</p>
+<p><strong>Trigger típusai:</strong></p>
+<p><strong>Sorszintű (FOR EACH ROW):</strong> minden érintett sorra egyszer fut. DELETE esetén minden törölt sor aktivál.</p>
+<p><strong>Utasításszintű:</strong> egyszer fut le az utasításra, függetlenül attól, hány sort érintett.</p>
+<p><strong>BEFORE / AFTER:</strong>
+- <strong>BEFORE:</strong> a hozzákapcsolt utasítás <strong>előtt</strong> fut
+- <strong>AFTER:</strong> <strong>utána</strong> fut
+Mindkettő lehet sor- vagy utasításszintű.</p>
+<p><strong>INSTEAD OF:</strong> a hozzákapcsolt utasítás <strong>helyett</strong> fut le. Csak sorszintű, csak nézeteken.</p>
+<p><strong>Rendszer-triggerek:</strong> adatbázis-eseményekre (indítás, leállítás, login, logout, DDL).</p>
+<p><strong>Szintaxis:</strong></p>
+<pre><code class="language-plsql">CREATE [OR REPLACE] TRIGGER trig_name
+{BEFORE | AFTER | INSTEAD OF}
+{INSERT | UPDATE | DELETE} [OR ...]
+ON tabla_nev
+[FOR EACH ROW]
+[WHEN (feltétel)]
+BEGIN
+    -- PL/SQL kód
+    -- :NEW.oszlop, :OLD.oszlop a sor-szintű triggerekben
+END;
+</code></pre>
+<p><strong>Felhasználási példák:</strong>
+- <strong>Naplózás</strong> (audit): ki, mit, mikor módosított
+- <strong>Integritási megszorítások</strong> összetett esetekben
+- <strong>Származtatott értékek</strong> automatikus frissítése
+- <strong>Üzleti szabályok</strong> kikényszerítése (pl. nem lehet hétvégén rendelni)</p>
+<p><strong>Korlátok:</strong> sok memóriát/időt igényelhet, túlhasználata teljesítményproblémát okoz, eldugott logika nehezíti a hibakeresést.</p>
+<h3>Kollekciók — összetett adatszerkezetek</h3>
+<p><strong>Kollekció:</strong> azonos típusú adatelemek <strong>rendezett együttese</strong>, minden elemnek egyedi indexe van. Paraméterként átadhatók — táblák oszlopai mozgathatók az alkalmazás és az adatbázis között.</p>
+<p><strong>3 típus:</strong> asszociatív tömb, beágyazott tábla, dinamikus tömb (VARRAY).</p>
+<h3>Asszociatív tömb (associative array)</h3>
+<ul>
+<li><strong>Hash-tábla</strong> struktúra</li>
+<li>Index lehet <strong>tetszőleges egész</strong> vagy <strong>string</strong></li>
+<li>Indexnek <strong>nincsenek határai</strong> (negatív is)</li>
+<li>Deklarálható PL/SQL blokkban, alprogramban, csomagban</li>
+<li><strong>Csak PL/SQL programokban</strong> használható (adatbázis oszlop típusa <strong>nem</strong> lehet)</li>
+</ul>
+<pre><code class="language-plsql">TYPE szam_arr IS TABLE OF NUMBER INDEX BY VARCHAR2(20);
+arr szam_arr;
+BEGIN
+    arr('alma') := 10;
+    arr('körte') := 20;
+END;
+</code></pre>
+<h3>Beágyazott tábla (nested table)</h3>
+<ul>
+<li>Index alsó határa: <strong>1</strong> (nincs felső határ)</li>
+<li>Deklarálható PL/SQL-ben <strong>vagy adatbázis-objektumként</strong> (<code>CREATE TYPE</code>)</li>
+<li><strong>Adatbázis oszlop típusa is lehet</strong> (pl. <code>Ugyfel.konyvek</code>)</li>
+<li>Az elemek <strong>szétszórtan</strong> helyezkednek el, <strong>lehetnek lyukak</strong></li>
+<li><strong>Új elem tetszőleges indexű helyre</strong> vihető be, bármely törölhető</li>
+</ul>
+<pre><code class="language-plsql">TYPE neptab IS TABLE OF VARCHAR2(50);
+nevek neptab := neptab('Anna', 'Béla', 'Cili');
+</code></pre>
+<h3>Dinamikus tömb (VARRAY)</h3>
+<ul>
+<li>Index alsó határa: <strong>1</strong></li>
+<li><strong>Maximális méret</strong> kötelezően megadandó deklarációkor</li>
+<li>Adatbázis oszlop típusa lehet (pl. <code>Konyv.szerzok</code>)</li>
+<li><strong>Bővíthető</strong> új elemekkel, de a meglévők csak <strong>cserélhetők, nem törölhetők</strong></li>
+<li>Az elemek <strong>folytonosan</strong> helyezkednek el a kisebb indextől kezdve</li>
+</ul>
+<pre><code class="language-plsql">TYPE szerzok_t IS VARRAY(5) OF VARCHAR2(50);
+sz szerzok_t := szerzok_t('Tolkien', 'Lewis');
+</code></pre>
+<h3>Összehasonlító táblázat</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Asszociatív tömb</th>
+<th>Beágyazott tábla</th>
+<th>Dinamikus tömb (VARRAY)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Index típusa</strong></td>
+<td>int vagy string</td>
+<td>int (≥1)</td>
+<td>int (1..max)</td>
+</tr>
+<tr>
+<td><strong>Index határa</strong></td>
+<td>nincs</td>
+<td>nincs felső</td>
+<td>rögzített max</td>
+</tr>
+<tr>
+<td><strong>DB oszlop?</strong></td>
+<td>nem</td>
+<td>igen</td>
+<td>igen</td>
+</tr>
+<tr>
+<td><strong>Lyukak</strong></td>
+<td>lehetnek</td>
+<td>lehetnek</td>
+<td>nem (folytonos)</td>
+</tr>
+<tr>
+<td><strong>Méret kötött</strong></td>
+<td>nem</td>
+<td>nem</td>
+<td>igen</td>
+</tr>
+<tr>
+<td><strong>Törölhető elem</strong></td>
+<td>igen</td>
+<td>igen</td>
+<td>nem</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Előnyök:</strong> táblák tartalmának hatékony mozgatása alkalmazás és DB között, batch művelet-műveletek (FORALL, BULK COLLECT).</p>
+<p><strong>Hátrányok:</strong> memóriaigény nagyobb adathalmaznál; tervezésnél el kell dönteni, melyiket választjuk.</p>
+<hr />
+<h2>⚡ Kvíz / kulcsfogalmak</h2>
+<ul>
+<li>Felület vs megvalósítás (az osztály 2 része)</li>
+<li>Objektum 3 jellemzője: felület, belső állapot, viselkedés</li>
+<li>4 OOP alapelv felület/állapot fogalmaival</li>
+<li>GOF1: interface-re programozz (a változó típusa absztrakt)</li>
+<li>GOF2: kompozíció &gt; öröklődés (runtime cserélhetőség)</li>
+<li>Stratégia minta felépítése: interface + kontextus + kompozíció</li>
+<li>7 viselkedési minta (Strategy, Template, Observer, Iterator, Command, State, Chain, Mediator, Visitor)</li>
+<li>Singleton 4 eleme: private constructor, static field, static property, sealed</li>
+<li>Lazy + lock = thread-safe singleton</li>
+<li>5 létrehozási minta (Singleton, Factory Method, Abstract Factory, Builder, Prototype)</li>
+<li>Decorator: ugyanazt az interface-t implementálja és körbevesz</li>
+<li>7 szerkezeti minta (Adapter, Bridge, Composite, Decorator, Facade, Flyweight, Proxy)</li>
+<li>Implicit kurzor mikor (SELECT INTO + DML, 1 sort visszaadó)</li>
+<li>Explicit kurzor 4 lépése (DECLARE, OPEN, FETCH, CLOSE)</li>
+<li>%FOUND, %NOTFOUND, %ISOPEN, %ROWCOUNT</li>
+<li>REF CURSOR (strong vs weak)</li>
+<li>Trigger típusai (sor- vs utasításszint, BEFORE/AFTER/INSTEAD OF, rendszer-trigger)</li>
+<li>:NEW és :OLD trigger változók</li>
+<li>3 kollekció típus + különbségek (asszociatív, nested table, VARRAY)</li>
+<li>Folytonos vs nem folytonos kollekció</li>
+</ul>
+    </article>
+
+    
+      <nav class="page-nav bottom">
+        <a href="tetel_13.html" class="nav-btn nav-prev">← 13. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <span class="nav-btn nav-disabled nav-next">(utolsó) →</span>
+      </nav>
+  </div>
+  <script>
+const THEME_KEY = "kondenzalt-theme";
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  const btn = document.getElementById('theme-btn');
+  if (btn) btn.textContent = t === 'dark' ? '☀ Világos' : '🌙 Sötét';
+}
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  localStorage.setItem(THEME_KEY, next);
+  applyTheme(next);
+}
+(function() {
+  const t = localStorage.getItem(THEME_KEY) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(t);
+})();
+
+// Keyboard nav between tetelek: Left/Right arrow
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, textarea, select')) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'ArrowLeft') {
+    const prev = document.querySelector('.nav-prev');
+    if (prev && !prev.classList.contains('nav-disabled')) prev.click();
+  } else if (e.key === 'ArrowRight') {
+    const next = document.querySelector('.nav-next');
+    if (next && !next.classList.contains('nav-disabled')) next.click();
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="hu" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3. tétel — kondenzált</title>
+  <style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #faf9f5;
+  --surface: #ffffff;
+  --surface-2: #f3f1ea;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #e5e2d8;
+  --accent: #6d28d9;
+  --accent-soft: #ede9fe;
+  --code-bg: #f5f3ec;
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+}
+[data-theme="dark"] {
+  --bg: #0f0f12;
+  --surface: #1a1a1f;
+  --surface-2: #232329;
+  --text: #ececec;
+  --muted: #9a9a9a;
+  --border: #2d2d33;
+  --accent: #a78bfa;
+  --accent-soft: #2a1f50;
+  --code-bg: #1d1d24;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.3);
+}
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg); color: var(--text);
+  font-size: 16px; line-height: 1.7;
+}
+.wrap { max-width: 900px; margin: 0 auto; padding: 28px 24px 72px; }
+
+header.site {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 22px;
+}
+header.site h1 {
+  margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;
+}
+header.site h1 small {
+  display: block; font-size: 13px; font-weight: 400; color: var(--muted); margin-top: 4px;
+}
+.theme-toggle {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 14px;
+}
+.theme-toggle:hover { background: var(--surface-2); }
+
+/* Per-tetel page navigation */
+.page-nav {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 20px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 12px;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+.page-nav.bottom { margin: 28px 0 0; position: static; }
+.nav-btn {
+  padding: 8px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.nav-btn:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.nav-home {
+  background: var(--accent);
+  color: white !important;
+  border-color: var(--accent);
+}
+.nav-home:hover { opacity: 0.9; }
+.nav-disabled {
+  opacity: 0.4; cursor: not-allowed; pointer-events: none;
+  color: var(--muted);
+}
+.nav-spacer { flex: 1; }
+
+/* Index: tetel card grid */
+.tetel-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin: 20px 0 30px;
+}
+.tetel-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.15s;
+  box-shadow: var(--shadow);
+}
+.tetel-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(109, 40, 217, 0.16);
+}
+.tetel-card .tetel-num {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+  min-width: 48px;
+}
+.tetel-card .tetel-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.tetel-card .tetel-arrow {
+  color: var(--muted);
+  font-size: 20px;
+}
+.tetel-card:hover .tetel-arrow { color: var(--accent); }
+
+.index-note {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.index-note strong { color: var(--accent); }
+.index-note kbd {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+/* Tetel article */
+article.tetel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 26px 30px 30px;
+  margin-bottom: 12px;
+}
+
+article.tetel h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 0 0 22px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--accent-soft);
+  letter-spacing: -0.3px;
+}
+
+article.tetel h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 32px 0 16px;
+  padding: 10px 14px;
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+}
+
+article.tetel h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 26px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid var(--accent-soft);
+}
+
+article.tetel h4 {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 20px 0 8px;
+}
+
+article.tetel blockquote {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  padding: 12px 16px;
+  margin: 12px 0 22px;
+  border-radius: 0 8px 8px 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+article.tetel blockquote p { margin: 0; }
+article.tetel blockquote strong { color: var(--accent); }
+
+article.tetel p { margin: 0 0 13px; line-height: 1.72; }
+article.tetel p strong, article.tetel li strong {
+  color: var(--accent); font-weight: 700;
+}
+
+article.tetel ul, article.tetel ol {
+  margin: 10px 0 16px; padding-left: 26px;
+}
+article.tetel li { margin: 7px 0; line-height: 1.62; }
+article.tetel ul { list-style: none; padding-left: 6px; }
+article.tetel ul li { position: relative; padding-left: 22px; }
+article.tetel ul li::before {
+  content: ""; position: absolute; left: 4px; top: 10px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+}
+article.tetel ol { padding-left: 28px; }
+article.tetel ol li::marker { color: var(--accent); font-weight: 700; }
+
+article.tetel hr {
+  border: none;
+  border-top: 2px dashed var(--border);
+  margin: 32px 0;
+}
+
+article.tetel code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+article.tetel pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 14px 0;
+}
+article.tetel pre code {
+  background: none; padding: 0; color: var(--text);
+  font-size: 13px; line-height: 1.55;
+}
+
+article.tetel table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+article.tetel th, article.tetel td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+article.tetel th {
+  background: var(--surface-2);
+  font-weight: 700;
+  font-size: 13px;
+}
+article.tetel tr:last-child td { border-bottom: none; }
+article.tetel tbody tr:nth-child(even) { background: var(--surface-2); }
+
+footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 50px; }
+
+@media (max-width: 720px) {
+  .wrap { padding: 14px 12px 56px; }
+  header.site h1 { font-size: 19px; }
+  article.tetel { padding: 18px 18px 22px; }
+  article.tetel h1 { font-size: 20px; }
+  article.tetel h2 { font-size: 17px; }
+  article.tetel h3 { font-size: 15.5px; }
+  .page-nav { padding: 8px; gap: 6px; }
+  .nav-btn { padding: 6px 10px; font-size: 13px; }
+  .tetel-card { padding: 14px 16px; }
+  .tetel-card .tetel-num { font-size: 22px; min-width: 40px; }
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site">
+      <h1>3. tétel
+        <small>3. tétel — Adatbázisok I (modell) · Adatszerkezetek (dinamikus)</small>
+      </h1>
+      <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙 Sötét</button>
+    </header>
+
+    
+      <nav class="page-nav">
+        <a href="tetel_02.html" class="nav-btn nav-prev">← 2. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_04.html" class="nav-btn nav-next">4. tétel →</a>
+      </nav>
+
+    <article class="tetel">
+      <h1>3. tétel — Adatbázisok I (modell) · Adatszerkezetek (dinamikus)</h1>
+<h2>a) Adatbázisrendszerek I — modellek és normálformák</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+1. Hierarchikus, hálós és relációs modellek
+2. Kulcsok a relációs modellben
+3. Kapcsolatok: egy-egy típusú, egy-sok típusú, sok-sok típusú
+4. Anomáliák
+5. Funkcionális függőségek, tranzitivitás
+6. Normálformák</p>
+</blockquote>
+<h3>Adatbázis-modellek</h3>
+<p><strong>Adatbázis (DB):</strong> strukturált adatok rendszerezett tárolása, ahol az adatok és a köztük lévő kapcsolatok együtt élnek.</p>
+<p><strong>Hierarchikus modell:</strong>
+- Fa-struktúra, <strong>egy-sok</strong> szülő-gyermek kapcsolatokkal
+- Minden rekord pontosan egy szülőhöz tartozik (kivéve a gyökeret)
+- Példa: IBM IMS
+- <strong>Hátrány:</strong> sok-sok kapcsolatot nem tud kifejezni, redundancia</p>
+<p><strong>Hálós (network) modell:</strong>
+- Tetszőleges gráf — egy rekordnak <strong>több szülője</strong> is lehet
+- Az M:N kapcsolat is kezelhető
+- Példa: CODASYL DBTG modell
+- <strong>Hátrány:</strong> bonyolult navigáció (mutatókkal)</p>
+<p><strong>Relációs modell (Codd, 1970):</strong>
+- Az adatok <strong>táblákban (relációkban)</strong> tárolódnak
+- A kapcsolatokat <strong>kulcsok</strong> (idegen kulcsok) reprezentálják
+- <strong>Halmazalapú</strong> lekérdezés (SQL)
+- <strong>Ma a domináns modell</strong></p>
+<h3>Kulcsok a relációs modellben</h3>
+<ul>
+<li><strong>Szuperkulcs:</strong> olyan attribútum-halmaz, amelytől az összes többi attribútum funkcionálisan függ — egyértelműen azonosítja a sort</li>
+<li><strong>Kulcs (kulcsjelölt, candidate key):</strong> minimális szuperkulcs (nem lehet belőle attribútumot elvenni)</li>
+<li><strong>Elsődleges kulcs (primary key):</strong> egyik kiválasztott candidate key — egyedi, nem lehet NULL</li>
+<li><strong>Idegen kulcs (foreign key):</strong> másik tábla elsődleges kulcsára mutat — a kapcsolatok eszköze</li>
+<li><strong>Természetes kulcs:</strong> üzleti jelentésű (pl. szig.szám)</li>
+<li><strong>Mesterséges (surrogate) kulcs:</strong> rendszer által generált (pl. auto-increment id)</li>
+</ul>
+<h3>Kapcsolatok típusai</h3>
+<ul>
+<li><strong>Egy-egy (1:1):</strong> egy A-hoz pontosan egy B tartozik (pl. személy ↔ útlevél)</li>
+<li><strong>Egy-sok (1:N):</strong> egy A-hoz több B, de egy B-hez egy A (pl. osztály ↔ tanuló)</li>
+<li><strong>Sok-sok (M:N):</strong> több A-hoz több B (pl. hallgató ↔ tantárgy). Relációsban <strong>kapcsolótáblával</strong> valósítjuk meg (két idegen kulcs).</li>
+</ul>
+<h3>Anomáliák</h3>
+<p>A normalizálatlan táblákban előfordulhatnak:</p>
+<ul>
+<li><strong>Beszúrási anomália:</strong> új információ csak más adattal együtt vihető be (pl. új termék csak megrendeléssel)</li>
+<li><strong>Módosítási (update) anomália:</strong> egy adat több helyen van → mindenhol módosítani kell, könnyű inkonzisztenciát csinálni</li>
+<li><strong>Törlési anomália:</strong> szükséges információ vész el más adat törlésekor</li>
+</ul>
+<p>A normalizálás célja ezek megszüntetése.</p>
+<h3>Funkcionális függőségek</h3>
+<p><strong>X → Y (X meghatározza Y-t):</strong> ha két sorban X attribútumok értéke megegyezik, akkor Y is megegyezik.</p>
+<p><strong>Tranzitivitás:</strong> ha X → Y és Y → Z, akkor <strong>X → Z</strong>.</p>
+<p><strong>Triviális függőség:</strong> X → Y, ahol Y ⊆ X (mindig igaz).</p>
+<h3>Normálformák</h3>
+<p><strong>1NF (Első normálforma):</strong> minden attribútum atomi (nem összetett, nem ismétlődő). Nincs lista vagy struct a cellában.</p>
+<p><strong>2NF:</strong> 1NF + minden <strong>nem-kulcs attribútum</strong> teljesen funkcionálisan függ az <strong>összes</strong> elsődleges kulcstól (nem csak egy részétől). Csak akkor releváns, ha összetett az elsődleges kulcs.</p>
+<p><strong>3NF:</strong> 2NF + <strong>nincs tranzitív függőség</strong> a nem-kulcs attribútumok között. Minden nem-kulcs attribútum közvetlenül a kulcstól függ.</p>
+<p><strong>BCNF (Boyce-Codd):</strong> 3NF szigorúbb változata — minden funkcionális függőség bal oldala szuperkulcs.</p>
+<p><strong>4NF:</strong> BCNF + nincs többértékű függőség.
+<strong>5NF:</strong> 4NF + nincs join-függőség.</p>
+<p>Gyakorlatban általában a <strong>3NF / BCNF</strong> szintig normalizálunk.</p>
+<hr />
+<h2>b) Adatszerkezetek és algoritmusok — dinamikus adatszerkezetek</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+7. Algoritmus hatékonyságát befolyásoló algoritmizálási és adatkonstrukciós szempontok
+8. Dinamikus adatszerkezetek (verem, sor, lista, hash-tábla) kezelésének modellje, a kapcsolódó adatszerkezetek implementációi, műveletei és alkalmazásai
+9. Kereső algoritmusok és hatékonyságuk
+10. Programozási tételek értelmezése különböző homogén adatszerkezetek esetében
+11. Rekurzió: rekurzió és iteráció, a fa adatszerkezet és műveletei</p>
+</blockquote>
+<h3>Hatékonyságot befolyásoló szempontok</h3>
+<p><strong>Algoritmizálási:</strong>
+- Megfelelő paradigma (iteratív, rekurzív, dinamikus programozás, oszd-meg-és-uralkodj)
+- Megfelelő algoritmus (pl. O(n²) helyett O(n log n) rendezés)
+- Redundáns számítások elkerülése (mémoizáció)
+- Korai kilépés (<code>break</code>)</p>
+<p><strong>Adatkonstrukciós:</strong>
+- Megfelelő adatszerkezet (pl. tömb vs hash-tábla a feladathoz)
+- Memória-lokalitás (cache-barát)
+- Hely-idő tradeoff (több memória → gyorsabb)
+- Folytonos vs láncolt tárolás</p>
+<p><strong>Aszimptotikus jelölés:</strong> O(f(n)), Θ(f(n)), Ω(f(n)) — felső, szoros, alsó korlát.</p>
+<h3>Verem (Stack) — LIFO</h3>
+<p><strong>Last In, First Out</strong> — utoljára berakott elemet vesszük ki először.</p>
+<p><strong>Műveletek:</strong> <code>push(x)</code> (rárakás), <code>pop()</code> (levesz tetejéről), <code>peek()</code> / <code>top()</code> (megnéz, nem vesz le), <code>isEmpty()</code>.</p>
+<p><strong>Implementáció:</strong>
+- <strong>Tömb-alapú:</strong> index a tetejére, push: index++, pop: index--
+- <strong>Láncolt lista:</strong> új elem az elejére</p>
+<p><strong>Alkalmazások:</strong> rekurzió hívási lánc (call stack), függvényhívás visszatérési cím, kifejezések kiértékelése (postfix), zárójelek ellenőrzése, undo funkció.</p>
+<h3>Sor (Queue) — FIFO</h3>
+<p><strong>First In, First Out</strong> — sorban kezelés.</p>
+<p><strong>Műveletek:</strong> <code>enqueue(x)</code> (sorba ad), <code>dequeue()</code> (kivesz az elejéről), <code>peek()</code>, <code>isEmpty()</code>.</p>
+<p><strong>Implementáció:</strong>
+- <strong>Körkörös tömb:</strong> elejére mutató + végére mutató index
+- <strong>Láncolt lista:</strong> elejére és végére is mutató</p>
+<p><strong>Alkalmazások:</strong> nyomtatási sor, ütemezés (round-robin), szélességi gráfbejárás (BFS), üzenetsorok.</p>
+<p><strong>Variánsok:</strong>
+- <strong>Deque:</strong> kétvégű sor, mindkét végen lehet műveletet
+- <strong>Prioritási sor:</strong> prioritás szerinti kivétel (kupaccal valósítható meg)</p>
+<h3>Lista (Linked list)</h3>
+<p><strong>Láncolt lista:</strong> csomópontok, mindegyik tartalmaz adatot + mutatót a következőre.</p>
+<ul>
+<li><strong>Egyirányú láncolt:</strong> csak előre lehet</li>
+<li><strong>Kétirányú (doubly linked):</strong> mindkét irányba lehet</li>
+<li><strong>Körkörös:</strong> az utolsó visszamutat az elsőre</li>
+</ul>
+<p><strong>Műveletek:</strong>
+- Bejárás: O(n)
+- Beszúrás/törlés ismert pozícióban: O(1) (csak mutató-állítás)
+- Keresés: O(n)
+- Hozzáférés index szerint: O(n)</p>
+<p><strong>Tömb vs láncolt lista:</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Tömb</th>
+<th>Láncolt lista</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hozzáférés</td>
+<td>O(1)</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>Beszúrás közepébe</td>
+<td>O(n)</td>
+<td>O(1) (ha tudod a pozíciót)</td>
+</tr>
+<tr>
+<td>Memória</td>
+<td>folytonos</td>
+<td>szétszórt + mutató overhead</td>
+</tr>
+</tbody>
+</table>
+<h3>Hash-tábla</h3>
+<p><strong>Hash-függvény</strong> kulcsból index-et számít: <code>h: K → {0, …, m-1}</code>.</p>
+<p><strong>Műveletek átlag O(1)-ben:</strong> <code>put(k, v)</code>, <code>get(k)</code>, <code>delete(k)</code>, <code>contains(k)</code>.</p>
+<p><strong>Ütközéskezelés (collision):</strong>
+- <strong>Láncolás (chaining):</strong> minden vödör egy láncolt lista — ütközés esetén beszúrjuk a listába
+- <strong>Nyílt címzés (open addressing):</strong> ha foglalt, keressünk üres helyet (lineáris próba, négyzetes próba, dupla hash)</p>
+<p><strong>Telítettség (load factor):</strong> α = n/m. Ha túl nagy → újraépítés (rehashing), m megduplázása.</p>
+<p><strong>Alkalmazás:</strong> szótár (dict, Map), gyors keresés, halmaz, gyorsítótár.</p>
+<h3>Kereső algoritmusok</h3>
+<ul>
+<li><strong>Lineáris keresés:</strong> rendezetlen sorozaton, O(n). Egyszerű, mindig működik.</li>
+<li><strong>Bináris keresés:</strong> rendezett sorozaton, O(log n). Felezzük az intervallumot.</li>
+<li>Feltétel: rendezettség + véletlen elérés</li>
+<li><strong>Hash-keresés:</strong> O(1) átlag, rossz esetben O(n)</li>
+<li><strong>Fa-keresés:</strong> O(log n) kiegyensúlyozott bináris keresőfán (BST, AVL, piros-fekete)</li>
+</ul>
+<h3>Programozási tételek értelmezése különböző homogén adatszerkezetekre</h3>
+<p>A 2.b-ben tárgyalt programozási tételek <strong>átültethetők</strong> más adatszerkezetekre is:
+- <strong>Tömbön:</strong> index-szel iterálunk, O(n)
+- <strong>Láncolt listán:</strong> mutatóval, O(n) — de hozzáférés nem index szerint
+- <strong>Halmazon:</strong> rendszerint csak a "tartalmazza-e" kérdés értelmezhető, hash-szel O(1)
+- <strong>Fán:</strong> bejárások (preorder, inorder, postorder) keretében
+- <strong>Hash-táblán:</strong> csak a kulcs alapú műveletek értelmezhetők</p>
+<h3>Rekurzió</h3>
+<p><strong>Rekurzív algoritmus:</strong> önmagát hívó. Két rész:
+- <strong>Bázisesetek:</strong> triviális megoldás (rekurzió leállítása)
+- <strong>Rekurzív hívás:</strong> kisebb / egyszerűbb részfeladatra</p>
+<p>Klasszikus példák: faktoriális, Fibonacci, Tornyok Hanoi-i, fa-bejárások.</p>
+<h3>Rekurzió és iteráció</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Rekurzió</th>
+<th>Iteráció</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Forma</td>
+<td>önhívás</td>
+<td>ciklus (for/while)</td>
+</tr>
+<tr>
+<td>Memória</td>
+<td>hívási verem (stack overflow!)</td>
+<td>konstans</td>
+</tr>
+<tr>
+<td>Olvashatóság</td>
+<td>természetes pl. fáknál</td>
+<td>természetes pl. lineárisnál</td>
+</tr>
+<tr>
+<td>Sebesség</td>
+<td>hívás-overhead</td>
+<td>gyorsabb</td>
+</tr>
+</tbody>
+</table>
+<p>Minden rekurzív algoritmus <strong>átírható iteratívra</strong> (explicit veremmel). Bizonyos esetekben a <strong>tail recursion</strong>-t a fordító ki tudja optimalizálni.</p>
+<h3>Fa adatszerkezet és műveletei</h3>
+<p><strong>Fa:</strong> csomópontok, mindegyiknek 0+ gyermeke; pontosan egy gyökér; nincs ciklus.</p>
+<p><strong>Fogalmak:</strong>
+- <strong>Gyökér (root):</strong> kezdő csomópont
+- <strong>Levél:</strong> nincs gyermeke
+- <strong>Belső csomópont:</strong> van gyermeke
+- <strong>Mélység:</strong> gyökértől való távolság
+- <strong>Magasság:</strong> levélig terjedő legnagyobb távolság</p>
+<p><strong>Bináris fa:</strong> minden csomópontnak max 2 gyermeke.
+<strong>Bináris keresőfa (BST):</strong> bal részfa &lt; csomópont &lt; jobb részfa.
+<strong>Kiegyensúlyozott (AVL, piros-fekete):</strong> O(log n) műveletek garantáltan.</p>
+<p><strong>Műveletek (BST-n):</strong> keresés, beszúrás, törlés — O(log n) kiegyensúlyozottban.</p>
+<p><strong>Bejárások:</strong>
+- <strong>Preorder:</strong> csomópont → bal → jobb (gyökér először)
+- <strong>Inorder:</strong> bal → csomópont → jobb (rendezett kimenet BST-n!)
+- <strong>Postorder:</strong> bal → jobb → csomópont (gyökér utoljára)
+- <strong>Szélességi (BFS):</strong> szintenként, sorral</p>
+<hr />
+<h2>⚡ Kvíz / kulcsfogalmak</h2>
+<ul>
+<li>3 adatbázis modell (hierarchikus, hálós, relációs)</li>
+<li>Kulcs típusai: szuperkulcs, candidate, primary, foreign</li>
+<li>3 kapcsolat (1:1, 1:N, M:N) + hogyan valósítjuk meg M:N-t</li>
+<li>3 anomália (beszúrási, módosítási, törlési)</li>
+<li>Funkcionális függőség és tranzitivitás</li>
+<li>1NF, 2NF, 3NF, BCNF lényege</li>
+<li>Stack LIFO, Queue FIFO, műveleteik</li>
+<li>Tömb vs láncolt lista táblázat</li>
+<li>Hash-tábla: hash-fv, ütközéskezelés (chaining vs open addressing), load factor</li>
+<li>Lineáris vs bináris keresés</li>
+<li>Rekurzió bázisesete + rekurzív hívás</li>
+<li>Rekurzió vs iteráció (memória, sebesség)</li>
+<li>Bináris keresőfa tulajdonsága</li>
+<li>3 bejárás: preorder, inorder, postorder</li>
+</ul>
+    </article>
+
+    
+      <nav class="page-nav bottom">
+        <a href="tetel_02.html" class="nav-btn nav-prev">← 2. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_04.html" class="nav-btn nav-next">4. tétel →</a>
+      </nav>
+  </div>
+  <script>
+const THEME_KEY = "kondenzalt-theme";
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  const btn = document.getElementById('theme-btn');
+  if (btn) btn.textContent = t === 'dark' ? '☀ Világos' : '🌙 Sötét';
+}
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  localStorage.setItem(THEME_KEY, next);
+  applyTheme(next);
+}
+(function() {
+  const t = localStorage.getItem(THEME_KEY) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(t);
+})();
+
+// Keyboard nav between tetelek: Left/Right arrow
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, textarea, select')) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'ArrowLeft') {
+    const prev = document.querySelector('.nav-prev');
+    if (prev && !prev.classList.contains('nav-disabled')) prev.click();
+  } else if (e.key === 'ArrowRight') {
+    const next = document.querySelector('.nav-next');
+    if (next && !next.classList.contains('nav-disabled')) next.click();
+  }
+});
+</script>
+</body>
+</html>

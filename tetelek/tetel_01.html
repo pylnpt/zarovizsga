@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="hu" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>1. tétel — kondenzált</title>
+  <style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #faf9f5;
+  --surface: #ffffff;
+  --surface-2: #f3f1ea;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #e5e2d8;
+  --accent: #6d28d9;
+  --accent-soft: #ede9fe;
+  --code-bg: #f5f3ec;
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+}
+[data-theme="dark"] {
+  --bg: #0f0f12;
+  --surface: #1a1a1f;
+  --surface-2: #232329;
+  --text: #ececec;
+  --muted: #9a9a9a;
+  --border: #2d2d33;
+  --accent: #a78bfa;
+  --accent-soft: #2a1f50;
+  --code-bg: #1d1d24;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.3);
+}
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg); color: var(--text);
+  font-size: 16px; line-height: 1.7;
+}
+.wrap { max-width: 900px; margin: 0 auto; padding: 28px 24px 72px; }
+
+header.site {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 22px;
+}
+header.site h1 {
+  margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;
+}
+header.site h1 small {
+  display: block; font-size: 13px; font-weight: 400; color: var(--muted); margin-top: 4px;
+}
+.theme-toggle {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 14px;
+}
+.theme-toggle:hover { background: var(--surface-2); }
+
+/* Per-tetel page navigation */
+.page-nav {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 20px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 12px;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+.page-nav.bottom { margin: 28px 0 0; position: static; }
+.nav-btn {
+  padding: 8px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.nav-btn:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.nav-home {
+  background: var(--accent);
+  color: white !important;
+  border-color: var(--accent);
+}
+.nav-home:hover { opacity: 0.9; }
+.nav-disabled {
+  opacity: 0.4; cursor: not-allowed; pointer-events: none;
+  color: var(--muted);
+}
+.nav-spacer { flex: 1; }
+
+/* Index: tetel card grid */
+.tetel-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin: 20px 0 30px;
+}
+.tetel-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.15s;
+  box-shadow: var(--shadow);
+}
+.tetel-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(109, 40, 217, 0.16);
+}
+.tetel-card .tetel-num {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+  min-width: 48px;
+}
+.tetel-card .tetel-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.tetel-card .tetel-arrow {
+  color: var(--muted);
+  font-size: 20px;
+}
+.tetel-card:hover .tetel-arrow { color: var(--accent); }
+
+.index-note {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.index-note strong { color: var(--accent); }
+.index-note kbd {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+/* Tetel article */
+article.tetel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 26px 30px 30px;
+  margin-bottom: 12px;
+}
+
+article.tetel h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 0 0 22px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--accent-soft);
+  letter-spacing: -0.3px;
+}
+
+article.tetel h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 32px 0 16px;
+  padding: 10px 14px;
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+}
+
+article.tetel h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 26px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid var(--accent-soft);
+}
+
+article.tetel h4 {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 20px 0 8px;
+}
+
+article.tetel blockquote {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  padding: 12px 16px;
+  margin: 12px 0 22px;
+  border-radius: 0 8px 8px 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+article.tetel blockquote p { margin: 0; }
+article.tetel blockquote strong { color: var(--accent); }
+
+article.tetel p { margin: 0 0 13px; line-height: 1.72; }
+article.tetel p strong, article.tetel li strong {
+  color: var(--accent); font-weight: 700;
+}
+
+article.tetel ul, article.tetel ol {
+  margin: 10px 0 16px; padding-left: 26px;
+}
+article.tetel li { margin: 7px 0; line-height: 1.62; }
+article.tetel ul { list-style: none; padding-left: 6px; }
+article.tetel ul li { position: relative; padding-left: 22px; }
+article.tetel ul li::before {
+  content: ""; position: absolute; left: 4px; top: 10px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+}
+article.tetel ol { padding-left: 28px; }
+article.tetel ol li::marker { color: var(--accent); font-weight: 700; }
+
+article.tetel hr {
+  border: none;
+  border-top: 2px dashed var(--border);
+  margin: 32px 0;
+}
+
+article.tetel code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+article.tetel pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 14px 0;
+}
+article.tetel pre code {
+  background: none; padding: 0; color: var(--text);
+  font-size: 13px; line-height: 1.55;
+}
+
+article.tetel table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+article.tetel th, article.tetel td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+article.tetel th {
+  background: var(--surface-2);
+  font-weight: 700;
+  font-size: 13px;
+}
+article.tetel tr:last-child td { border-bottom: none; }
+article.tetel tbody tr:nth-child(even) { background: var(--surface-2); }
+
+footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 50px; }
+
+@media (max-width: 720px) {
+  .wrap { padding: 14px 12px 56px; }
+  header.site h1 { font-size: 19px; }
+  article.tetel { padding: 18px 18px 22px; }
+  article.tetel h1 { font-size: 20px; }
+  article.tetel h2 { font-size: 17px; }
+  article.tetel h3 { font-size: 15.5px; }
+  .page-nav { padding: 8px; gap: 6px; }
+  .nav-btn { padding: 6px 10px; font-size: 13px; }
+  .tetel-card { padding: 14px 16px; }
+  .tetel-card .tetel-num { font-size: 22px; min-width: 40px; }
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site">
+      <h1>1. tétel
+        <small>1. tétel — Bevezetés az informatikába · Elsőrendű logika</small>
+      </h1>
+      <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙 Sötét</button>
+    </header>
+
+    
+      <nav class="page-nav">
+        <span class="nav-btn nav-disabled nav-prev">← (első)</span>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_02.html" class="nav-btn nav-next">2. tétel →</a>
+      </nav>
+
+    <article class="tetel">
+      <h1>1. tétel — Bevezetés az informatikába · Elsőrendű logika</h1>
+<h2>a) Bevezetés az informatikába</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+1. Az információ fogalma, mérése, útja
+2. Entrópia
+3. Kódolással kapcsolatos alapfogalmak
+4. Kódolási eljárások, hatásfok
+5. A gépi információ (adat, utasítás) ábrázolása, számábrázolás (fix- és lebegőpontos), karakterkódolás</p>
+</blockquote>
+<h3>Információ és útja</h3>
+<p>Az <strong>információ</strong> új ismeretet hordozó jelek tartalmi jelentésének befogadása, amely valamilyen cselekvésre (válasz, döntés) késztet. Az <strong>adat</strong> az információ hordozója — önmagában nincs jelentése, az értelmezéstől függ (pl. el kell olvasni).</p>
+<p><strong>Az információ útja:</strong> adó → kódolás → csatorna (zaj) → dekódolás → vevő.</p>
+<p><strong>Kódolás-dekódolás:</strong> egy nyelv véges ábécéjéből képzett szavakat kölcsönösen egyértelműen hozzárendelünk egy másik nyelv szavaihoz. A dekódolás ennek a fordítottja.</p>
+<h3>Információ mérése — Entrópia</h3>
+<ul>
+<li><strong>Bit:</strong> két egyenlően valószínű jel egyikének kiválasztásához tartozó információmennyiség. Az információ mértékegysége.</li>
+<li><strong>Entrópia (H):</strong> a rendszer bizonytalanságának mértéke, súlyozott közép. A valószínűségek összege mindig 1.</li>
+</ul>
+<p>$$H = -\sum_{i=1}^{n} p_i \log_2 p_i$$</p>
+<ul>
+<li><strong>Átlagos kódhossz:</strong> <code>Σ pi·hi</code> — minél kisebb, annál hatásosabb a kódrendszer.</li>
+<li><strong>Kódolási hatásfok:</strong> η = H(A) / (h_átl · log m). A kódolt jelek átlagos információjának és a kódábécé maximumának hányadosa.</li>
+<li><strong>Redundancia (terjengősség):</strong> 1 − H/h_átl. Élő nyelvekben jó, mert zajos csatornán is dekódolható.</li>
+</ul>
+<h3>Kódolási eljárások</h3>
+<p><strong>Shannon-Fano:</strong>
+1. Jeleket gyakoriság szerint csökkenő sorrendbe rendezzük
+2. A listát kettéosztjuk úgy, hogy a két rész valószínűségösszege közel egyenlő legyen — első felére 0, másodikra 1
+3. Rekurzívan ismételjük a két részen
+4. Számolható átlagos hossz, entrópia, hatásfok</p>
+<p><strong>Huffman:</strong>
+1. Jeleket gyakoriság szerint rendezzük
+2. Két legkisebbhez 0 és 1 rendelünk
+3. Összevonjuk őket, valószínűségüket összeadjuk
+4. Ismételjük, amíg egyetlen csomópont marad
+5. Kódokat visszafelé olvassuk ki</p>
+<h3>Adat és utasítás ábrázolása</h3>
+<p><strong>Adat:</strong> objektum/egyed tulajdonsága (név, lakhely). Ugyanaz a lakhely több emberhez is tartozhat.</p>
+<h3>Fixpontos számábrázolás</h3>
+<p>8, 16, 32, 64 biten bináris formában, <strong>legmagasabb bit az előjel</strong> (0=+, 1=−). Összeadásnál túlcsordulás lehetséges.</p>
+<ul>
+<li><strong>Pozitív szám</strong> (16 bit): max <strong>32 767</strong>. 1 bájton: 0–255.</li>
+<li><strong>Negatív szám:</strong> kettes komplemenssel. 1 bájton: −128…+127.</li>
+</ul>
+<p><strong>Ábrázolási módok:</strong>
+1. <strong>Eltolás:</strong> a számhoz hozzáadunk 127-et (pl. <code>01111111</code> → 0, <code>10000000</code> → 1, <code>01111110</code> → −1)
+2. <strong>Kettes komplemens:</strong> egyes komplemens (bitenkénti negálás) + 1
+3. <strong>Előjeles ábrázolás:</strong> első bit az előjel (<code>01111111</code> → 127, <code>10000000</code> → −128)</p>
+<h3>Lebegőpontos számábrázolás (IEEE 754)</h3>
+<p><strong>Felépítés (32 bit):</strong> előjelbit (1) + karakterisztika (8) + mantissza (23). Forma: <code>N = m · A^k</code>.</p>
+<p><strong>Lépések:</strong>
+1. Előjelbit meghatározása
+2. Normálalakra hozás (egészre vagy törtre)
+3. Mantissza kiszámítása (implicit bitet elhagyjuk)
+4. Karakterisztika kiszámítása (eltolásos, +127)
+5. Összerakás: előjel + karakterisztika + mantissza</p>
+<p><strong>Példa:</strong> −3.75 = −11.11b
+- Normálalakra (egészre): −1.111b, implicit bit elhagy
+- Karakterisztika: 1 + 127 = 128 → <code>10000000</code>
+- Mantissza: <code>111</code> + 20 db 0
+- Negatív → előjelbit 1
+- Eredmény: <code>1|10000000|11100000000000000000000</code> = <code>C070 0000h</code></p>
+<h3>Karakterkódolás</h3>
+<p>Minden karakterhez egyedi szám tartozik — cél, hogy a számítógép megértse és megjelenítse a szöveget.</p>
+<ul>
+<li><strong>ASCII:</strong> 128 karakter (0–127, előjel nélküli egész). Kibővítve 256 állapot.</li>
+<li><strong>Unicode:</strong> ezrek karakter (UTF-8 a legelterjedtebb webes kódolás).</li>
+</ul>
+<hr />
+<h2>b) Az informatika logikai alapjai — elsőrendű logika</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+6. Elsőrendű logika szintaxisa és szemantikája
+7. Normálformák elsőrendű logikában, KNF-re hozás algoritmusa, Skolemizáció
+8. Rezolúció elsőrendű logikában, unifikáció
+9. Lineáris és SLD rezolúció
+10. Prolog alapok</p>
+</blockquote>
+<h3>Szintaxis vs szemantika</h3>
+<ul>
+<li><strong>Szintaxis:</strong> a logikai nyelv helyes nyelvtana — jelek, jelsorozatok, formulák.</li>
+<li><strong>Szemantika:</strong> a jelek értelmezése, hogyan adunk tartalmat a kifejezéseknek.</li>
+</ul>
+<h3>Elsőrendű logika szintaxisa</h3>
+<p>Az elsőrendűben <strong>paraméteres állításokkal (predikátumokkal)</strong> foglalkozunk. A predikátum termeken értelmezett — termek lehetnek konstansok, változók, függvények. Visszatérési értéke igaz/hamis.</p>
+<p><strong>Kvantorok:</strong>
+- <strong>∃ (létezik):</strong> "van olyan x, amelyre teljesül…"
+- <strong>∀ (minden):</strong> "minden x-re teljesül…"</p>
+<p><strong>Definíció — elsőrendű logikai nyelv:</strong> <code>⟨Var, Pr, Fn⟩</code> formális hármas, ahol:
+- <strong>Var:</strong> változók halmaza
+- <strong>Pr:</strong> predikátumok (Pr ≠ ∅)
+- <strong>Fn:</strong> függvények halmaza
+- Minden P ∈ Pr, F ∈ Fn paraméterszámmal (n ≥ 0) rendelkezik</p>
+<p><strong>Atom:</strong> <code>P(t1, t2, …, tn)</code> szimbólumsorozat akkor és csak akkor atomi formula, ha P egy n-paraméteres predikátumszimbólum és t1…tn termek.</p>
+<p><strong>Függvény:</strong> termekkel paraméterezett, termet ad vissza.<br />
+Példa: <em>"Mindenki fiatalabb a saját anyjánál"</em>: <code>∀x F(x, anya(x))</code>.</p>
+<h3>Szemantika</h3>
+<p><strong>Kötött változó:</strong> kvantor hatáskörében van. <strong>Szabad változó:</strong> nincs kvantorhoz kötve. A kvantor hatásköre zárójelezéssel módosítható.</p>
+<p><strong>Interpretáció:</strong> az értékek körét definiáljuk, amit változóink és konstansaink felvehetnek. Először definiálja a <strong>domaint</strong> (objektumtartomány).
+- <strong>Konstansok interpretálása:</strong> mindhez konkrét értéket rendel a domainből.
+- <strong>Predikátumok interpretálása:</strong> mire ad vissza igazat, mire hamisat — minden paraméterezést le kell fedni.
+- <strong>Függvények interpretálása:</strong> visszatérési érték táblázata, ami a domainnek megfelelő összes paraméterezést lefedi.</p>
+<p><strong>Szemantikai tulajdonságok:</strong>
+- <strong>Logikai törvény (tautológia):</strong> minden interpretációban igaz.
+- <strong>Kontradikció:</strong> minden interpretációban hamis.
+- <strong>Kielégíthetőség:</strong> legalább egy interpretációban igaz.
+- <strong>Logikai következmény:</strong> P1, …, Pk-ból C következik, ha P1 ∧ … ∧ Pk ∧ ¬C ⊨ ⊥ (üres klóz).</p>
+<h3>Normálformák — De Morgan + kvantorkiemelés</h3>
+<ul>
+<li>¬∀x A ≡ ∃x ¬A</li>
+<li>¬∃x A ≡ ∀x ¬A</li>
+<li><strong>Kvantorkiemelés:</strong> Ǫx A ∘ B ≡ Ǫx (A ∘ B), ha x nem szerepel B-ben</li>
+</ul>
+<p><strong>Zárt formula:</strong> nincs benne szabad változó.</p>
+<h3>KNF-re hozás algoritmusa (6 lépés)</h3>
+<ol>
+<li><strong>Xor/ekvivalencia/implikáció eltüntetése</strong>, negációk bevitele atomok elé
+   - Implikáció: <code>A → B ≡ ¬A ∨ B</code>
+   - Negáció: de Morgan-azonossággal</li>
+<li><strong>Változótiszta alakra hozás</strong> — minden kvantor más változót köt, ezek a változók nem fordulnak elő szabadon. Csak a <strong>kötött</strong> változót szabad átnevezni.</li>
+<li><strong>Prenexizálás</strong> — kvantorokat előrehozzuk a formula elejére (a változók a kvantorok hatáskörén belül maradnak).</li>
+<li><strong>Skolemizálás</strong> — csak univerzális kvantorok maradnak:
+   - Az ∃x kvantort eltüntetjük
+   - x helyébe új <strong>Skolem-függvényt</strong> írunk, paraméterei az előtte álló ∀ kvantorok változói
+   - Ha nincs előtte ∀ → új <strong>Skolem-konstans</strong></li>
+<li><strong>KNF-re hozás</strong> — disztributivitással kifejtjük</li>
+<li><strong>Klózokra bontás</strong> — minden klóz külön</li>
+</ol>
+<h3>Rezolúció elsőrendű logikában</h3>
+<p><strong>Cáfoló eljárás:</strong> a bizonyítandó állítás <strong>tagadásából</strong> indulunk, és azt mutatjuk meg, hogy levezethető belőle az üres klóz (UNSAT — kielégíthetetlen).</p>
+<ul>
+<li>A formula tautológia ↔ ¬A-ból levezethető ⊥</li>
+<li>P1, …, Pk ⊨ C ↔ P1 ∧ … ∧ Pk ∧ ¬C ⊨ ⊥</li>
+</ul>
+<p><strong>Rezolvens:</strong> legyen C1 = P ∨ C'1 és C2 = ¬P ∨ C'2 (ahol P ítéletváltozó). A <strong>C'1 ∨ C'2</strong> klóz a rezolvensük — az egymással ellentétes literálokat kivettük.</p>
+<p><strong>Algoritmus:</strong>
+1. Válassz két még nem rezolvált klózt: C1, C2
+2. Állítsd elő rezolvensüket (ha van), add a klózhalmazhoz
+3. Ha az üres klóz előáll → UNSAT, állj
+4. Vissza az 1-re</p>
+<p>Megjegyzés: <strong>nulladrendű véges levezetést garantál</strong>; elsőrendűben előfordulhat, hogy végtelen.</p>
+<h3>Unifikáció</h3>
+<p>A rezolvens képzéséhez a két literál karakterről karakterre egyformának kell lennie. Elsőrendűben ez nem mindig megy közvetlenül — <strong>változókat konstansokkal/függvényekkel illesztjük</strong>.</p>
+<p><strong>Occur check:</strong> ugyanazt a változót nem helyettesíthetjük olyan termre, amiben a változó szerepel (pl. <code>x → f(x)</code> tilos).</p>
+<h3>Lineáris és SLD rezolúció</h3>
+<p><strong>Lineáris rezolúció:</strong> minden lépés az <strong>előző rezolvensre</strong> épül. Bármely UNSAT klózhalmazból garantáltan levezethető az üres klóz — <strong>teljes algoritmus</strong>.</p>
+<p><strong>SLD rezolúció:</strong> célirányosabb. A mellékklózoknak az <strong>input klózhalmazból</strong> kell érkezniük (legalább az egyik klóz az eredetiek közül való). 
+- Nem minden klózhalmazra működik
+- <strong>Horn-klózok esetén teljes</strong></p>
+<p><strong>Horn-klóz:</strong> legfeljebb 1 pozitív literált tartalmaz (legfeljebb 1 nem negált). Ha nem ilyen → át kell fogalmazni.</p>
+<h3>Prolog</h3>
+<p>Az <strong>első logikai programozási nyelv</strong>. Egy logikai formuláról képes eldönteni, hogy logikai következménye-e egy adott formulahalmaznak.</p>
+<ul>
+<li><strong>Input:</strong> formulák (tények és szabályok) + célformula</li>
+<li><strong>Output:</strong> igen / nem</li>
+<li><strong>Mechanizmus:</strong> SLD-rezolúció, Horn-klózokon</li>
+</ul>
+<hr />
+<h2>⚡ Kvíz / kulcsfogalmak</h2>
+<ul>
+<li>Az entrópia képlete és mit jelent</li>
+<li>Shannon-Fano vs Huffman különbség</li>
+<li>IEEE 754 lépései egy konkrét számra</li>
+<li>ASCII vs Unicode különbség</li>
+<li>∀, ∃, atom, term, predikátum fogalma</li>
+<li>KNF-re hozás 6 lépése (tudd sorrendben)</li>
+<li>Skolemizáció: ∃ eltüntetése függvénnyel/konstanssal</li>
+<li>Rezolvens fogalma + algoritmus</li>
+<li>Unifikáció + occur check</li>
+<li>Lineáris vs SLD rezolúció különbsége</li>
+<li>Horn-klóz definíciója</li>
+<li>Prolog: SLD + Horn</li>
+</ul>
+    </article>
+
+    
+      <nav class="page-nav bottom">
+        <span class="nav-btn nav-disabled nav-prev">← (első)</span>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_02.html" class="nav-btn nav-next">2. tétel →</a>
+      </nav>
+  </div>
+  <script>
+const THEME_KEY = "kondenzalt-theme";
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  const btn = document.getElementById('theme-btn');
+  if (btn) btn.textContent = t === 'dark' ? '☀ Világos' : '🌙 Sötét';
+}
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  localStorage.setItem(THEME_KEY, next);
+  applyTheme(next);
+}
+(function() {
+  const t = localStorage.getItem(THEME_KEY) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(t);
+})();
+
+// Keyboard nav between tetelek: Left/Right arrow
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, textarea, select')) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'ArrowLeft') {
+    const prev = document.querySelector('.nav-prev');
+    if (prev && !prev.classList.contains('nav-disabled')) prev.click();
+  } else if (e.key === 'ArrowRight') {
+    const next = document.querySelector('.nav-next');
+    if (next && !next.classList.contains('nav-disabled')) next.click();
+  }
+});
+</script>
+</body>
+</html>

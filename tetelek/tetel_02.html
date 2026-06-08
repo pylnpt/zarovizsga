@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="hu" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2. tétel — kondenzált</title>
+  <style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #faf9f5;
+  --surface: #ffffff;
+  --surface-2: #f3f1ea;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #e5e2d8;
+  --accent: #6d28d9;
+  --accent-soft: #ede9fe;
+  --code-bg: #f5f3ec;
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+}
+[data-theme="dark"] {
+  --bg: #0f0f12;
+  --surface: #1a1a1f;
+  --surface-2: #232329;
+  --text: #ececec;
+  --muted: #9a9a9a;
+  --border: #2d2d33;
+  --accent: #a78bfa;
+  --accent-soft: #2a1f50;
+  --code-bg: #1d1d24;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.3);
+}
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg); color: var(--text);
+  font-size: 16px; line-height: 1.7;
+}
+.wrap { max-width: 900px; margin: 0 auto; padding: 28px 24px 72px; }
+
+header.site {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 22px;
+}
+header.site h1 {
+  margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;
+}
+header.site h1 small {
+  display: block; font-size: 13px; font-weight: 400; color: var(--muted); margin-top: 4px;
+}
+.theme-toggle {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 14px;
+}
+.theme-toggle:hover { background: var(--surface-2); }
+
+/* Per-tetel page navigation */
+.page-nav {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 20px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 12px;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+.page-nav.bottom { margin: 28px 0 0; position: static; }
+.nav-btn {
+  padding: 8px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.nav-btn:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.nav-home {
+  background: var(--accent);
+  color: white !important;
+  border-color: var(--accent);
+}
+.nav-home:hover { opacity: 0.9; }
+.nav-disabled {
+  opacity: 0.4; cursor: not-allowed; pointer-events: none;
+  color: var(--muted);
+}
+.nav-spacer { flex: 1; }
+
+/* Index: tetel card grid */
+.tetel-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin: 20px 0 30px;
+}
+.tetel-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.15s;
+  box-shadow: var(--shadow);
+}
+.tetel-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(109, 40, 217, 0.16);
+}
+.tetel-card .tetel-num {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+  min-width: 48px;
+}
+.tetel-card .tetel-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.tetel-card .tetel-arrow {
+  color: var(--muted);
+  font-size: 20px;
+}
+.tetel-card:hover .tetel-arrow { color: var(--accent); }
+
+.index-note {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.index-note strong { color: var(--accent); }
+.index-note kbd {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+/* Tetel article */
+article.tetel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 26px 30px 30px;
+  margin-bottom: 12px;
+}
+
+article.tetel h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 0 0 22px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--accent-soft);
+  letter-spacing: -0.3px;
+}
+
+article.tetel h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 32px 0 16px;
+  padding: 10px 14px;
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+}
+
+article.tetel h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 26px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid var(--accent-soft);
+}
+
+article.tetel h4 {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 20px 0 8px;
+}
+
+article.tetel blockquote {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  padding: 12px 16px;
+  margin: 12px 0 22px;
+  border-radius: 0 8px 8px 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+article.tetel blockquote p { margin: 0; }
+article.tetel blockquote strong { color: var(--accent); }
+
+article.tetel p { margin: 0 0 13px; line-height: 1.72; }
+article.tetel p strong, article.tetel li strong {
+  color: var(--accent); font-weight: 700;
+}
+
+article.tetel ul, article.tetel ol {
+  margin: 10px 0 16px; padding-left: 26px;
+}
+article.tetel li { margin: 7px 0; line-height: 1.62; }
+article.tetel ul { list-style: none; padding-left: 6px; }
+article.tetel ul li { position: relative; padding-left: 22px; }
+article.tetel ul li::before {
+  content: ""; position: absolute; left: 4px; top: 10px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+}
+article.tetel ol { padding-left: 28px; }
+article.tetel ol li::marker { color: var(--accent); font-weight: 700; }
+
+article.tetel hr {
+  border: none;
+  border-top: 2px dashed var(--border);
+  margin: 32px 0;
+}
+
+article.tetel code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+article.tetel pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 14px 0;
+}
+article.tetel pre code {
+  background: none; padding: 0; color: var(--text);
+  font-size: 13px; line-height: 1.55;
+}
+
+article.tetel table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+article.tetel th, article.tetel td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+article.tetel th {
+  background: var(--surface-2);
+  font-weight: 700;
+  font-size: 13px;
+}
+article.tetel tr:last-child td { border-bottom: none; }
+article.tetel tbody tr:nth-child(even) { background: var(--surface-2); }
+
+footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 50px; }
+
+@media (max-width: 720px) {
+  .wrap { padding: 14px 12px 56px; }
+  header.site h1 { font-size: 19px; }
+  article.tetel { padding: 18px 18px 22px; }
+  article.tetel h1 { font-size: 20px; }
+  article.tetel h2 { font-size: 17px; }
+  article.tetel h3 { font-size: 15.5px; }
+  .page-nav { padding: 8px; gap: 6px; }
+  .nav-btn { padding: 6px 10px; font-size: 13px; }
+  .tetel-card { padding: 14px 16px; }
+  .tetel-card .tetel-num { font-size: 22px; min-width: 40px; }
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site">
+      <h1>2. tétel
+        <small>2. tétel — Magasszintű prog. I · Adatszerkezetek és algoritmusok</small>
+      </h1>
+      <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙 Sötét</button>
+    </header>
+
+    
+      <nav class="page-nav">
+        <a href="tetel_01.html" class="nav-btn nav-prev">← 1. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_03.html" class="nav-btn nav-next">3. tétel →</a>
+      </nav>
+
+    <article class="tetel">
+      <h1>2. tétel — Magasszintű prog. I · Adatszerkezetek és algoritmusok</h1>
+<h2>a) Magasszintű programozási nyelvek I</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+1. Tömbök és listák
+2. Rekordok, class és struct
+3. Felsorolásos típusok
+4. Metódusok
+5. Paraméterátadás módjai, változó paraméterszám
+6. Programozási nyelvek fordítási és futtatási megoldásai
+7. .NET keretrendszer felépítése, más programozási nyelvek és keretrendszerek</p>
+</blockquote>
+<h3>Tömbök és listák</h3>
+<p><strong>Tömb és lista</strong> összetett adattípusok — elemeket tartalmaznak.
+- <strong>Homogén:</strong> minden elem azonos típusú
+- <strong>Véletlen elérésű:</strong> bármely elem közvetlenül elérhető <strong>konstans időben</strong>
+- <strong>Folytonos:</strong> elemek folytonos memóriaterületen tárolódnak</p>
+<p><strong>Tömb:</strong> fix méret, deklaráláskor megadott méret. C#-ban: <code>int[] arr = new int[10];</code></p>
+<p><strong>Lista (<code>List&lt;T&gt;</code>):</strong> dinamikus méretű — automatikus bővítés. Implementáció gyakran háttér-tömb, amit szükség esetén nagyobbra másolnak.</p>
+<h3>Rekordok, class, struct</h3>
+<p><strong>Rekord:</strong> összetett, heterogén adattípus — különböző típusú <strong>mezőkkel</strong>. A mezőknek saját nevük van.</p>
+<p>C#-ban két forma:
+- <strong><code>class</code></strong> — <strong>referenciatípus</strong>, heap-en, GC kezeli, <code>null</code> lehet
+- <strong><code>struct</code></strong> — <strong>értéktípus</strong>, stack-en, érték szerint másolódik, nem lehet <code>null</code></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>class</th>
+<th>struct</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Memória</td>
+<td>heap</td>
+<td>stack</td>
+</tr>
+<tr>
+<td>Másolás</td>
+<td>referencia</td>
+<td>érték szerint</td>
+</tr>
+<tr>
+<td>Default érték</td>
+<td><code>null</code></td>
+<td>minden mező default</td>
+</tr>
+<tr>
+<td>Öröklődés</td>
+<td>igen</td>
+<td>nem (csak interface)</td>
+</tr>
+</tbody>
+</table>
+<h3>Felsorolásos típusok (enum)</h3>
+<p>Megnevezett konstansok halmaza. C#-ban: <code>enum Szin { Piros, Kek, Zold }</code>. Alapértelmezetten int-re fordul, de explicit megadhatjuk az alaptípust.</p>
+<h3>Metódusok</h3>
+<p>Függvény, ami egy osztályhoz vagy struktúrához kötődik. <strong>Szignatúra:</strong> név + paraméter típusok. Lehet:
+- <strong>Static:</strong> osztályhoz kötött, nem példányhoz
+- <strong>Példányszintű:</strong> az adott objektumon hívható</p>
+<p><strong>Túlterhelés (overload):</strong> azonos név, más paramétertípus.</p>
+<h3>Paraméterátadás módjai</h3>
+<ul>
+<li><strong>Érték szerinti (by value):</strong> alapeset — másolat kerül át</li>
+<li><strong>Referencia szerinti (<code>ref</code>):</strong> a paraméter referenciaként megy, a metódusban módosítható; <strong>be- és kimenet is</strong></li>
+<li><strong>Kimeneti (<code>out</code>):</strong> a metódusnak kötelezően értéket kell adnia neki; bemenetnek nem kell inicializálva lennie</li>
+<li><strong><code>in</code>:</strong> csak olvasható referencia</li>
+<li><strong><code>params</code> (változó paraméterszám):</strong> <code>void Print(params int[] nums)</code> — több argumentumot fogad el, tömbként kapja meg</li>
+</ul>
+<h3>Programozási nyelvek fordítási és futtatási megoldásai</h3>
+<p><strong>Fordítási típusok:</strong>
+- <strong>Compiled (AOT — Ahead-of-Time):</strong> forráskód → gépi kód már a fordításkor. Pl. C, C++, Rust. Gyors futás, hosszú build.
+- <strong>Interpreted:</strong> futásidőben értelmezi (pl. Bash, eredeti Python). Lassú, de rugalmas.
+- <strong>JIT (Just-in-Time):</strong> közbenső kód, ami futásidőben fordul gépi kódra. Pl. Java (JVM), .NET (CLR), modern JS (V8). Kombinálja a kettőt.</p>
+<h3>.NET keretrendszer</h3>
+<p>A <strong>.NET</strong> egy fejlesztési és futtatási környezet.</p>
+<p><strong>Fő összetevők:</strong>
+- <strong>CLR (Common Language Runtime):</strong> futtatási környezet — JIT, GC, type system
+- <strong>BCL (Base Class Library):</strong> alaposztálykönyvtár (kollekciók, IO, hálózat)
+- <strong>FCL (Framework Class Library):</strong> kibővített könyvtár (Web, GUI)
+- <strong>IL (Intermediate Language) / MSIL:</strong> közbenső, platformfüggetlen kód, amire minden .NET nyelv (C#, F#, VB.NET) fordul</p>
+<p><strong>Lépések:</strong>
+1. Forráskód (C# stb.) → IL/MSIL kód
+2. JIT futásidőben → natív gépi kód
+3. CLR menedzseli a memóriát (GC), típusbiztonságot, kivételeket</p>
+<h3>Más nyelvek és keretrendszerek</h3>
+<ul>
+<li><strong>JVM (Java Virtual Machine):</strong> Java, Scala, Kotlin, Groovy fut rajta. Bytecode + JIT.</li>
+<li><strong>Python:</strong> interpreter (CPython) — bytecode-ra fordul, és VM értelmezi. PyPy: JIT-tel.</li>
+<li><strong>Node.js:</strong> JavaScript V8 motorral, JIT.</li>
+<li><strong>Go:</strong> AOT, saját runtime, goroutine-ok.</li>
+<li><strong>Rust:</strong> AOT, memóriabiztos, GC nélkül (ownership).</li>
+</ul>
+<hr />
+<h2>b) Adatszerkezetek és algoritmusok — programozási tételek</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+8. Algoritmus fogalma, tulajdonságai, megadásának módjai, eszközei, a strukturált algoritmus szerkezete
+9. Programozási tételek: sorozathoz elemi értéket, sorozathoz sorozatot és több sorozathoz egy sorozatot rendelő (kiválogatások, rendező algoritmusok és hatékonyságuk, visszalépéses keresés) algoritmusok
+10. Elemi algoritmusok alkalmazása, a halmaz adatszerkezet különböző konstrukciói</p>
+</blockquote>
+<h3>Algoritmus fogalma és tulajdonságai</h3>
+<p><strong>Algoritmus:</strong> véges sok, jól definiált lépés sorozata, amely véges idő alatt megoldja a feladatot.</p>
+<p><strong>Tulajdonságai:</strong>
+- <strong>Véges:</strong> véges lépés után befejeződik
+- <strong>Determinisztikus / egyértelmű:</strong> minden lépés pontosan értelmezhető
+- <strong>Általános:</strong> több bemenetre megoldja
+- <strong>Hatékony:</strong> elfogadható erőforrás-fogyasztás</p>
+<h3>Megadási módjai, eszközei</h3>
+<ul>
+<li><strong>Szöveges leírás:</strong> természetes nyelven</li>
+<li><strong>Pszeudokód:</strong> kvázi-programkód, nyelvfüggetlen</li>
+<li><strong>Folyamatábra:</strong> grafikus (téglalap = művelet, rombusz = döntés)</li>
+<li><strong>Struktogram (Nassi-Shneiderman):</strong> egymásba ágyazott blokkok</li>
+<li><strong>Jackson-diagram:</strong> strukturált tervezéshez</li>
+</ul>
+<h3>Strukturált algoritmus szerkezete</h3>
+<p>Három alapszerkezet:
+1. <strong>Szekvencia</strong> — lépések egymás után
+2. <strong>Szelekció</strong> — feltételes (if / else, switch / case)
+3. <strong>Iteráció</strong> — ciklus (while, for, do-while)</p>
+<p>A strukturált algoritmusban <strong>goto/jump nincs</strong> — csak ez a 3 vezérlési szerkezet.</p>
+<h3>Programozási tételek</h3>
+<p><strong>1. Sorozathoz elemi értéket rendelők (egyetlen választ adnak):</strong>
+- <strong>Eldöntés:</strong> van-e a sorozatban olyan elem, ami megfelel a feltételnek? (igaz/hamis)
+- <strong>Kiválasztás:</strong> mi az első ilyen elem indexe? (feltételezi, hogy van)
+- <strong>Lineáris keresés:</strong> ha van, hol? Ha nincs, jelezzük.
+- <strong>Megszámlálás:</strong> hány ilyen elem van?
+- <strong>Maximum-keresés:</strong> mi a legnagyobb elem?
+- <strong>Összegzés:</strong> mi az elemek összege/szorzata?</p>
+<p><strong>2. Sorozathoz sorozatot rendelők:</strong>
+- <strong>Másolás:</strong> új sorozat, transzformációval (pl. minden elem négyzete)
+- <strong>Kiválogatás:</strong> új sorozat csak a feltételnek megfelelő elemekkel
+- <strong>Szétválogatás:</strong> két új sorozat (megfelel / nem felel meg)
+- <strong>Metszet (közös rész)</strong> — két sorozat közös elemei</p>
+<p><strong>3. Több sorozathoz egy sorozatot rendelők:</strong>
+- <strong>Unió:</strong> két rendezett sorozatból új rendezett
+- <strong>Metszet:</strong> rendezett sorozatok közös elemei
+- <strong>Összefuttatás (merge):</strong> rendezett sorozatok rendezett egyesítése</p>
+<h3>Rendező algoritmusok és hatékonyságuk</h3>
+<table>
+<thead>
+<tr>
+<th>Algoritmus</th>
+<th>Idő (átlag)</th>
+<th>Idő (legrosszabb)</th>
+<th>Memória</th>
+<th>Stabil?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Buborék rendezés</strong></td>
+<td>O(n²)</td>
+<td>O(n²)</td>
+<td>O(1)</td>
+<td>igen</td>
+</tr>
+<tr>
+<td><strong>Beszúrásos</strong></td>
+<td>O(n²)</td>
+<td>O(n²)</td>
+<td>O(1)</td>
+<td>igen</td>
+</tr>
+<tr>
+<td><strong>Kiválasztásos</strong></td>
+<td>O(n²)</td>
+<td>O(n²)</td>
+<td>O(1)</td>
+<td>nem</td>
+</tr>
+<tr>
+<td><strong>Gyorsrendezés (Quicksort)</strong></td>
+<td>O(n log n)</td>
+<td>O(n²)</td>
+<td>O(log n)</td>
+<td>nem</td>
+</tr>
+<tr>
+<td><strong>Összefésüléses (Mergesort)</strong></td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(n)</td>
+<td>igen</td>
+</tr>
+<tr>
+<td><strong>Kupacrendezés (Heapsort)</strong></td>
+<td>O(n log n)</td>
+<td>O(n log n)</td>
+<td>O(1)</td>
+<td>nem</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Buborék:</strong> szomszédos elemeket cserélgetünk, ha rossz a sorrend. n-1 menet.
+<strong>Beszúrásos:</strong> elem behelyezése a rendezett bal részbe.
+<strong>Kiválasztásos:</strong> legkisebb keresés, csere az aktuális pozícióba.
+<strong>Quicksort:</strong> osztó-uralkodó, pivot körül szétválogat, rekurzív.
+<strong>Mergesort:</strong> kettébontás, rekurzív rendezés, összefuttatás.
+<strong>Heapsort:</strong> maxhalom építés, gyökér ismételt kivétele.</p>
+<h3>Visszalépéses keresés (backtracking)</h3>
+<p><strong>Algoritmus-séma:</strong> rekurzív próbálkozás. Több opció közül választunk, ha zsákutca → <strong>visszalépés</strong>. Tipikus feladatok: N királynő, sudoku, gráfszínezés, Hamilton-út.</p>
+<p><strong>Lépések:</strong>
+1. Aktuális állapotban próbálunk minden lehetséges választást
+2. Ha jó → tovább rekurzívan
+3. Ha végállapot → siker
+4. Ha nem jó / zsákutca → vissza az előzőhöz, másik opciót</p>
+<h3>Halmaz adatszerkezet különböző konstrukciói</h3>
+<p>A <strong>halmaz</strong> tartalmaz elemeket rendezetlenül, ismétlés nélkül. Műveletek: hozzáadás, törlés, elem-e?, unió, metszet.</p>
+<p><strong>Konstrukciók:</strong></p>
+<ol>
+<li>
+<p><strong>Rendezetlen sorozatos (lista alapú):</strong> elemek tömb/lista végére. Egyszerű, de minden művelet O(n).</p>
+</li>
+<li>
+<p><strong>Rendezett sorozatos (rendezett tömb):</strong> elemek sorrendben tárolva. <strong>Bináris keresés</strong> O(log n)-ben dönti el a tartalmazást. Beszúrás/törlés O(n) az eltolás miatt.</p>
+</li>
+<li>
+<p><strong>Karakterisztikus függvény (bit-vektor):</strong> ha az univerzum véges (pl. {0…1000}), egy bit-tömb minden indexhez 0/1-et tárol. <strong>Minden művelet O(1)</strong>, de csak véges, kis univerzumra.</p>
+</li>
+<li>
+<p><strong>Hash-tábla</strong> (lásd 3.b tétel): átlag O(1) műveletek.</p>
+</li>
+<li>
+<p><strong>Fa (kiegyensúlyozott bináris keresőfa, pl. AVL, piros-fekete):</strong> O(log n) műveletek + rendezett bejárás.</p>
+</li>
+</ol>
+<hr />
+<h2>⚡ Kvíz / kulcsfogalmak</h2>
+<ul>
+<li>Class vs struct: hol tárolódnak (heap vs stack), referencia vs érték</li>
+<li>Felsorolásos típus (enum) értelme</li>
+<li><code>ref</code> / <code>out</code> / <code>in</code> / <code>params</code> mikor mit használsz</li>
+<li>AOT vs JIT vs interpreter</li>
+<li>.NET: CLR, BCL, IL, JIT</li>
+<li>Algoritmus 4 tulajdonsága</li>
+<li>Strukturált algoritmus 3 alapszerkezete (szekvencia, szelekció, iteráció)</li>
+<li>Programozási tételek 3 családja (sorozat→érték, sorozat→sorozat, több sorozat→1)</li>
+<li>Buborék/beszúrásos/kiválasztásos: O(n²), de stabilitás eltér</li>
+<li>Quicksort: átlag O(n log n), legrosszabb O(n²)</li>
+<li>Mergesort: stabil, mindig O(n log n), de O(n) plusz memória</li>
+<li>Backtracking 4 lépése</li>
+<li>Halmaz 5 konstrukciója (rendezetlen, rendezett, karakterisztikus, hash, fa)</li>
+</ul>
+    </article>
+
+    
+      <nav class="page-nav bottom">
+        <a href="tetel_01.html" class="nav-btn nav-prev">← 1. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_03.html" class="nav-btn nav-next">3. tétel →</a>
+      </nav>
+  </div>
+  <script>
+const THEME_KEY = "kondenzalt-theme";
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  const btn = document.getElementById('theme-btn');
+  if (btn) btn.textContent = t === 'dark' ? '☀ Világos' : '🌙 Sötét';
+}
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  localStorage.setItem(THEME_KEY, next);
+  applyTheme(next);
+}
+(function() {
+  const t = localStorage.getItem(THEME_KEY) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(t);
+})();
+
+// Keyboard nav between tetelek: Left/Right arrow
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, textarea, select')) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'ArrowLeft') {
+    const prev = document.querySelector('.nav-prev');
+    if (prev && !prev.classList.contains('nav-disabled')) prev.click();
+  } else if (e.key === 'ArrowRight') {
+    const next = document.querySelector('.nav-next');
+    if (next && !next.classList.contains('nav-disabled')) next.click();
+  }
+});
+</script>
+</body>
+</html>

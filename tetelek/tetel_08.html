@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="hu" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>8. tétel — kondenzált</title>
+  <style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #faf9f5;
+  --surface: #ffffff;
+  --surface-2: #f3f1ea;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #e5e2d8;
+  --accent: #6d28d9;
+  --accent-soft: #ede9fe;
+  --code-bg: #f5f3ec;
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+}
+[data-theme="dark"] {
+  --bg: #0f0f12;
+  --surface: #1a1a1f;
+  --surface-2: #232329;
+  --text: #ececec;
+  --muted: #9a9a9a;
+  --border: #2d2d33;
+  --accent: #a78bfa;
+  --accent-soft: #2a1f50;
+  --code-bg: #1d1d24;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.3);
+}
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg); color: var(--text);
+  font-size: 16px; line-height: 1.7;
+}
+.wrap { max-width: 900px; margin: 0 auto; padding: 28px 24px 72px; }
+
+header.site {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 22px;
+}
+header.site h1 {
+  margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;
+}
+header.site h1 small {
+  display: block; font-size: 13px; font-weight: 400; color: var(--muted); margin-top: 4px;
+}
+.theme-toggle {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 14px;
+}
+.theme-toggle:hover { background: var(--surface-2); }
+
+/* Per-tetel page navigation */
+.page-nav {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 20px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 12px;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+.page-nav.bottom { margin: 28px 0 0; position: static; }
+.nav-btn {
+  padding: 8px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.nav-btn:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.nav-home {
+  background: var(--accent);
+  color: white !important;
+  border-color: var(--accent);
+}
+.nav-home:hover { opacity: 0.9; }
+.nav-disabled {
+  opacity: 0.4; cursor: not-allowed; pointer-events: none;
+  color: var(--muted);
+}
+.nav-spacer { flex: 1; }
+
+/* Index: tetel card grid */
+.tetel-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin: 20px 0 30px;
+}
+.tetel-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.15s;
+  box-shadow: var(--shadow);
+}
+.tetel-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(109, 40, 217, 0.16);
+}
+.tetel-card .tetel-num {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+  min-width: 48px;
+}
+.tetel-card .tetel-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.tetel-card .tetel-arrow {
+  color: var(--muted);
+  font-size: 20px;
+}
+.tetel-card:hover .tetel-arrow { color: var(--accent); }
+
+.index-note {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.index-note strong { color: var(--accent); }
+.index-note kbd {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+/* Tetel article */
+article.tetel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 26px 30px 30px;
+  margin-bottom: 12px;
+}
+
+article.tetel h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 0 0 22px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--accent-soft);
+  letter-spacing: -0.3px;
+}
+
+article.tetel h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 32px 0 16px;
+  padding: 10px 14px;
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+}
+
+article.tetel h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 26px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid var(--accent-soft);
+}
+
+article.tetel h4 {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 20px 0 8px;
+}
+
+article.tetel blockquote {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  padding: 12px 16px;
+  margin: 12px 0 22px;
+  border-radius: 0 8px 8px 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+article.tetel blockquote p { margin: 0; }
+article.tetel blockquote strong { color: var(--accent); }
+
+article.tetel p { margin: 0 0 13px; line-height: 1.72; }
+article.tetel p strong, article.tetel li strong {
+  color: var(--accent); font-weight: 700;
+}
+
+article.tetel ul, article.tetel ol {
+  margin: 10px 0 16px; padding-left: 26px;
+}
+article.tetel li { margin: 7px 0; line-height: 1.62; }
+article.tetel ul { list-style: none; padding-left: 6px; }
+article.tetel ul li { position: relative; padding-left: 22px; }
+article.tetel ul li::before {
+  content: ""; position: absolute; left: 4px; top: 10px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+}
+article.tetel ol { padding-left: 28px; }
+article.tetel ol li::marker { color: var(--accent); font-weight: 700; }
+
+article.tetel hr {
+  border: none;
+  border-top: 2px dashed var(--border);
+  margin: 32px 0;
+}
+
+article.tetel code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+article.tetel pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 14px 0;
+}
+article.tetel pre code {
+  background: none; padding: 0; color: var(--text);
+  font-size: 13px; line-height: 1.55;
+}
+
+article.tetel table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+article.tetel th, article.tetel td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+article.tetel th {
+  background: var(--surface-2);
+  font-weight: 700;
+  font-size: 13px;
+}
+article.tetel tr:last-child td { border-bottom: none; }
+article.tetel tbody tr:nth-child(even) { background: var(--surface-2); }
+
+footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 50px; }
+
+@media (max-width: 720px) {
+  .wrap { padding: 14px 12px 56px; }
+  header.site h1 { font-size: 19px; }
+  article.tetel { padding: 18px 18px 22px; }
+  article.tetel h1 { font-size: 20px; }
+  article.tetel h2 { font-size: 17px; }
+  article.tetel h3 { font-size: 15.5px; }
+  .page-nav { padding: 8px; gap: 6px; }
+  .nav-btn { padding: 6px 10px; font-size: 13px; }
+  .tetel-card { padding: 14px 16px; }
+  .tetel-card .tetel-num { font-size: 22px; min-width: 40px; }
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site">
+      <h1>8. tétel
+        <small>8. tétel — OOP haladó · Fordítóprogramok</small>
+      </h1>
+      <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙 Sötét</button>
+    </header>
+
+    
+      <nav class="page-nav">
+        <a href="tetel_07.html" class="nav-btn nav-prev">← 7. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_09.html" class="nav-btn nav-next">9. tétel →</a>
+      </nav>
+
+    <article class="tetel">
+      <h1>8. tétel — OOP haladó · Fordítóprogramok</h1>
+<h2>a) Magasszintű programozási nyelvek II</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+1. Absztrakt metódusok és osztályok
+2. Interface-ek, többszörös öröklődés
+3. Kivételkezelés filozófiája és megvalósítása
+4. Generikusok használata és készítése
+5. Delegate-ek és események
+6. Lambda kifejezések</p>
+</blockquote>
+<h3>Absztrakt metódusok és osztályok</h3>
+<p>Akkor használjuk, ha egy metódust <strong>még nem tudunk megírni</strong> a szülőosztályban — az implementáció csak a gyerekosztályokban értelmes.</p>
+<ul>
+<li><strong><code>abstract</code></strong> kulcsszó jelöli a nem kidolgozott metódust (nincs törzs)</li>
+<li>Ha egy osztálynak van abstract metódusa → <strong>az osztály is abstract</strong> kell legyen</li>
+<li>A gyerekosztály <strong>kötelezően overrideolja</strong> az abstract metódusokat (kivéve, ha a gyerek is abstract)</li>
+<li><strong>Minden abstract metódus implicit virtual</strong> (futásidőben kötődik)</li>
+<li>Property is lehet abstract</li>
+</ul>
+<h3>Interface-ek</h3>
+<p>Nyelvi elem, <strong>nem osztály</strong>. Arra való, hogy egymással nem rokon osztályok funkcionalitását befolyásoljuk.</p>
+<ul>
+<li>Megmondja, milyen <strong>felületet (szerződést)</strong> valósítson meg az implementáló osztály — de <strong>nem azt, hogyan</strong></li>
+<li>C#-ban: metódus- és property-szignatúrák. <strong>Mező, konstruktor, static elem tilos.</strong></li>
+</ul>
+<p><strong>Fontos BCL interface-ek:</strong>
+- <strong><code>IComparable</code></strong> — <code>List.Sort()</code> használja
+- <strong><code>IEnumerator</code></strong> és <strong><code>IEnumerable</code></strong> — <code>foreach</code> használja
+- <strong><code>IList</code> : <code>ICollection</code></strong> — Add, Insert, Remove, RemoveAt stb.</p>
+<h3>Többszörös öröklődés</h3>
+<ul>
+<li>Egy osztálynak <strong>csak 1 ős-osztálya</strong> lehet</li>
+<li>Viszont <strong>akárhány interface</strong>-t implementálhat</li>
+<li>Az interface is származhat más interface(ek)ből</li>
+</ul>
+<h3>Kivételkezelés — filozófia</h3>
+<p><strong>Kivétel:</strong> olyan esemény, amikor a vezérlés nem megfelelő állapotba kerül.</p>
+<p><strong>Alapelvek:</strong>
+- A program <strong>alapértelmezetten normál módban</strong> fut (nincs if-es hibakezelés szétszórva a kódban)
+- Ha hiba merül fel → <strong>hiba módba</strong> lép:
+  - A normál mód utasításai nem futnak le
+  - <strong>Visszaugrálunk a hívási láncon</strong>
+  - Ha közben nem javul a hiba → a program leáll</p>
+<h3>Kivételkezelés — megvalósítás</h3>
+<p><strong><code>throw</code></strong> kulcsszóval dobunk kivételt. Példányosítani kell hozzá egy kivételt — C#-ban az <code>Exception</code> osztályból származó típusok (pl. <code>FileNotFoundException</code>, <code>DivideByZeroException</code>, <code>NotImplementedException</code>).</p>
+<p><strong>Saját kivétel:</strong> általában <code>Exception</code>-ből örökítünk; kötelező konstruktort írni, és az ős konstruktorát hívni. Paraméter nélkül vagy üzenetstringgel dobható.</p>
+<p><strong>try-catch-finally:</strong>
+- <strong><code>try</code></strong> — a kritikus kód, ahol kivétel lehet
+- <strong><code>catch(Típus)</code></strong> — ha a megadott típusú kivétel dobódik, ez fut. Több catch lehetséges, fentről-le értékelődnek → speciálisabb előrébb
+- <strong><code>finally</code></strong> — mindig lefut (volt-e kivétel, vagy sem), erőforrás-felszabadításhoz
+- A blokk <strong>egymásba ágyazható</strong></p>
+<h3>Generikusok</h3>
+<p><strong>Típussal paraméterezhető</strong> osztály/metódus. Anélkül definiálunk általános viselkedést, hogy tudnánk a konkrét típust. Ha nem lennének, minden típushoz külön osztály kellene → kódduplikáció.</p>
+<pre><code class="language-csharp">class Container&lt;T&gt; { T item; }
+class Pair&lt;T, K&gt; { T first; K second; }
+</code></pre>
+<p><strong>Beépített generikusok:</strong> <code>List&lt;T&gt;</code>, <code>Dictionary&lt;K, V&gt;</code>, <code>Stack&lt;T&gt;</code>, <code>Queue&lt;T&gt;</code>, <code>LinkedList&lt;T&gt;</code>.</p>
+<h3>Delegate-ek</h3>
+<p><strong>Metódusreferencia</strong> — funkciómutató, ami egy metódus belépési pontjára mutat. C#-ban külön objektumként kezeljük.</p>
+<p><strong>Cél:</strong> 3-rétegű alkalmazásfejlesztést támogat — az alkalmazáslogika ne jelenítsen meg semmit direkt módon (pl. logot), hanem <strong>callbacket</strong> hívjon.</p>
+<p><strong>Beépített generikus delegate-ek:</strong>
+- <strong><code>Action&lt;T1, T2, …&gt;</code></strong> — eljárás (nincs visszatérési típus), T1, T2 a paramétertípusok
+- <strong><code>Func&lt;T1, T2, …, K&gt;</code></strong> — függvény, T-k a paramétertípusok, K a visszatérési típus
+- <strong><code>Predicate&lt;T&gt;</code></strong> — egy paraméter, bool visszatérés</p>
+<h3>Események (event)</h3>
+<p>Gyakori, hogy egy esemény hatására <strong>több metódust kell egyszerre meghívni</strong> → ezért az <code>event</code>.</p>
+<ul>
+<li>Az event-hez <strong>akármennyi metódus</strong> köthető</li>
+<li>Event-híváskor mind meghívódik</li>
+<li><strong>Anonim delegate:</strong> egyszer használatos, név nélküli delegate</li>
+</ul>
+<h3>Lambda kifejezések</h3>
+<p>Tömör függvényszintaxis: <code>n =&gt; n.Contains('i')</code>.</p>
+<p><strong>LINQ (Language Integrated Query):</strong> adatszerkezetek és adatbázisok felé.
+- <strong>Bővítő metódusok</strong> jelennek meg: <code>Where</code>, <code>Select</code>, <code>GroupBy</code>, <code>Join</code>, <code>Count</code>, <code>Sum</code> stb.
+- <strong>Összefűzhető (chainable)</strong> lekérdezések
+- Bonyolult típus → <strong><code>var</code></strong> kulcsszó és típuskövetkeztetés</p>
+<pre><code class="language-csharp">string[] names = { &quot;Tom&quot;, &quot;Dick&quot;, &quot;Harry&quot; };
+var query = names.Where(n =&gt; n.Contains('i'))
+                 .OrderBy(n =&gt; n.Length);
+</code></pre>
+<p>Hasonló minták megtalálhatók Java-ban (Streams) és Python-ban (list comprehensions, generators).</p>
+<hr />
+<h2>b) Fordítóprogramok</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+7. A fordítóprogramok alapjai, lexikális elemzés, és a reguláris nyelvek, szintaktikai elemzők (Rekurzív leszállás módszere, LR(k), LL(k) elemzők, táblázatos elemzők működése), szemantikai elemzés kérdései
+8. A program fordítás lépései</p>
+</blockquote>
+<h3>Fordítóprogramok alapjai</h3>
+<p>A fordítóprogram <strong>forrásnyelvi szövegből tárgykódot</strong> állít elő — nyelvek közötti konverziót hajt végre.</p>
+<p><strong>Compiler vs interpreter:</strong>
+- <strong>Compiler:</strong> magas szintű forráskódot transzformál alacsony szintű nyelvre (assembly, gépi kód).
+  - <strong>Input-handler:</strong> beolvassa a forrásszöveget, levágja az újsor és kocsivissza karaktereket
+  - <strong>Compiler:</strong> előállítja a tárgykódot
+  - <strong>Code-handler:</strong> tárgyprogramot készít
+- <strong>Interpreter:</strong> hardveres vagy virtuális gép, amelynek "gépi kódja" maga a magas szintű nyelv. <strong>Kétszintű gép:</strong> alul hardver, felül értelmező + futtató rendszer.</p>
+<h3>Compiler felépítése</h3>
+<p>Forrás-kezelő → lexikális elemző → szintaktikai elemző → szemantikai elemző → belső reprezentáció → kódgenerátor → optimalizáló → kód-kezelő → <strong>tárgyprogram</strong>.</p>
+<h3>Lexikális elemzés</h3>
+<p><strong>Input:</strong> a source handler kimenete (karaktersorozat, újsor/CR nélkül).</p>
+<p>A lexikális elemző <strong>reguláris (Chomsky-3) nyelvet</strong> használ. Feladata:
+- A nyelv lexikális elemeit (tokeneket) felismerni
+- Helyettesíteni őket a szintaktikai elemző számára érthető jelekkel</p>
+<p><strong>Szimbólumtábla:</strong>
+- A programszövegben előforduló szimbólumok <strong>nevét és jellemzőit</strong> tartalmazza
+- Minden szimbólum-előfordulásnál keresés vagy beszúrás → leggyakrabban <strong>láncolt listával</strong> valósítják meg</p>
+<p><strong>Egy sor tartalma:</strong>
+- Szimbólum neve
+- Attribútumok:
+  - <strong>Definíciós adatok:</strong> mit azonosít (változó, konstans, típus, eljárás). Konstansnál érték, típusnál típusdescriptor-pointer, eljárásnál paraméterszám
+  - Típus
+  - Programbéli cím (a tárgyprogramba beépítendő hivatkozási cím)
+  - Forrásnyelvi sorszám (definíciónál sora, implicitnél első előfordulás)
+  - Hivatkozott sorszám (hivatkozási lista elkészítéséhez)
+  - Láncolási cím</p>
+<p><strong>Lexikális hiba:</strong> az elemző nem ismer fel egy tokent (pl. <code>int 2ab</code> — érvénytelen azonosító). <code>int 2</code> szintén helytelen, <strong>de az már szintaktikai hiba</strong>.</p>
+<h3>Reguláris nyelvek</h3>
+<p><strong>Chomsky-3</strong> osztály: minden szabály <code>A → a</code> vagy <code>A → Ba</code> (balreguláris) / <code>A → aB</code> (jobbreguláris) alakú.</p>
+<ul>
+<li>A szó <strong>egy irányban</strong> épül fel</li>
+<li>A köztes állapotokban <strong>csak egy nemterminális</strong> van, a szó jobb (vagy bal) végén</li>
+<li>Nincs kitétel az <code>S → ε</code> szabályra (a generálás bármikor abbahagyható)</li>
+<li><strong>Lexikális elemzésre alkalmas</strong></li>
+</ul>
+<h3>Szintaktikai elemzők</h3>
+<p>Eldöntik, hogy a program <strong>nyelvtanilag helyes-e</strong>. Feladatuk: valamely jelsorozat <strong>levezetési fájának</strong> előállítása.</p>
+<h3>Rekurzív leszállás</h3>
+<ul>
+<li>A grammatika minden szimbólumához egy <strong>eljárás</strong> tartozik</li>
+<li>Az eljárások sorban hívják egymást</li>
+<li>A szalagon lévő adatot és a szabályt <strong>egyszerre lépteti</strong></li>
+<li>A programnyelv valósítja meg az elemző vermét és veremkezelését</li>
+<li>Megmondja, ami a szabályban van; ha ugyanaz → lépteti, ha nem → hibát ad</li>
+<li><strong>Nem lehet generálni</strong> → nem elterjedt módszer</li>
+</ul>
+<p>Algoritmus: meghívjuk a kezdőszimbólum eljárását, ami rekurzívan hívja a többit. Ha visszatérünk a kezdőszimbólumhoz → a szó helyes; egyébként a hiba helye adott (i index).</p>
+<h3>LR(k) elemzők</h3>
+<ul>
+<li><strong>Bottom-up</strong> elemzők</li>
+<li>Az elemzendő szimbólumsorozatból indulnak, <strong>cél a kezdőszimbólum elérése</strong></li>
+<li>Szintaxisfát építenek: a <strong>gyökér</strong> a kezdőszimbólum, a <strong>levelek</strong> a terminálisok</li>
+</ul>
+<h3>LL(k) elemzők</h3>
+<ul>
+<li><strong>Top-down</strong> elemzők</li>
+<li>A kezdőszimbólumból indulnak (gyökér)</li>
+<li>Cél: a szintaxisfa levelein az elemzendő szöveg terminálisai jelenjenek meg</li>
+<li>Balról jobbra haladunk, törekszünk arra, hogy a mondatformák bal oldalán <strong>mihamarabb</strong> megjelenjenek az input terminálisok</li>
+</ul>
+<h3>Táblázatos elemzők</h3>
+<p>Az elemzendő terminális sorozat <code>xay</code> alakú (x már elemzett). Felülről lefelé, legbaloldalibb helyettesítéssel. A mondatforma <code>xBa</code> vagy <code>xba</code> alakú.</p>
+<p><strong><code>xBa</code> esetén:</strong> B-t helyettesítjük egy <code>B → β</code> szabállyal, amelyre teljesül, hogy <code>a ∈ Első(β · Követő(B))</code>. Ha LL-nyelvtan, pontosan egy ilyen szabály van — egyébként szintaktikai hiba.</p>
+<p><strong><code>xba</code> esetén:</strong> a mondatforma következő szimbóluma a <code>b</code> terminális → az inputban is <code>b</code>-nek kell jönnie. Ha igen → továbblépés; ha nem → szintaktikai hiba.</p>
+<p><strong>Állapot:</strong> <code>(ay#, Xa#, v)</code> hármas:
+- <code>ay#</code> — még nem elemzett szöveg (# a végjel)
+- <code>Xa#</code> — a verem tartalma (mondatforma még nem elemzett része)
+- <code>v</code> — alkalmazott szabályok sorszámai</p>
+<p><strong>Kezdőállapot:</strong> <code>(xay#, S#, ε)</code>. <strong>Sikeres végállapot:</strong> <code>(#, #, w)</code>.</p>
+<p>Mindig a verem <strong>tetején</strong> lévő szimbólumot hasonlítja az input következő szimbólumával.</p>
+<h3>Szemantikai elemzés</h3>
+<p>A szintaxisfa pontjaihoz <strong>attribútumokat</strong> rendelünk (tulajdonságok), és az attribútumok konzisztenciáját vizsgáljuk. Statikus tulajdonságokkal foglalkozik — olyanokkal, amik <strong>nem írhatók le környezetfüggetlen nyelvtannal</strong>.</p>
+<p>Vizsgálatok:
+- Változók <strong>deklarációja, hatásköre, láthatósága</strong>, többszörös deklaráció, deklaráció hiánya
+- <strong>Operátorok és operandusok közötti típuskompatibilitás</strong>
+- Eljárások, tömbök <strong>formális és aktuális paraméterei</strong> közötti kompatibilitás
+- <strong>Túlterhelések</strong> egyértelműsége</p>
+<h3>Fordítás lépései (sorrendben)</h3>
+<ol>
+<li><strong>Forrás-kezelő</strong> (source handler)</li>
+<li><strong>Lexikális elemző</strong></li>
+<li><strong>Szintaktikai elemző</strong></li>
+<li><strong>Szemantikai elemző</strong></li>
+<li><strong>Belső reprezentáció</strong> (közbenső kód, pl. szintaxisfa, tripletek)</li>
+<li><strong>Kódgenerátor</strong></li>
+<li><strong>Optimalizáló</strong></li>
+<li><strong>Kód-kezelő</strong></li>
+<li><strong>Tárgyprogram</strong></li>
+</ol>
+<hr />
+<h2>⚡ Kvíz / kulcsfogalmak</h2>
+<ul>
+<li>abstract metódus: jelölés, korlátok, override-szabály</li>
+<li>Interface vs osztály — mit tartalmazhat, mit nem (mező, konstruktor tilos)</li>
+<li>Többszörös öröklődés: 1 ős + n interface</li>
+<li>try-catch-finally: melyik mikor fut, sorrend speciális → általános</li>
+<li>Generic class szintaxisa, beépítettek</li>
+<li>Action vs Func vs Predicate különbség</li>
+<li>Event: több metódus egyetlen hívásra</li>
+<li>Lambda + LINQ: Where, Select, GroupBy</li>
+<li>Compiler vs interpreter</li>
+<li>Lexikális vs szintaktikai vs szemantikai elemző feladata</li>
+<li>Chomsky-3 alak (jobbreguláris/balreguláris)</li>
+<li>LR(k) bottom-up, LL(k) top-down</li>
+<li>Táblázatos elemző állapot-hármasa</li>
+<li>Fordítás 9 lépése sorrendben</li>
+</ul>
+    </article>
+
+    
+      <nav class="page-nav bottom">
+        <a href="tetel_07.html" class="nav-btn nav-prev">← 7. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_09.html" class="nav-btn nav-next">9. tétel →</a>
+      </nav>
+  </div>
+  <script>
+const THEME_KEY = "kondenzalt-theme";
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  const btn = document.getElementById('theme-btn');
+  if (btn) btn.textContent = t === 'dark' ? '☀ Világos' : '🌙 Sötét';
+}
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  localStorage.setItem(THEME_KEY, next);
+  applyTheme(next);
+}
+(function() {
+  const t = localStorage.getItem(THEME_KEY) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(t);
+})();
+
+// Keyboard nav between tetelek: Left/Right arrow
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, textarea, select')) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'ArrowLeft') {
+    const prev = document.querySelector('.nav-prev');
+    if (prev && !prev.classList.contains('nav-disabled')) prev.click();
+  } else if (e.key === 'ArrowRight') {
+    const next = document.querySelector('.nav-next');
+    if (next && !next.classList.contains('nav-disabled')) next.click();
+  }
+});
+</script>
+</body>
+</html>

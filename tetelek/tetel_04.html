@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="hu" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>4. tétel — kondenzált</title>
+  <style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #faf9f5;
+  --surface: #ffffff;
+  --surface-2: #f3f1ea;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #e5e2d8;
+  --accent: #6d28d9;
+  --accent-soft: #ede9fe;
+  --code-bg: #f5f3ec;
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+}
+[data-theme="dark"] {
+  --bg: #0f0f12;
+  --surface: #1a1a1f;
+  --surface-2: #232329;
+  --text: #ececec;
+  --muted: #9a9a9a;
+  --border: #2d2d33;
+  --accent: #a78bfa;
+  --accent-soft: #2a1f50;
+  --code-bg: #1d1d24;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.3);
+}
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg); color: var(--text);
+  font-size: 16px; line-height: 1.7;
+}
+.wrap { max-width: 900px; margin: 0 auto; padding: 28px 24px 72px; }
+
+header.site {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 22px;
+}
+header.site h1 {
+  margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;
+}
+header.site h1 small {
+  display: block; font-size: 13px; font-weight: 400; color: var(--muted); margin-top: 4px;
+}
+.theme-toggle {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 14px;
+}
+.theme-toggle:hover { background: var(--surface-2); }
+
+/* Per-tetel page navigation */
+.page-nav {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 20px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 12px;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+.page-nav.bottom { margin: 28px 0 0; position: static; }
+.nav-btn {
+  padding: 8px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.nav-btn:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.nav-home {
+  background: var(--accent);
+  color: white !important;
+  border-color: var(--accent);
+}
+.nav-home:hover { opacity: 0.9; }
+.nav-disabled {
+  opacity: 0.4; cursor: not-allowed; pointer-events: none;
+  color: var(--muted);
+}
+.nav-spacer { flex: 1; }
+
+/* Index: tetel card grid */
+.tetel-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin: 20px 0 30px;
+}
+.tetel-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.15s;
+  box-shadow: var(--shadow);
+}
+.tetel-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(109, 40, 217, 0.16);
+}
+.tetel-card .tetel-num {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+  min-width: 48px;
+}
+.tetel-card .tetel-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.tetel-card .tetel-arrow {
+  color: var(--muted);
+  font-size: 20px;
+}
+.tetel-card:hover .tetel-arrow { color: var(--accent); }
+
+.index-note {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.index-note strong { color: var(--accent); }
+.index-note kbd {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+/* Tetel article */
+article.tetel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 26px 30px 30px;
+  margin-bottom: 12px;
+}
+
+article.tetel h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 0 0 22px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--accent-soft);
+  letter-spacing: -0.3px;
+}
+
+article.tetel h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 32px 0 16px;
+  padding: 10px 14px;
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+}
+
+article.tetel h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 26px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid var(--accent-soft);
+}
+
+article.tetel h4 {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 20px 0 8px;
+}
+
+article.tetel blockquote {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  padding: 12px 16px;
+  margin: 12px 0 22px;
+  border-radius: 0 8px 8px 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+article.tetel blockquote p { margin: 0; }
+article.tetel blockquote strong { color: var(--accent); }
+
+article.tetel p { margin: 0 0 13px; line-height: 1.72; }
+article.tetel p strong, article.tetel li strong {
+  color: var(--accent); font-weight: 700;
+}
+
+article.tetel ul, article.tetel ol {
+  margin: 10px 0 16px; padding-left: 26px;
+}
+article.tetel li { margin: 7px 0; line-height: 1.62; }
+article.tetel ul { list-style: none; padding-left: 6px; }
+article.tetel ul li { position: relative; padding-left: 22px; }
+article.tetel ul li::before {
+  content: ""; position: absolute; left: 4px; top: 10px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+}
+article.tetel ol { padding-left: 28px; }
+article.tetel ol li::marker { color: var(--accent); font-weight: 700; }
+
+article.tetel hr {
+  border: none;
+  border-top: 2px dashed var(--border);
+  margin: 32px 0;
+}
+
+article.tetel code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+article.tetel pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 14px 0;
+}
+article.tetel pre code {
+  background: none; padding: 0; color: var(--text);
+  font-size: 13px; line-height: 1.55;
+}
+
+article.tetel table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+article.tetel th, article.tetel td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+article.tetel th {
+  background: var(--surface-2);
+  font-weight: 700;
+  font-size: 13px;
+}
+article.tetel tr:last-child td { border-bottom: none; }
+article.tetel tbody tr:nth-child(even) { background: var(--surface-2); }
+
+footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 50px; }
+
+@media (max-width: 720px) {
+  .wrap { padding: 14px 12px 56px; }
+  header.site h1 { font-size: 19px; }
+  article.tetel { padding: 18px 18px 22px; }
+  article.tetel h1 { font-size: 20px; }
+  article.tetel h2 { font-size: 17px; }
+  article.tetel h3 { font-size: 15.5px; }
+  .page-nav { padding: 8px; gap: 6px; }
+  .nav-btn { padding: 6px 10px; font-size: 13px; }
+  .tetel-card { padding: 14px 16px; }
+  .tetel-card .tetel-num { font-size: 22px; min-width: 40px; }
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site">
+      <h1>4. tétel
+        <small>4. tétel — Magasszintű prog. I (típusok) · Operációs rendszerek</small>
+      </h1>
+      <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙 Sötét</button>
+    </header>
+
+    
+      <nav class="page-nav">
+        <a href="tetel_03.html" class="nav-btn nav-prev">← 3. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_05.html" class="nav-btn nav-next">5. tétel →</a>
+      </nav>
+
+    <article class="tetel">
+      <h1>4. tétel — Magasszintű prog. I (típusok) · Operációs rendszerek</h1>
+<h2>a) Magasszintű programozási nyelvek I — alapok</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+1. Alaptípusok, változók, konstansok, literálok
+2. Operátorok
+3. Szelekciós vezérlési szerkezetek
+4. Ciklusok
+5. Érték- és referenciatípusok memóriamenedzsmentje, stack és heap
+6. Változók hatásköre és élettartama
+7. Programozási nyelvek generációi, imperatív, funkcionális és deklaratív nyelvek</p>
+</blockquote>
+<h3>Alaptípusok</h3>
+<p><strong>Primitív típusok C#-ban:</strong>
+- Egész: <code>byte</code> (8), <code>short</code> (16), <code>int</code> (32), <code>long</code> (64), előjeles és előjel nélküli (<code>uint</code>, <code>ulong</code> stb.)
+- Lebegőpontos: <code>float</code> (32), <code>double</code> (64), <code>decimal</code> (128, precíz pénzügyi)
+- Logikai: <code>bool</code> (true/false)
+- Karakter: <code>char</code> (Unicode, 16 bit)
+- Szöveg: <code>string</code> (referenciatípus, de érték-szemantikás, immutable)</p>
+<h3>Változók, konstansok, literálok</h3>
+<ul>
+<li><strong>Változó:</strong> memóriaterület + név + típus; értéke változhat. <code>int x = 5;</code></li>
+<li><strong>Konstans:</strong> értéke a fordításkor rögzül, futás közben <strong>nem változhat</strong>. <code>const double PI = 3.14;</code></li>
+<li><strong>Read-only (<code>readonly</code>):</strong> csak konstruktorban kaphat értéket, utána nem (C# specifikus)</li>
+<li><strong>Literál:</strong> közvetlen, beégetett érték: <code>5</code>, <code>3.14</code>, <code>"szöveg"</code>, <code>true</code>, <code>'a'</code></li>
+</ul>
+<h3>Operátorok</h3>
+<ul>
+<li><strong>Aritmetikai:</strong> <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code> (maradékos osztás), <code>++</code>, <code>--</code></li>
+<li><strong>Összehasonlító:</strong> <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></li>
+<li><strong>Logikai:</strong> <code>&amp;&amp;</code>, <code>||</code>, <code>!</code> (rövidzár)</li>
+<li><strong>Bitenkénti:</strong> <code>&amp;</code>, <code>|</code>, <code>^</code> (XOR), <code>~</code> (NOT), <code>&lt;&lt;</code>, <code>&gt;&gt;</code></li>
+<li><strong>Értékadó:</strong> <code>=</code>, <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code> stb.</li>
+<li><strong>Ternáris:</strong> <code>feltétel ? a : b</code></li>
+<li><strong>Null-coalescing (C#):</strong> <code>a ?? b</code> — ha a null, akkor b</li>
+</ul>
+<p><strong>Operátor precedencia:</strong> szorzás osztás &gt; összeadás kivonás &gt; összehasonlító &gt; logikai. Zárójellel felülírható.</p>
+<h3>Szelekciós vezérlési szerkezetek</h3>
+<p><strong><code>if</code>:</strong></p>
+<pre><code class="language-csharp">if (feltétel) { ... }
+else if (másik) { ... }
+else { ... }
+</code></pre>
+<p><strong><code>switch</code>:</strong></p>
+<pre><code class="language-csharp">switch (érték) {
+    case 1: ...; break;
+    case 2: ...; break;
+    default: ...; break;
+}
+</code></pre>
+<p>Modern C#-ban <strong>pattern matching:</strong> <code>switch expression</code>, <code>is</code> operátor.</p>
+<h3>Ciklusok</h3>
+<ul>
+<li><strong><code>while</code>:</strong> elöltesztelő — <code>while (feltétel) { ... }</code></li>
+<li><strong><code>do-while</code>:</strong> hátultesztelő — legalább egyszer lefut</li>
+<li><strong><code>for</code>:</strong> számláló — <code>for (i=0; i&lt;n; i++) { ... }</code></li>
+<li><strong><code>foreach</code>:</strong> kollekció elemein — <code>foreach (var item in coll) { ... }</code>. Az IEnumerable interfészen működik.</li>
+</ul>
+<p><strong>Ciklusvezérlés:</strong> <code>break</code> (kilép), <code>continue</code> (ugrik a következő iterációra), <code>return</code>.</p>
+<h3>Érték- és referenciatípusok memóriamenedzsmentje</h3>
+<p><strong>Értéktípus (struct, int, double, bool, char, enum):</strong>
+- A <strong>stack-en</strong> él (lokális változóknál)
+- Másoláskor érték szerint
+- Élettartama a hatókörhöz kötve
+- Nincs <code>null</code> (kivéve <code>Nullable&lt;T&gt;</code>/<code>?</code>)</p>
+<p><strong>Referenciatípus (class, string, array, delegate):</strong>
+- Az objektum a <strong>heap-en</strong> él
+- A változó csak egy <strong>referencia</strong> rá (stack-en)
+- Másoláskor a referenciát másoljuk
+- <strong>GC (Garbage Collector)</strong> szabadítja fel, amikor nincs rá hivatkozás</p>
+<h3>Stack és heap</h3>
+<p><strong>Stack:</strong> gyors, LIFO. Funkcióhívások keretadatai, lokális értéktípusú változók. Méret korlátozott (stack overflow). Automatikus felszabadítás.</p>
+<p><strong>Heap:</strong> lassabb, dinamikus allokáció. Referenciatípusú objektumok. <strong>GC kezeli</strong> (.NET-ben generációs GC).</p>
+<p><strong>Boxing / unboxing:</strong> értéktípus → object/interface (heap-re kerül), és vissza. Lassú, kerülendő.</p>
+<h3>Változók hatásköre és élettartama</h3>
+<p><strong>Hatáskör (scope):</strong> hol látható a változó.
+- <strong>Block:</strong> <code>{ }</code> blokkban
+- <strong>Metódus:</strong> a metóduson belül
+- <strong>Osztály:</strong> mezők az egész osztályban
+- <strong>Namespace / project</strong></p>
+<p><strong>Élettartam (lifetime):</strong> mikor él a változó a memóriában.
+- Lokális: a blokkból kilépve megszűnik (stack)
+- Mező: az objektum élettartamáig (heap)
+- <code>static</code>: az AppDomain élete</p>
+<h3>Programozási nyelvek generációi</h3>
+<ol>
+<li><strong>1GL:</strong> gépi kód — bináris, közvetlenül a CPU-nak (nullák és egyesek)</li>
+<li><strong>2GL:</strong> assembly — mnemónikus szimbólumok, 1:1 a gépi kóddal</li>
+<li><strong>3GL:</strong> magas szintű, hardverfüggetlen (C, Pascal, Fortran, C#, Java)</li>
+<li><strong>4GL:</strong> problématerület-specifikus, gyakran deklaratív (SQL, MATLAB, Visual Basic, üzleti DSL-ek)</li>
+<li><strong>5GL:</strong> mesterséges intelligencia, logikai programozás (Prolog)</li>
+</ol>
+<h3>Imperatív, funkcionális és deklaratív nyelvek</h3>
+<p><strong>Imperatív:</strong> "<strong>hogyan</strong>" — lépéssorozat. Állapotot változtatunk. Pl. C, C#, Java, Python.</p>
+<p><strong>Funkcionális:</strong> függvények kompozíciója, immutable adat, side-effect kerülése. Pl. Haskell, Lisp, F#, Erlang. C#-ban LINQ + lambda.</p>
+<p><strong>Deklaratív:</strong> "<strong>mit</strong>" akarunk, nem "hogyan". Pl. SQL ("SELECT * WHERE …"), HTML, Prolog.</p>
+<p><strong>Objektum-orientált:</strong> osztályok, példányok, öröklődés, polimorfizmus. Pl. C++, C#, Java.</p>
+<p><strong>Logikai programozás:</strong> szabályok és tények, az interpreter következtet. Pl. Prolog.</p>
+<hr />
+<h2>b) Operációs rendszerek</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+8. Az operációs rendszer fogalmai, kernel, processz stb
+9. A virtualizáció
+10. Az operációs rendszerek fájl- és könyvtárkezelése, fájlrendszerek
+11. Diszk kezelés, RAID tömbök
+12. Átirányítások és szűrők
+13. Jogosultsági rendszerek: működés, azonosságok és különbségek az egyes rendszerekben
+14. Processz kezelés
+15. Szignálok és kezelésük
+16. Adatmentés és archiválás módszerei és eszközei
+17. Shell-scriptek</p>
+</blockquote>
+<h3>OS fogalmak, kernel</h3>
+<p><strong>Operációs rendszer:</strong> a hardver és az alkalmazások közötti réteg. <strong>Erőforrás-menedzser</strong> (CPU, memória, IO, fájlok), és <strong>API</strong>-t nyújt a programoknak.</p>
+<p><strong>Kernel:</strong> az OS magja, közvetlenül a hardverrel beszél. Privilegizált módban fut.
+- <strong>Monolitikus kernel:</strong> minden szolgáltatás a kernelben (Linux). Gyors, de nagy.
+- <strong>Mikrokernel:</strong> csak a minimum a kernelben, a többi user-space szervízben (Minix, QNX). Stabilabb, lassabb.
+- <strong>Hibrid:</strong> kettő keveréke (Windows NT, macOS).</p>
+<p><strong>Processz (folyamat):</strong> futó program egy példánya. Saját memóriatérrel, állapottal, fájlleíróval.</p>
+<p><strong>Szál (thread):</strong> egy processzen belüli <strong>könnyűsúlyú végrehajtási egység</strong>, közös memóriát használnak.</p>
+<p><strong>Felhasználói vs kernel mód:</strong> felhasználói módban korlátozott jogok, kernel módban teljes hozzáférés.</p>
+<h3>Virtualizáció</h3>
+<p><strong>Cél:</strong> egy fizikai gépen több, egymástól izolált környezet.</p>
+<ul>
+<li><strong>Teljes virtualizáció (full):</strong> VM-ek külön OS-szel — VMware, VirtualBox, Hyper-V. <strong>Hypervisor</strong> kezeli (Type 1: bare-metal, Type 2: hostolt).</li>
+<li><strong>Para-virtualizáció:</strong> vendég OS tud arról, hogy virtuális.</li>
+<li><strong>Konténerek (Docker, LXC):</strong> OS-szintű izoláció, <strong>közös kernel</strong> — gyors, könnyű.</li>
+</ul>
+<h3>Fájl- és könyvtárkezelés</h3>
+<p><strong>Fájl:</strong> logikai adategység névvel, attribútumokkal (méret, jogosultság, dátum).</p>
+<p><strong>Könyvtár (directory):</strong> fájlok hierarchikus szervezése; fa-struktúra.</p>
+<p><strong>Fájlrendszerek:</strong>
+- <strong>NTFS</strong> (Windows): journaling, ACL-ek, nagy fájlok támogatása
+- <strong>FAT32 / exFAT:</strong> egyszerű, kompatibilis, USB
+- <strong>ext4</strong> (Linux): journaling, gyors
+- <strong>APFS</strong> (macOS): SSD-optimalizált, snapshot-ok
+- <strong>ZFS, Btrfs:</strong> modern, snapshot, RAID-szerű képességek</p>
+<h3>Diszk kezelés, RAID</h3>
+<p><strong>Partícionálás:</strong> lemez logikai részekre. <strong>MBR</strong> (régi, max 2TB) vs <strong>GPT</strong> (modern, nagy lemezekhez).</p>
+<p><strong>RAID (Redundant Array of Independent Disks):</strong>
+- <strong>RAID 0 (striping):</strong> sebesség, <strong>nincs</strong> redundancia (egy lemez hibája → adatvesztés)
+- <strong>RAID 1 (mirroring):</strong> tükrözés, <strong>redundancia</strong>, sebesség olvasásra jó
+- <strong>RAID 5:</strong> striping + 1 paritás — 1 lemez hibáját tűri
+- <strong>RAID 6:</strong> striping + 2 paritás — 2 lemez hibáját tűri
+- <strong>RAID 10:</strong> mirror + stripe — gyors és redundáns</p>
+<h3>Átirányítások és szűrők</h3>
+<p><strong>Standard streamek:</strong> <code>stdin</code> (0), <code>stdout</code> (1), <code>stderr</code> (2).</p>
+<p><strong>Átirányítás (shell):</strong>
+- <code>cmd &gt; file</code> — stdout fájlba
+- <code>cmd &gt;&gt; file</code> — hozzáfűz
+- <code>cmd 2&gt; file</code> — stderr fájlba
+- <code>cmd &lt; file</code> — stdin fájlból
+- <code>cmd1 | cmd2</code> — pipeline, cmd1 stdout-ja cmd2 stdin-je</p>
+<p><strong>Szűrők (filter):</strong> input-feldolgozó kis programok, jellemzően sorokkal:
+- <code>grep</code>: minta-keresés
+- <code>sed</code>: keresés-csere
+- <code>awk</code>: oszlop-feldolgozás
+- <code>sort</code>, <code>uniq</code>, <code>wc</code>, <code>head</code>, <code>tail</code>, <code>cut</code></p>
+<h3>Jogosultsági rendszerek</h3>
+<p><strong>Unix/Linux (octal mode):</strong>
+- 3 csoport: <strong>owner</strong>, <strong>group</strong>, <strong>others</strong>
+- 3 művelet: <strong>r</strong> (read, 4), <strong>w</strong> (write, 2), <strong>x</strong> (execute, 1)
+- Pl. <code>755</code> = rwxr-xr-x; <code>chmod 644 file</code> = csak az owner ír
+- <strong>chown</strong> (tulajdonos), <strong>chgrp</strong> (csoport)</p>
+<p><strong>Windows ACL:</strong> részletesebb, <strong>felhasználónként</strong> és csoportonként, <strong>örökölhető</strong> szabályok. Allow / Deny szabályok.</p>
+<p><strong>Azonosságok:</strong> mindkettő autentikáció + autorizáció. <strong>Különbség:</strong> Linux egyszerűbb (3×3 bit), Windows finomabban szabályozható (ACL).</p>
+<h3>Processz kezelés</h3>
+<p><strong>Processz állapotai:</strong> new → ready → running → waiting (IO-ra) → terminated.</p>
+<p><strong>Ütemező (scheduler):</strong> dönt, melyik processz fut. Algoritmusok:
+- <strong>FCFS</strong> (First Come First Served)
+- <strong>SJF</strong> (Shortest Job First)
+- <strong>Round Robin</strong> (időszelet)
+- <strong>Prioritás-alapú</strong>
+- <strong>Multilevel queue / feedback</strong></p>
+<p><strong>Műveletek:</strong>
+- <strong>Fork:</strong> új processz létrehozása (Unix)
+- <strong>Exec:</strong> processz tartalmának cseréje másik programmal
+- <strong>Wait:</strong> szülő várja a gyerek befejezését
+- <strong>Kill:</strong> processz megszüntetése (szignállal)</p>
+<h3>Szignálok és kezelésük</h3>
+<p><strong>Szignál (signal):</strong> aszinkron értesítés a processznek.</p>
+<p><strong>Tipikus szignálok (Unix):</strong>
+- <code>SIGTERM</code> (15): kérés a leállásra (graceful)
+- <code>SIGKILL</code> (9): azonnali leállítás, nem fogható el
+- <code>SIGINT</code> (2): Ctrl+C
+- <code>SIGHUP</code> (1): terminál bezárás
+- <code>SIGSEGV</code>: memóriasértés
+- <code>SIGCHLD</code>: gyerek befejeződött</p>
+<p><strong>Kezelés:</strong> a processz <strong>handlert</strong> regisztrálhat (<code>signal()</code> vagy <code>sigaction()</code>). A <code>SIGKILL</code> és <code>SIGSTOP</code> <strong>nem fogható el</strong>.</p>
+<h3>Adatmentés és archiválás</h3>
+<p><strong>Backup típusok:</strong>
+- <strong>Teljes (full):</strong> minden adat
+- <strong>Inkrementális:</strong> csak az utolsó backup óta változott
+- <strong>Differenciális:</strong> az utolsó teljes óta változott</p>
+<p><strong>3-2-1 szabály:</strong> 3 másolat, 2 különböző médián, 1 off-site.</p>
+<p><strong>Eszközök:</strong> <code>tar</code>, <code>rsync</code>, <code>dd</code>, <code>cron</code> (időzítés), <code>borg</code>, <code>restic</code> (deduplikálós, titkosított).</p>
+<p><strong>Archiválás:</strong> hosszú távú megőrzés (gyakran tömörítéssel) — <code>tar.gz</code>, <code>zip</code>, <code>7z</code>.</p>
+<h3>Shell-scriptek</h3>
+<p><strong>Shell-script:</strong> parancssori parancsok sorozata egy fájlban — automatizálásra.</p>
+<p>Tipikus elemek:
+- <code>#!/bin/bash</code> — shebang (a shell megjelölése)
+- Változók: <code>VAR=érték</code>, hivatkozás <code>$VAR</code>
+- Vezérlés: <code>if</code>, <code>for</code>, <code>while</code>, <code>case</code>
+- Funkciók: <code>function név() { … }</code>
+- Argumentumok: <code>$1</code>, <code>$2</code>, <code>$@</code>, <code>$#</code>
+- Exit kód: <code>$?</code></p>
+<p><strong>Példa:</strong></p>
+<pre><code class="language-bash">#!/bin/bash
+for f in *.log; do
+    gzip &quot;$f&quot;
+done
+</code></pre>
+<hr />
+<h2>⚡ Kvíz / kulcsfogalmak</h2>
+<ul>
+<li>Primitív típusok mérete (<code>int</code> 32, <code>long</code> 64, <code>double</code> 64)</li>
+<li><code>const</code> vs <code>readonly</code></li>
+<li>Értéktípus vs referenciatípus (stack vs heap)</li>
+<li>GC szerepe</li>
+<li>Boxing/unboxing fogalma</li>
+<li>Hatáskör vs élettartam</li>
+<li>5 nyelvgeneráció (gépi → AI)</li>
+<li>Imperatív vs funkcionális vs deklaratív (hogyan vs mit)</li>
+<li>Kernel, processz, szál</li>
+<li>Full virtualizáció vs konténer (kernel közös?)</li>
+<li>RAID 0/1/5/6/10 különbség</li>
+<li>chmod 755 jelentése</li>
+<li>Linux jogosultság vs Windows ACL</li>
+<li>3 processz-állapot (new, ready, running, waiting, terminated)</li>
+<li>SIGTERM vs SIGKILL</li>
+<li>Full / inkrementális / differenciális backup</li>
+</ul>
+    </article>
+
+    
+      <nav class="page-nav bottom">
+        <a href="tetel_03.html" class="nav-btn nav-prev">← 3. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_05.html" class="nav-btn nav-next">5. tétel →</a>
+      </nav>
+  </div>
+  <script>
+const THEME_KEY = "kondenzalt-theme";
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  const btn = document.getElementById('theme-btn');
+  if (btn) btn.textContent = t === 'dark' ? '☀ Világos' : '🌙 Sötét';
+}
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  localStorage.setItem(THEME_KEY, next);
+  applyTheme(next);
+}
+(function() {
+  const t = localStorage.getItem(THEME_KEY) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(t);
+})();
+
+// Keyboard nav between tetelek: Left/Right arrow
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, textarea, select')) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'ArrowLeft') {
+    const prev = document.querySelector('.nav-prev');
+    if (prev && !prev.classList.contains('nav-disabled')) prev.click();
+  } else if (e.key === 'ArrowRight') {
+    const next = document.querySelector('.nav-next');
+    if (next && !next.classList.contains('nav-disabled')) next.click();
+  }
+});
+</script>
+</body>
+</html>

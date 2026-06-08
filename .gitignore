@@ -1,0 +1,24 @@
+# Forrás PDF-ek (túl nagyok, nem kellenek webre)
+*.pdf
+
+# Python segédscriptek és cache
+*.py
+__pycache__/
+*.pyc
+
+# Kibontott szöveg-források
+extracted.txt
+*.txt
+
+# Eredeti, terjengős teljes HTML (referenciaként marad locally)
+zarovizsga.html
+
+# Kondenzált Markdown források (a generálás bemenete, nem publikus)
+tetelek/kondenzalt_*.md
+
+# Tools / temp / IDE
+.claude/
+.vscode/
+.idea/
+*.tmp
+*.bak

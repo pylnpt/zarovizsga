@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="hu" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>6. tétel — kondenzált</title>
+  <style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #faf9f5;
+  --surface: #ffffff;
+  --surface-2: #f3f1ea;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #e5e2d8;
+  --accent: #6d28d9;
+  --accent-soft: #ede9fe;
+  --code-bg: #f5f3ec;
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+}
+[data-theme="dark"] {
+  --bg: #0f0f12;
+  --surface: #1a1a1f;
+  --surface-2: #232329;
+  --text: #ececec;
+  --muted: #9a9a9a;
+  --border: #2d2d33;
+  --accent: #a78bfa;
+  --accent-soft: #2a1f50;
+  --code-bg: #1d1d24;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.3);
+}
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg); color: var(--text);
+  font-size: 16px; line-height: 1.7;
+}
+.wrap { max-width: 900px; margin: 0 auto; padding: 28px 24px 72px; }
+
+header.site {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 22px;
+}
+header.site h1 {
+  margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;
+}
+header.site h1 small {
+  display: block; font-size: 13px; font-weight: 400; color: var(--muted); margin-top: 4px;
+}
+.theme-toggle {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 14px;
+}
+.theme-toggle:hover { background: var(--surface-2); }
+
+/* Per-tetel page navigation */
+.page-nav {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 20px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 12px;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+.page-nav.bottom { margin: 28px 0 0; position: static; }
+.nav-btn {
+  padding: 8px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.nav-btn:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.nav-home {
+  background: var(--accent);
+  color: white !important;
+  border-color: var(--accent);
+}
+.nav-home:hover { opacity: 0.9; }
+.nav-disabled {
+  opacity: 0.4; cursor: not-allowed; pointer-events: none;
+  color: var(--muted);
+}
+.nav-spacer { flex: 1; }
+
+/* Index: tetel card grid */
+.tetel-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin: 20px 0 30px;
+}
+.tetel-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.15s;
+  box-shadow: var(--shadow);
+}
+.tetel-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(109, 40, 217, 0.16);
+}
+.tetel-card .tetel-num {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+  min-width: 48px;
+}
+.tetel-card .tetel-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.tetel-card .tetel-arrow {
+  color: var(--muted);
+  font-size: 20px;
+}
+.tetel-card:hover .tetel-arrow { color: var(--accent); }
+
+.index-note {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.index-note strong { color: var(--accent); }
+.index-note kbd {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+/* Tetel article */
+article.tetel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 26px 30px 30px;
+  margin-bottom: 12px;
+}
+
+article.tetel h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 0 0 22px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--accent-soft);
+  letter-spacing: -0.3px;
+}
+
+article.tetel h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 32px 0 16px;
+  padding: 10px 14px;
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+}
+
+article.tetel h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 26px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid var(--accent-soft);
+}
+
+article.tetel h4 {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 20px 0 8px;
+}
+
+article.tetel blockquote {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  padding: 12px 16px;
+  margin: 12px 0 22px;
+  border-radius: 0 8px 8px 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+article.tetel blockquote p { margin: 0; }
+article.tetel blockquote strong { color: var(--accent); }
+
+article.tetel p { margin: 0 0 13px; line-height: 1.72; }
+article.tetel p strong, article.tetel li strong {
+  color: var(--accent); font-weight: 700;
+}
+
+article.tetel ul, article.tetel ol {
+  margin: 10px 0 16px; padding-left: 26px;
+}
+article.tetel li { margin: 7px 0; line-height: 1.62; }
+article.tetel ul { list-style: none; padding-left: 6px; }
+article.tetel ul li { position: relative; padding-left: 22px; }
+article.tetel ul li::before {
+  content: ""; position: absolute; left: 4px; top: 10px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+}
+article.tetel ol { padding-left: 28px; }
+article.tetel ol li::marker { color: var(--accent); font-weight: 700; }
+
+article.tetel hr {
+  border: none;
+  border-top: 2px dashed var(--border);
+  margin: 32px 0;
+}
+
+article.tetel code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+article.tetel pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 14px 0;
+}
+article.tetel pre code {
+  background: none; padding: 0; color: var(--text);
+  font-size: 13px; line-height: 1.55;
+}
+
+article.tetel table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+article.tetel th, article.tetel td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+article.tetel th {
+  background: var(--surface-2);
+  font-weight: 700;
+  font-size: 13px;
+}
+article.tetel tr:last-child td { border-bottom: none; }
+article.tetel tbody tr:nth-child(even) { background: var(--surface-2); }
+
+footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 50px; }
+
+@media (max-width: 720px) {
+  .wrap { padding: 14px 12px 56px; }
+  header.site h1 { font-size: 19px; }
+  article.tetel { padding: 18px 18px 22px; }
+  article.tetel h1 { font-size: 20px; }
+  article.tetel h2 { font-size: 17px; }
+  article.tetel h3 { font-size: 15.5px; }
+  .page-nav { padding: 8px; gap: 6px; }
+  .nav-btn { padding: 6px 10px; font-size: 13px; }
+  .tetel-card { padding: 14px 16px; }
+  .tetel-card .tetel-num { font-size: 22px; min-width: 40px; }
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site">
+      <h1>6. tétel
+        <small>6. tétel — Numerikus matematika · Operációs rendszerek (alapok)</small>
+      </h1>
+      <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙 Sötét</button>
+    </header>
+
+    
+      <nav class="page-nav">
+        <a href="tetel_05.html" class="nav-btn nav-prev">← 5. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_07.html" class="nav-btn nav-next">7. tétel →</a>
+      </nav>
+
+    <article class="tetel">
+      <h1>6. tétel — Numerikus matematika · Operációs rendszerek (alapok)</h1>
+<h2>a) Numerikus matematika</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+1. Hibák típusa, hibaterjedés
+2. Nemlineáris egyenletek megoldása
+3. Numerikus integrálás
+4. Lineáris egyenletrendszerek megoldása
+5. Függvény kiértékelés
+6. Interpoláció
+7. Legkisebb négyzetek módszere</p>
+</blockquote>
+<p>A numerikus matematika célja: olyan problémákat oldani meg, amelyekre a számítógép <strong>nem közvetlenül alkalmas</strong> (pl. végtelen sorok, valós számok pontos kezelése).</p>
+<h3>Hibák típusa, hibaterjedés</h3>
+<p><strong>Hibák típusai:</strong>
+- <strong>Kiküszöbölhetetlen hibák:</strong> input adatok hibái, méréshibák
+- <strong>Matematikai modell hibája:</strong> a modell csak közelíti a valóságot
+- <strong>Módszerhiba:</strong> a kiválasztott numerikus módszer pontatlansága
+- <strong>Számítógépes hiba:</strong> kerekítés, véges bit-mélység</p>
+<p><strong>Abszolút hiba:</strong> legyen a₀ a pontos érték, a a közelítő érték → hiba = a − a₀. <strong>Hibakorlát:</strong> |a − a₀| ≤ Δa.</p>
+<p><strong>Relatív hiba:</strong> δ = (a − a₀) / a₀ — százalékban kifejezve. Mivel a₀ általában ismeretlen: δ ≈ (a − a₀) / a.</p>
+<p><strong>Biztos számjegyek és relatív hiba kapcsolata:</strong>
+- 10% relatív hiba → 1 biztos számjegy
+- 1% → 2 biztos számjegy
+- 0.1% → 3 biztos számjegy</p>
+<p><strong>Hibaterjedés:</strong> a származtatott mennyiségek hibája. Ha y = f(x) és Δx adott, akkor Δy ≈ |f'(x)| · Δx.</p>
+<h3>Nemlineáris egyenletek megoldása</h3>
+<p><strong>Cél:</strong> f(x) = 0 megoldása numerikus közelítéssel.</p>
+<p><strong>Feltételek:</strong>
+- f folytonos a vizsgált [a, b] intervallumon
+- [a, b]-n pontosan 1 zérushelye van
+- f(a) · f(b) &lt; 0 (előjelváltás)</p>
+<p><strong>Intervallumfelező eljárás (bisection):</strong>
+1. Felezzük az intervallumot: c = (a+b)/2
+2. Megnézzük, melyik fél tartalmazza a zérushelyet (előjelváltás)
+3. Ezzel folytatjuk
+4. Hibahatár elérésekor leállunk</p>
+<p>Lineárisan konvergens, <strong>mindig működik</strong>, de viszonylag lassú.</p>
+<p><strong>Húrmódszer:</strong> két ponton átmenő egyenes metszéspontja az x tengellyel. Gyorsabban konvergál, mint a felezés, ugyanazok a feltételek.</p>
+<p><strong>Érintőmódszer (Newton-Raphson):</strong> csak 1 kezdőpont. Az f érintőjének metszéspontja az x tengellyel.</p>
+<p>Iterációs formula: <strong>xₙ₊₁ = xₙ − f(xₙ) / f'(xₙ)</strong></p>
+<ul>
+<li>Előny: <strong>kvadratikus konvergencia</strong> (gyors)</li>
+<li>Hátrány: f-nek deriválhatónak kell lennie; rossz kezdőponttal divergálhat</li>
+</ul>
+<p><strong>Szelő módszer:</strong> ha nem deriválható mindenhol → az első érintő iránytangensét használjuk párhuzamos egyenesekhez. Lassabb a Newtonnál.</p>
+<p><strong>Inverz interpoláció (fixpont-iteráció):</strong> f(x) = 0 átírható x = g(x) alakra. Iteráció: xₙ₊₁ = g(xₙ). Konvergens, ha |g'(x)| &lt; 1 a fixpont környékén.</p>
+<h3>Numerikus integrálás</h3>
+<p><strong>Cél:</strong> ∫ₐᵇ f(x) dx közelítő számítása (görbe alatti terület).</p>
+<p><strong>Téglalap-módszer:</strong> [a, b]-t n részre osztjuk (lépésköz h = (b-a)/n), minden részen egy téglalap területét összegezzük:
+- <strong>Alsó:</strong> a részintervallumon a függvény minimumát vesszük magasságnak
+- <strong>Felső:</strong> maximumot
+- <strong>Első:</strong> f(xᵢ) magasság (bal oldali pont)
+- <strong>Második:</strong> f(xᵢ₊₁) magasság (jobb oldali pont)
+- <strong>Harmadik / középpont:</strong> f((xᵢ + xᵢ₊₁)/2) magasság — legpontosabb</p>
+<p><strong>Trapéz-módszer:</strong> a részintervallum két végpontját egyenessel kötjük össze → trapéz. <strong>Elsőfokú</strong> interpoláció.</p>
+<p>Σ ≈ h × [f(x₀)/2 + f(x₁) + f(x₂) + … + f(xₙ₋₁) + f(xₙ)/2]</p>
+<p><strong>Simpson-formula:</strong> veszünk három egymást követő osztópontot Pᵢ₋₁, Pᵢ, Pᵢ₊₁ → másodfokú (Lagrange) interpoláció. Ennek integrálja:</p>
+<p>Σ ≈ (h/3) × [f(x₀) + 4f(x₁) + 2f(x₂) + 4f(x₃) + 2f(x₄) + … + 4f(xₙ₋₁) + f(xₙ)]</p>
+<p><strong>Feltétel:</strong> legalább 5 osztópont, és <strong>páratlan számú</strong> (azaz n páros).</p>
+<p>A téglalapnál nulladfokú, a trapéznál elsőfokú, a Simpson-nál másodfokú polinommal közelítünk → egyre pontosabb.</p>
+<h3>Lineáris egyenletrendszerek megoldása</h3>
+<p>A·x = b alakú rendszer, ahol A egy n×n mátrix.</p>
+<p><strong>Megoldás módjai:</strong>
+- <strong>Behelyettesítés / kifejezés:</strong> kis rendszereknél
+- <strong>Gauss-elimináció:</strong> kiterjesztett mátrix sorát átalakítjuk háromszögmátrixszá, majd visszahelyettesítünk</p>
+<p><strong>Elemi sorekvivalens átalakítások:</strong>
+1. Sorok felcserélése
+2. Egy sor szorzása nullától különböző számmal
+3. Egy sor konstansszorosának hozzáadása másik sorhoz</p>
+<p><strong>Gauss-elimináció lépései:</strong>
+1. Felírjuk kiterjesztett mátrixos alakban [A | b]
+2. Felső háromszögre hozzuk az elimi átalakításokkal
+3. Visszahelyettesítéssel megoldjuk</p>
+<p><strong>Variánsok:</strong> részleges/teljes főelem-kiválasztás (numerikus stabilitásra), Gauss-Jordan (diagonálig megy), LU-felbontás (eltárolja a műveleteket).</p>
+<h3>Függvény kiértékelés</h3>
+<p><strong>Horner-módszer:</strong> polinomok hatékony kiértékelése. A polinom hatványait szorzás+összeadássá rendezi át:</p>
+<p>p(x) = aₙxⁿ + aₙ₋₁xⁿ⁻¹ + … + a₁x + a₀ = ((…(aₙx + aₙ₋₁)x + …)x + a₁)x + a₀</p>
+<p>Csak (n) szorzás és (n) összeadás — nincs hatványozás.</p>
+<p><strong>Taylor-polinom:</strong> függvények közelítése polinom-sorral.</p>
+<p>f(x) ≈ f(a) + f'(a)(x−a) + f''(a)(x−a)²/2! + … + fⁿ(a)(x−a)ⁿ/n!</p>
+<ul>
+<li>A polinom és a függvény az <strong>a pontban pontosan megegyezik</strong></li>
+<li>Ahogy távolodunk → pontosság csökken</li>
+<li>Minél több tag → pontosabb és tovább érvényes</li>
+</ul>
+<p>Ismert sorok: eˣ, sin x, cos x, ln(1+x), (1+x)^α.</p>
+<h3>Interpoláció</h3>
+<p>Ismert n alappontból olyan polinomot keresünk, ami <strong>átmegy mindegyiken</strong>. Felhasználása méréseknél: ismert pontok, ismeretlen közöttiek becslése.</p>
+<p>A polinom fokszáma = pontok száma − 1.</p>
+<p><strong>Lagrange-interpoláció:</strong> minden alapponthoz egy bázispolinom — összegzéssel megkapjuk az interpolációs polinomot.</p>
+<p>L(x) = Σᵢ yᵢ · Lᵢ(x), ahol Lᵢ(x) = Πⱼ≠ᵢ (x − xⱼ) / (xᵢ − xⱼ)</p>
+<p>Hátrány: új pont hozzáadásakor <strong>teljesen újra kell</strong> számolni.</p>
+<h3>✚ Pótlás: Newton-féle interpoláció</h3>
+<p>A Lagrange-hoz képest hatékony, <strong>inkrementális</strong> módszer — új pont hozzáadásakor csak az új tagot kell hozzáadni, az előzőt nem kell újraszámolni.</p>
+<p><strong>Newton-féle osztott differenciák:</strong></p>
+<p>f[xᵢ] = f(xᵢ)
+f[xᵢ, xᵢ₊₁] = (f[xᵢ₊₁] − f[xᵢ]) / (xᵢ₊₁ − xᵢ)
+f[xᵢ, xᵢ₊₁, xᵢ₊₂] = (f[xᵢ₊₁, xᵢ₊₂] − f[xᵢ, xᵢ₊₁]) / (xᵢ₊₂ − xᵢ)</p>
+<p>… és így tovább rekurzívan.</p>
+<p><strong>Newton-interpolációs polinom:</strong></p>
+<p>N(x) = f[x₀] + f[x₀, x₁]·(x − x₀) + f[x₀, x₁, x₂]·(x − x₀)(x − x₁) + … + f[x₀, …, xₙ]·(x − x₀)(x − x₁)…(x − xₙ₋₁)</p>
+<p><strong>Előny vs Lagrange:</strong> új pont hozzáadásakor csak egy új tagot számolunk, az előzők változatlanok.</p>
+<h3>Legkisebb négyzetek módszere</h3>
+<p><strong>Lineáris regresszió:</strong> ponthalmazhoz keressük a <strong>legjobban illeszkedő egyenest</strong> (vagy görbét).</p>
+<ul>
+<li><strong>NEM interpoláció</strong> — a görbe nem szükségszerűen megy át a pontokon</li>
+<li><strong>Cél:</strong> az eltérések négyzetösszegét minimalizálni: Σ(yᵢ − ŷᵢ)² → min</li>
+<li>Feltételezi, hogy a változók között van <strong>kapcsolat</strong></li>
+</ul>
+<p>Egyenes esetén (y = mx + b):</p>
+<p>m = (n·Σxᵢyᵢ − Σxᵢ·Σyᵢ) / (n·Σxᵢ² − (Σxᵢ)²)
+b = (Σyᵢ − m·Σxᵢ) / n</p>
+<p>Általánosítható nemlineáris függvényekre is (ha azok paramétereiben lineárisak), valamint <strong>többváltozós regresszióra</strong>.</p>
+<hr />
+<h2>b) Operációs rendszerek (alapok és funkciók)</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+8. Az operációs rendszerek funkciói, alapfogalmai
+9. A virtualizáció
+10. Processz kezelés, fájlrendszerek és szolgáltatásaik, hibatűrő diszk rendszerek
+11. Jogosultsági rendszerek az operációs rendszerekben</p>
+<p><strong>Megjegyzés:</strong> Sok átfedés a 4.b tétellel. Itt egységesebben szervezett funkciókat tárgyalunk.</p>
+</blockquote>
+<h3>OS funkciói</h3>
+<ol>
+<li><strong>Erőforrás-menedzsment:</strong> CPU, memória, IO, fájlok elosztása több processz között</li>
+<li><strong>Processz / szál kezelés:</strong> ütemezés, IPC, szinkronizáció</li>
+<li><strong>Memóriakezelés:</strong> virtuális memória, lapozás, swap</li>
+<li><strong>Fájlrendszer:</strong> absztrakció a háttértár felett</li>
+<li><strong>IO kezelés:</strong> driverek, perifériák</li>
+<li><strong>Biztonság, jogosultság:</strong> felhasználók, csoportok, ACL-ek</li>
+<li><strong>Hálózati szolgáltatás:</strong> TCP/IP stack, socketek</li>
+<li><strong>Felhasználói felület:</strong> shell, GUI</li>
+</ol>
+<h3>Kernel, processz, szál</h3>
+<p><strong>Kernel:</strong> privilegizált módban fut, közvetlenül a hardverrel beszél. Lásd 4.b — monolitikus / mikrokernel / hibrid.</p>
+<p><strong>Processz:</strong> futó program egy példánya. Tartalma:
+- <strong>Saját címtér</strong> (memória)
+- <strong>PID</strong> (Process ID)
+- <strong>Állapot</strong> (új, ready, running, waiting, terminated)
+- <strong>Regiszter állapot, programszámláló</strong>
+- <strong>Fájlleírók, környezeti változók</strong></p>
+<p><strong>Szál (thread):</strong> processzen belüli könnyűsúlyú végrehajtási egység.
+- <strong>Közös</strong> címtér a többi szállal
+- Saját <strong>stack</strong> és <strong>regiszter állapot</strong>
+- Gyors kontextusváltás (csak regiszterek)
+- Szinkronizációs primitívek: mutex, szemafor, kondíciós változó</p>
+<h3>Ütemezés</h3>
+<p><strong>Cél:</strong> méltányos és hatékony CPU-megosztás.</p>
+<p><strong>Algoritmusok (lásd 4.b is):</strong>
+- <strong>FCFS</strong> (First Come First Served) — egyszerű, konvoj-hatás
+- <strong>SJF</strong> (Shortest Job First) — optimális várakozási idő, de éhezhet hosszú jobs
+- <strong>Round Robin</strong> — időszelet-alapú; rövid időszelet = sok kontextusváltás
+- <strong>Prioritás-alapú</strong> — éhezhetnek alacsony prioritásúak; öregítéssel oldható
+- <strong>Multilevel feedback queue</strong> — több prioritási sor, dinamikus áthelyezés</p>
+<h3>Virtualizáció</h3>
+<p>Lásd 4.b: full vs para- vs OS-szintű (konténer). <strong>Hypervisor</strong> kezeli a VM-eket. Konténerek <strong>közös kernelt</strong> használnak.</p>
+<h3>Fájlrendszerek és szolgáltatásaik</h3>
+<p><strong>Fájlrendszer szolgáltatásai:</strong>
+- <strong>Hierarchikus szervezés</strong> (könyvtárak, fa)
+- <strong>Attribútumok:</strong> méret, jogosultság, létrehozás/módosítás dátum
+- <strong>Hozzáférés-vezérlés:</strong> ACL, jogosultsági bitek
+- <strong>Lock-olás:</strong> több processz egyidejű hozzáférésének koordinálása
+- <strong>Journaling:</strong> átmeneti állapotok naplózása → crash után gyorsan visszaállítható konzisztens állapot</p>
+<p><strong>Tipikus fájlrendszerek:</strong>
+- <strong>NTFS</strong> (Windows): journaling, ACL, kompresszió, titkosítás
+- <strong>ext4</strong> (Linux): journaling, gyors, nagy lemezekre
+- <strong>APFS</strong> (macOS): copy-on-write, snapshot
+- <strong>ZFS / Btrfs:</strong> modern, snapshot, integrált RAID-szerű képességek
+- <strong>FAT32 / exFAT:</strong> egyszerű, kompatibilis, USB drive</p>
+<h3>Hibatűrő diszk rendszerek (RAID)</h3>
+<p>Lásd 4.b is. Lényeg:</p>
+<ul>
+<li><strong>RAID 0:</strong> striping, sebesség, <strong>nincs</strong> redundancia</li>
+<li><strong>RAID 1:</strong> mirror, redundancia</li>
+<li><strong>RAID 5:</strong> striping + 1 paritás (1 lemez hibáját tűri, gazdaságos)</li>
+<li><strong>RAID 6:</strong> + 2 paritás (2 lemez hibáját tűri)</li>
+<li><strong>RAID 10:</strong> mirror + stripe (gyors és redundáns)</li>
+</ul>
+<p>Az OS gyakran <strong>szoftveres RAID-et</strong> is támogat (Linux: <code>mdadm</code>; Windows: Storage Spaces).</p>
+<h3>Jogosultsági rendszerek</h3>
+<p><strong>Felhasználók és csoportok:</strong> minden processz egy felhasználói azonosító (UID) és csoport (GID) nevében fut.</p>
+<p><strong>Linux/Unix:</strong>
+- 3 csoport (owner, group, others) × 3 művelet (r, w, x) = <strong>9 bit</strong> + extra (setuid, setgid, sticky)
+- Pl. <code>chmod 755</code>, <code>chown user:group file</code>
+- <strong>sudo:</strong> ideiglenes magasabb jogosultság</p>
+<p><strong>Windows:</strong>
+- <strong>ACL (Access Control List):</strong> részletes szabályok felhasználónként/csoportonként
+- Allow / Deny szabályok, <strong>örökölhető</strong> mappákra
+- <strong>UAC (User Account Control):</strong> ideiglenes jogosultság-emelés</p>
+<p><strong>Mindkettő:</strong>
+- <strong>Autentikáció:</strong> ki vagyok (jelszó, token, biometria)
+- <strong>Autorizáció:</strong> mit tehetek
+- <strong>Audit:</strong> ki mit csinált</p>
+<h3>Adatmentés és archiválás</h3>
+<p>Lásd 4.b. Tipikus stratégiák: full + inkrementális; 3-2-1 szabály. Eszközök: <code>tar</code>, <code>rsync</code>, <code>cron</code>, dedikált backup szoftverek.</p>
+<hr />
+<h2>⚡ Kvíz / kulcsfogalmak</h2>
+<ul>
+<li>4 hibatípus (input, modell, módszer, számítógép)</li>
+<li>Absz. vs rel. hiba, biztos számjegyek</li>
+<li>Intervallumfelező feltételei</li>
+<li>Newton-Raphson formula, kvadratikus konvergencia</li>
+<li>Téglalap / trapéz / Simpson — milyen fokú interpolációval</li>
+<li>Simpson formula súlyozása (1 - 4 - 2 - 4 - 2 - 4 - 1)</li>
+<li>Gauss-elimináció 3 elemi átalakítása</li>
+<li>Horner-módszer lényege</li>
+<li>Taylor-polinom közelítése egy a pont körül</li>
+<li>Lagrange vs Newton interpoláció: Newton inkrementális!</li>
+<li>Newton-féle osztott differenciák képzése</li>
+<li>Legkisebb négyzetek célja (nem interpoláció!)</li>
+<li>OS 8 funkciója</li>
+<li>Processz vs szál (mit oszt meg, mit nem)</li>
+<li>5 ütemezési algoritmus</li>
+<li>Journaling lényege</li>
+<li>Linux jogosultság vs Windows ACL</li>
+</ul>
+    </article>
+
+    
+      <nav class="page-nav bottom">
+        <a href="tetel_05.html" class="nav-btn nav-prev">← 5. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_07.html" class="nav-btn nav-next">7. tétel →</a>
+      </nav>
+  </div>
+  <script>
+const THEME_KEY = "kondenzalt-theme";
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  const btn = document.getElementById('theme-btn');
+  if (btn) btn.textContent = t === 'dark' ? '☀ Világos' : '🌙 Sötét';
+}
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  localStorage.setItem(THEME_KEY, next);
+  applyTheme(next);
+}
+(function() {
+  const t = localStorage.getItem(THEME_KEY) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(t);
+})();
+
+// Keyboard nav between tetelek: Left/Right arrow
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, textarea, select')) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'ArrowLeft') {
+    const prev = document.querySelector('.nav-prev');
+    if (prev && !prev.classList.contains('nav-disabled')) prev.click();
+  } else if (e.key === 'ArrowRight') {
+    const next = document.querySelector('.nav-next');
+    if (next && !next.classList.contains('nav-disabled')) next.click();
+  }
+});
+</script>
+</body>
+</html>

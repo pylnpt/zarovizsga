@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="hu" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>13. tétel — kondenzált</title>
+  <style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #faf9f5;
+  --surface: #ffffff;
+  --surface-2: #f3f1ea;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #e5e2d8;
+  --accent: #6d28d9;
+  --accent-soft: #ede9fe;
+  --code-bg: #f5f3ec;
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+}
+[data-theme="dark"] {
+  --bg: #0f0f12;
+  --surface: #1a1a1f;
+  --surface-2: #232329;
+  --text: #ececec;
+  --muted: #9a9a9a;
+  --border: #2d2d33;
+  --accent: #a78bfa;
+  --accent-soft: #2a1f50;
+  --code-bg: #1d1d24;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.3);
+}
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg); color: var(--text);
+  font-size: 16px; line-height: 1.7;
+}
+.wrap { max-width: 900px; margin: 0 auto; padding: 28px 24px 72px; }
+
+header.site {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 22px;
+}
+header.site h1 {
+  margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;
+}
+header.site h1 small {
+  display: block; font-size: 13px; font-weight: 400; color: var(--muted); margin-top: 4px;
+}
+.theme-toggle {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 14px;
+}
+.theme-toggle:hover { background: var(--surface-2); }
+
+/* Per-tetel page navigation */
+.page-nav {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 20px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 12px;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+.page-nav.bottom { margin: 28px 0 0; position: static; }
+.nav-btn {
+  padding: 8px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.nav-btn:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.nav-home {
+  background: var(--accent);
+  color: white !important;
+  border-color: var(--accent);
+}
+.nav-home:hover { opacity: 0.9; }
+.nav-disabled {
+  opacity: 0.4; cursor: not-allowed; pointer-events: none;
+  color: var(--muted);
+}
+.nav-spacer { flex: 1; }
+
+/* Index: tetel card grid */
+.tetel-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin: 20px 0 30px;
+}
+.tetel-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.15s;
+  box-shadow: var(--shadow);
+}
+.tetel-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(109, 40, 217, 0.16);
+}
+.tetel-card .tetel-num {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+  min-width: 48px;
+}
+.tetel-card .tetel-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.tetel-card .tetel-arrow {
+  color: var(--muted);
+  font-size: 20px;
+}
+.tetel-card:hover .tetel-arrow { color: var(--accent); }
+
+.index-note {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.index-note strong { color: var(--accent); }
+.index-note kbd {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+/* Tetel article */
+article.tetel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 26px 30px 30px;
+  margin-bottom: 12px;
+}
+
+article.tetel h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 0 0 22px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--accent-soft);
+  letter-spacing: -0.3px;
+}
+
+article.tetel h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 32px 0 16px;
+  padding: 10px 14px;
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+}
+
+article.tetel h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 26px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid var(--accent-soft);
+}
+
+article.tetel h4 {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 20px 0 8px;
+}
+
+article.tetel blockquote {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  padding: 12px 16px;
+  margin: 12px 0 22px;
+  border-radius: 0 8px 8px 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+article.tetel blockquote p { margin: 0; }
+article.tetel blockquote strong { color: var(--accent); }
+
+article.tetel p { margin: 0 0 13px; line-height: 1.72; }
+article.tetel p strong, article.tetel li strong {
+  color: var(--accent); font-weight: 700;
+}
+
+article.tetel ul, article.tetel ol {
+  margin: 10px 0 16px; padding-left: 26px;
+}
+article.tetel li { margin: 7px 0; line-height: 1.62; }
+article.tetel ul { list-style: none; padding-left: 6px; }
+article.tetel ul li { position: relative; padding-left: 22px; }
+article.tetel ul li::before {
+  content: ""; position: absolute; left: 4px; top: 10px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+}
+article.tetel ol { padding-left: 28px; }
+article.tetel ol li::marker { color: var(--accent); font-weight: 700; }
+
+article.tetel hr {
+  border: none;
+  border-top: 2px dashed var(--border);
+  margin: 32px 0;
+}
+
+article.tetel code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+article.tetel pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 14px 0;
+}
+article.tetel pre code {
+  background: none; padding: 0; color: var(--text);
+  font-size: 13px; line-height: 1.55;
+}
+
+article.tetel table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+article.tetel th, article.tetel td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+article.tetel th {
+  background: var(--surface-2);
+  font-weight: 700;
+  font-size: 13px;
+}
+article.tetel tr:last-child td { border-bottom: none; }
+article.tetel tbody tr:nth-child(even) { background: var(--surface-2); }
+
+footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 50px; }
+
+@media (max-width: 720px) {
+  .wrap { padding: 14px 12px 56px; }
+  header.site h1 { font-size: 19px; }
+  article.tetel { padding: 18px 18px 22px; }
+  article.tetel h1 { font-size: 20px; }
+  article.tetel h2 { font-size: 17px; }
+  article.tetel h3 { font-size: 15.5px; }
+  .page-nav { padding: 8px; gap: 6px; }
+  .nav-btn { padding: 6px 10px; font-size: 13px; }
+  .tetel-card { padding: 14px 16px; }
+  .tetel-card .tetel-num { font-size: 22px; min-width: 40px; }
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site">
+      <h1>13. tétel
+        <small>13. tétel — Webprogramozás (PHP) · Programozási technológiák (minták)</small>
+      </h1>
+      <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙 Sötét</button>
+    </header>
+
+    
+      <nav class="page-nav">
+        <a href="tetel_12.html" class="nav-btn nav-prev">← 12. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_14.html" class="nav-btn nav-next">14. tétel →</a>
+      </nav>
+
+    <article class="tetel">
+      <h1>13. tétel — Webprogramozás (PHP) · Programozási technológiák (minták)</h1>
+<h2>a) Webprogramozás II — PHP</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+1. A dinamikus weboldalak jellemzői, összehasonlításuk a statikus tartalmakkal
+2. A PHP nyelv jellemzői, használatának feltételei a webfejlesztés során
+3. Kliens és szerver oldali infrastruktúra a PHP futtatásához
+4. A PHP típusrendszere: típusok, konstansok, változók a PHP-ban
+5. A HTML és a PHP kapcsolata
+6. Modulszerkezet kialakítása, a forráskód újrahasznosításának lehetőségei
+7. Adatcsere a kliens és szerver oldal között
+8. Biztonsági kérdések
+9. Munkafolyamatok és sütik kezelése</p>
+</blockquote>
+<h3>Dinamikus vs statikus weboldalak</h3>
+<p><strong>Statikus weboldal:</strong>
+- A szerver mindig <strong>ugyanazt</strong> a HTML-t küldi vissza
+- Tartalom közvetlenül a fájlrendszerben (.html fájlok)
+- Gyors, egyszerű
+- Nem személyre szabható, nem interaktív</p>
+<p><strong>Dinamikus weboldal:</strong>
+- A szerver <strong>futás közben generálja</strong> az oldalt (felhasználó, adatbázis, paraméterek alapján)
+- PHP, Python, Node.js, ASP.NET stb. szerver-oldali kód
+- Bejelentkezés, e-shop, fórum, közösségi oldal
+- Komplexebb, lassabb (de cache-elhető)</p>
+<h3>PHP nyelv jellemzői</h3>
+<p><strong>PHP (PHP: Hypertext Preprocessor):</strong> szerver oldali, dinamikusan típusos, interpretált programozási nyelv. Eredetileg webfejlesztésre.</p>
+<p><strong>Jellemzői:</strong>
+- <strong>Dinamikusan típusos</strong> — futás közben dől el a típus
+- <strong>C-szerű szintaxis</strong>
+- <strong>Beágyazható HTML-be</strong> közvetlenül
+- <strong>Nagy közösség</strong>, sok keretrendszer (Laravel, Symfony)
+- <strong>Beépített</strong> webhez kapcsolódó függvények (cookie, session, DB, fájl)
+- <strong>WordPress, Drupal, Magento</strong> mind PHP-ban íródott</p>
+<p><strong>Használat feltételei:</strong>
+- A szerveren legyen <strong>PHP interpreter</strong>
+- <strong>Webszerver</strong> (Apache, Nginx) konfigurálva legyen PHP-feldolgozásra (gyakran FastCGI/PHP-FPM)
+- Adatbázis-kapcsolat (általában MySQL/MariaDB) — opcionális</p>
+<h3>Kliens és szerver oldali infrastruktúra</h3>
+<p><strong>Kliens oldal (böngészőben fut):</strong>
+- HTML (struktúra)
+- CSS (kinézet)
+- JavaScript (interaktivitás)</p>
+<p><strong>Szerver oldal (szerveren fut):</strong>
+- Webszerver (Apache, Nginx, IIS)
+- PHP interpreter (vagy másik szerver-oldali nyelv)
+- Adatbázis (MySQL, PostgreSQL)
+- Cache (Redis, Memcached)
+- A LAMP stack: <strong>L</strong>inux + <strong>A</strong>pache + <strong>M</strong>ySQL + <strong>P</strong>HP</p>
+<p><strong>Életciklus egy PHP kérésnél:</strong>
+1. Böngésző küld HTTP kérést a szervernek (pl. <code>GET /index.php</code>)
+2. Webszerver fogadja, PHP fájl esetén a PHP interpreternek továbbítja
+3. PHP interpreter értelmezi a fájlt, futtatja a kódot
+4. Eredmény (általában HTML) visszamegy a kliensnek
+5. Böngésző megjeleníti</p>
+<h3>PHP típusrendszere</h3>
+<p><strong>Skalár típusok:</strong>
+- <code>int</code> — egész
+- <code>float</code> (vagy <code>double</code>) — lebegőpontos
+- <code>string</code> — szöveg
+- <code>bool</code> — logikai</p>
+<p><strong>Összetett:</strong>
+- <code>array</code> — szám- vagy string-kulcsos asszociatív tömb (ami egyben lista is)
+- <code>object</code> — osztály példánya
+- <code>callable</code> — függvényre hivatkozás</p>
+<p><strong>Speciális:</strong>
+- <code>null</code> — érték hiánya
+- <code>resource</code> — külső erőforrás (fájl, DB kapcsolat)</p>
+<p><strong>Dinamikus típusosság:</strong> változó típusa <strong>futás közben változhat</strong>.</p>
+<pre><code class="language-php">$x = 5;       // int
+$x = &quot;öt&quot;;    // string — ugyanaz a változó
+</code></pre>
+<h3>Konstansok és változók</h3>
+<p><strong>Változó:</strong> <code>$</code> jellel kezdődik.</p>
+<pre><code class="language-php">$nev = &quot;Anna&quot;;
+$eletkor = 25;
+</code></pre>
+<p><strong>Konstans:</strong> <code>define()</code> függvénnyel vagy <code>const</code> kulcsszóval.</p>
+<pre><code class="language-php">define('PI', 3.14);
+const VERSION = '1.0';
+echo PI;
+</code></pre>
+<p><strong>Predefinált változók (superglobálisok):</strong>
+- <code>$_GET</code> — URL paraméterek
+- <code>$_POST</code> — form mezők
+- <code>$_REQUEST</code> — GET + POST + COOKIE
+- <code>$_SESSION</code> — session adatok
+- <code>$_COOKIE</code> — sütik
+- <code>$_FILES</code> — feltöltött fájlok
+- <code>$_SERVER</code> — szerver és kliens info</p>
+<h3>HTML és PHP kapcsolata</h3>
+<p>PHP közvetlenül HTML-be ágyazható <code>&lt;?php ... ?&gt;</code> blokkokkal.</p>
+<pre><code class="language-php">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello, &lt;?php echo $nev; ?&gt;!&lt;/h1&gt;
+    &lt;?php if ($eletkor &gt;= 18): ?&gt;
+        &lt;p&gt;Nagykorú vagy.&lt;/p&gt;
+    &lt;?php else: ?&gt;
+        &lt;p&gt;Kiskorú vagy.&lt;/p&gt;
+    &lt;?php endif; ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>A PHP feldolgozza a <code>&lt;?php ?&gt;</code> részeket, a többit változatlanul küldi a kliensnek.</p>
+<h3>Modulszerkezet, kód-újrahasznosítás</h3>
+<p><strong><code>include 'fajl.php';</code></strong> — egy másik PHP fájl tartalmát beemeli. Ha hiányzik → figyelmeztetés.</p>
+<p><strong><code>require 'fajl.php';</code></strong> — ugyanaz, de hiányzó fájl esetén <strong>fatális hiba</strong> (állj).</p>
+<p><strong><code>include_once</code> / <code>require_once</code></strong> — csak egyszer, akkor sem ha többször hívnánk (osztálydefinícióknál).</p>
+<p><strong>Strukturálás:</strong>
+- Konfiguráció külön fájlban (<code>config.php</code>)
+- Adatbázis-kapcsolat külön fájlban
+- Header / footer komponensek
+- Osztályok külön fájlban (PSR-4 autoloading)</p>
+<p><strong>Modern megközelítés:</strong> <strong>PSR-4 autoloading</strong> — névtér alapján automatikusan tölt be osztályfájlokat.</p>
+<pre><code class="language-php">spl_autoload_register(function ($class) {
+    include &quot;classes/$class.php&quot;;
+});
+</code></pre>
+<h3>Adatcsere a kliens és szerver között</h3>
+<p><strong>Form (HTML):</strong></p>
+<pre><code class="language-html">&lt;form method=&quot;POST&quot; action=&quot;kezelo.php&quot;&gt;
+    &lt;input name=&quot;nev&quot; /&gt;
+    &lt;input type=&quot;submit&quot; /&gt;
+&lt;/form&gt;
+</code></pre>
+<p><strong>PHP oldal:</strong></p>
+<pre><code class="language-php">$nev = $_POST['nev'];
+echo &quot;Szia, $nev!&quot;;
+</code></pre>
+<p><strong>HTTP módszerek:</strong>
+- <strong>GET:</strong> URL-ben (látható, könyvjelzőzhető). Adatlekérdezéshez. <code>$_GET</code>-tel.
+- <strong>POST:</strong> body-ban (nem látszik az URL-ben, nem cache-elt). Adat-módosításhoz. <code>$_POST</code>-tal.</p>
+<p><strong>AJAX:</strong> JavaScript-tel a kliens aszinkron HTTP-kérést küld a szervernek — nem kell az egész oldalt újratölteni.</p>
+<p><strong>JSON:</strong> modern szerver-kliens kommunikáció (REST API).</p>
+<pre><code class="language-php">header('Content-Type: application/json');
+echo json_encode(['nev' =&gt; 'Anna', 'eletkor' =&gt; 25]);
+</code></pre>
+<h3>Biztonsági kérdések</h3>
+<p><strong>SQL Injection:</strong> ha a felhasználói input közvetlenül SQL-be megy.</p>
+<pre><code class="language-php">// ROSSZ:
+$id = $_GET['id'];
+$sql = &quot;SELECT * FROM users WHERE id = $id&quot;;
+
+// JÓ — prepared statement:
+$stmt = $pdo-&gt;prepare(&quot;SELECT * FROM users WHERE id = ?&quot;);
+$stmt-&gt;execute([$_GET['id']]);
+</code></pre>
+<p><strong>XSS (Cross-Site Scripting):</strong> ha kliens input visszaíródik a HTML-be JavaScript-tel.</p>
+<pre><code class="language-php">// ROSSZ:
+echo $_GET['nev'];
+
+// JÓ:
+echo htmlspecialchars($_GET['nev'], ENT_QUOTES, 'UTF-8');
+</code></pre>
+<p><strong>CSRF (Cross-Site Request Forgery):</strong> valaki más nevében küldenek kérést.
+- <strong>Védelem:</strong> CSRF token form-ban + ellenőrzés szerveren
+- <code>SameSite</code> cookie attribútum</p>
+<p><strong>Egyéb:</strong>
+- <strong>Jelszó hashelés:</strong> soha tisztán! <code>password_hash()</code> és <code>password_verify()</code> (bcrypt/argon2)
+- <strong>HTTPS</strong> mindenhol
+- <strong>Input validáció</strong> szerver oldalon (a kliens validációba ne bízzunk meg)
+- <strong>File upload:</strong> ellenőrizd a típust, ne futtatható mappába mentsd</p>
+<h3>Munkafolyamatok (session) és sütik</h3>
+<p><strong>Cookie (süti):</strong> a szerver kis adatdarabot tárol a kliens böngészőjében, és minden kéréssel visszaküldi.</p>
+<pre><code class="language-php">setcookie(&quot;user&quot;, &quot;anna&quot;, time() + 3600);  // 1 órás
+echo $_COOKIE[&quot;user&quot;];
+</code></pre>
+<ul>
+<li>A kliensen tárolódik — limit ~4 KB, manipulálható</li>
+<li><strong>HttpOnly</strong> flag: JavaScriptből nem érhető el (XSS védelem)</li>
+<li><strong>Secure</strong> flag: csak HTTPS-en megy át</li>
+<li><strong>SameSite:</strong> CSRF védelem</li>
+</ul>
+<p><strong>Session:</strong> szerver oldali állapot-tárolás. A kliens csak egy <strong>session ID-t</strong> tárol cookie-ban (vagy URL-ben), az adat a szerveren van.</p>
+<pre><code class="language-php">session_start();
+$_SESSION['user_id'] = 42;
+echo $_SESSION['user_id'];
+</code></pre>
+<ul>
+<li>Nem manipulálható a klienstől (csak a session ID lopható)</li>
+<li>Bejelentkezett állapot megőrzése, kosár tartalma stb.</li>
+</ul>
+<hr />
+<h2>b) Programozási technológiák — tervezési minták</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+10. Tervezési minták szerepe és osztályozása a szoftverfejlesztésben
+11. A stratégia és a sablon metódus tervezési minta összehasonlítása, a megfigyelő tervezési minta szerepe és fajtái, egyéb tervezési minták
+12. Az objektumorientált tervezési alapelvek szerepe a szoftverfejlesztésben, a nyitva-zárt alapelv bemutatása, a GOF1 és a GOF2 alapelvek rövid bemutatása
+13. A jól bevált módszerek szerepe a szoftverfejlesztésben, a TDD bemutatása, egyéb jól bevált módszerek</p>
+</blockquote>
+<h3>Tervezési minták szerepe</h3>
+<p><strong>Tervezési minta (design pattern):</strong> <strong>újrahasznosítható megoldás</strong> egy gyakori tervezési problémára. Nem konkrét kód, hanem <strong>séma</strong> — sok helyzetben adaptálható.</p>
+<p><strong>Előnyök:</strong>
+- <strong>Közös szókincs</strong> — fejlesztők gyorsabban értik egymást
+- <strong>Bevált megoldások</strong> — sokan tesztelték
+- <strong>Karbantarthatóság</strong>
+- <strong>Bővíthetőség</strong></p>
+<p>A Gang of Four (GoF) könyv (1994) 23 mintát rendszerezett.</p>
+<h3>Tervezési minták osztályozása (GoF)</h3>
+<p><strong>1. Létrehozási (Creational) — hogyan készítünk objektumokat:</strong>
+- <strong>Egyke (Singleton)</strong> — egyetlen példány
+- <strong>Gyár-metódus (Factory Method)</strong>
+- <strong>Absztrakt gyár (Abstract Factory)</strong>
+- <strong>Építő (Builder)</strong>
+- <strong>Prototípus (Prototype)</strong></p>
+<p><strong>2. Szerkezeti (Structural) — hogyan állítunk össze osztályokat/objektumokat:</strong>
+- <strong>Adapter</strong> — illeszt két inkompatibilis interfészt
+- <strong>Díszítő (Decorator)</strong> — futás közben bővít funkciókkal
+- <strong>Proxy</strong> — helyettesít, vezérli a hozzáférést
+- <strong>Híd (Bridge)</strong>, <strong>Összetétel (Composite)</strong>, <strong>Légyszúly (Flyweight)</strong>, <strong>Homlokzat (Facade)</strong></p>
+<p><strong>3. Viselkedési (Behavioral) — hogyan kommunikálnak az objektumok:</strong>
+- <strong>Stratégia (Strategy)</strong> — algoritmus-családot kicserélhetővé tesz
+- <strong>Sablon metódus (Template Method)</strong> — algoritmus váza, lépéseket leszármazottak adják
+- <strong>Megfigyelő (Observer)</strong> — esemény-értesítés
+- <strong>Iterátor</strong>, <strong>Parancs (Command)</strong>, <strong>Állapot (State)</strong>, <strong>Felelősséglánc (Chain of Responsibility)</strong>, stb.</p>
+<h3>Stratégia vs Sablon metódus</h3>
+<p><strong>Stratégia (Strategy):</strong> egy interface, több implementáció. A kliens <strong>futás közben</strong> választ köztük — <strong>kompozícióval</strong> (delegálás).</p>
+<pre><code class="language-csharp">interface IRendezo {
+    void Rendezz(int[] arr);
+}
+
+class Buborek : IRendezo { ... }
+class Quicksort : IRendezo { ... }
+
+class Kontextus {
+    private IRendezo _strat;
+    public Kontextus(IRendezo s) { _strat = s; }
+    public void Csinald(int[] arr) { _strat.Rendezz(arr); }
+}
+</code></pre>
+<p><strong>Sablon metódus (Template Method):</strong> absztrakt osztály egy <strong>megírt vázzal</strong> (template method), aminek néhány lépését absztrakt metódusként hagyja — a leszármazott implementálja. <strong>Öröklődéssel.</strong></p>
+<pre><code class="language-csharp">abstract class Vaz {
+    public void Csinald() {     // template method
+        Lepes1();
+        Lepes2();
+        Lepes3();  // absztrakt
+    }
+    private void Lepes1() { ... }
+    private void Lepes2() { ... }
+    protected abstract void Lepes3();
+}
+
+class Konkret : Vaz {
+    protected override void Lepes3() { ... }
+}
+</code></pre>
+<p><strong>Összehasonlítás:</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Stratégia</th>
+<th>Sablon metódus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mechanizmus</td>
+<td>Kompozíció</td>
+<td>Öröklődés</td>
+</tr>
+<tr>
+<td>Variáció</td>
+<td>Cserélhető objektumok</td>
+<td>Felülírt metódusok</td>
+</tr>
+<tr>
+<td>Időpont</td>
+<td>Futás közben váltható</td>
+<td>Fordításkor rögzítve</td>
+</tr>
+<tr>
+<td>Algoritmus szerkezete</td>
+<td>Teljes a stratégiában</td>
+<td>Vázat ad, részleteket bízza</td>
+</tr>
+</tbody>
+</table>
+<h3>Megfigyelő (Observer)</h3>
+<p>Egy <strong>alany (Subject)</strong> objektum állapotváltozásairól értesít minden <strong>megfigyelőt (Observer)</strong>, anélkül, hogy ezek konkrét típusát ismerné.</p>
+<pre><code class="language-csharp">interface IObserver { void Update(string esemeny); }
+
+class Subject {
+    private List&lt;IObserver&gt; obs = new();
+    public void Subscribe(IObserver o) { obs.Add(o); }
+    public void Notify(string ev) {
+        foreach (var o in obs) o.Update(ev);
+    }
+}
+</code></pre>
+<p><strong>Fajtái:</strong>
+- <strong>Push:</strong> az alany az adatot is átadja a Notify-ban
+- <strong>Pull:</strong> az alany csak értesít, az observer lekérdezi szükség szerint</p>
+<p><strong>Felhasználás:</strong> GUI eseménykezelés, MVC, pub-sub minta, .NET event-jei.</p>
+<h3>Egyéb tervezési minták</h3>
+<p><strong>Egyke (Singleton):</strong></p>
+<pre><code class="language-csharp">public sealed class Logger {
+    private static Logger _instance;
+    private Logger() {}
+    public static Logger Instance =&gt; _instance ??= new Logger();
+}
+</code></pre>
+<p>Csak egy példány a teljes alkalmazásban. Logger, konfiguráció, DB kapcsolat-pool.</p>
+<p><strong>Díszítő (Decorator):</strong> objektumot körbeveszünk egy másikkal, ami <strong>kibővíti</strong> a viselkedését. Pl. stream tömörített/titkosított rétegek.</p>
+<p><strong>Adapter:</strong> két inkompatibilis interface-t illeszt össze (pl. régi API új API-hoz).</p>
+<p><strong>Iterátor:</strong> kollekció bejárási mechanizmusát különválasztja. C#-ban beépített (<code>IEnumerable&lt;T&gt;</code>, <code>foreach</code>).</p>
+<p><strong>Parancs (Command):</strong> kérést objektummá csomagolunk — undo, queue, log lehet rá.</p>
+<h3>OO tervezési alapelvek</h3>
+<p><strong>SOLID:</strong>
+- <strong>S — Single Responsibility:</strong> egy osztálynak egy felelőssége legyen
+- <strong>O — Open/Closed (nyitva-zárt):</strong> bővítésre nyitott, módosításra zárt
+- <strong>L — Liskov Substitution:</strong> ős helyett mindig használható a leszármazott
+- <strong>I — Interface Segregation:</strong> kis, fókuszált interface-ek (ne kényszerítsünk klienst olyan metódusokra, amiket nem használ)
+- <strong>D — Dependency Inversion:</strong> absztrakcióktól függünk, ne konkrét osztályoktól</p>
+<h3>Nyitva-zárt alapelv bemutatása</h3>
+<p><strong>Bővítésre nyitott, módosításra zárt.</strong> Új funkciókat tudjunk <strong>hozzátenni</strong> anélkül, hogy a meglévő (jól működő, tesztelt) kódot változtatnánk.</p>
+<p><strong>Megvalósítás:</strong> <strong>interface-ek és absztrakt osztályok</strong> + <strong>polimorfizmus</strong>. Egy új viselkedés = új implementáló osztály — a meglévőket nem kell hozzányúlni.</p>
+<p><strong>Példa — ROSSZ (módosításra nyitott):</strong></p>
+<pre><code class="language-csharp">class Calc {
+    public double Calc(string op, double a, double b) {
+        if (op == &quot;+&quot;) return a + b;
+        if (op == &quot;-&quot;) return a - b;
+        // új művelet → ezt a metódust módosítani kell
+    }
+}
+</code></pre>
+<p><strong>Példa — JÓ (nyitva-zárt):</strong></p>
+<pre><code class="language-csharp">interface IOp { double Apply(double a, double b); }
+class Add : IOp { ... }
+class Sub : IOp { ... }
+// új művelet → új osztály, a Calc nem változik
+</code></pre>
+<h3>GOF1 és GOF2 alapelvek</h3>
+<p><strong>GOF1 — "Programozz interfészre, ne implementációra"</strong>
+- A változókat / paraméterezést <strong>interface típusra</strong> írjuk, ne a konkrét osztályra
+- Lehetővé teszi az implementáció későbbi cseréjét anélkül, hogy a klienskódot módosítani kellene</p>
+<pre><code class="language-csharp">// rossz
+List&lt;int&gt; lista = new List&lt;int&gt;();
+
+// jó
+IList&lt;int&gt; lista = new List&lt;int&gt;();  // vagy IEnumerable, ICollection
+</code></pre>
+<p><strong>GOF2 — "Részesítsd előnyben a kompozíciót az öröklődéssel szemben"</strong>
+- Az öröklődés <strong>erős kapcsolat</strong> — futás közben nem változtatható
+- A kompozíció (egy másik objektum tartása) <strong>rugalmasabb</strong> — futás közben cserélhető
+- Pl. a Stratégia minta kompozíción alapul, és sokszor jobb, mint az öröklődéssel megoldás</p>
+<h3>Egyéb alapelvek</h3>
+<ul>
+<li><strong>DRY (Don't Repeat Yourself):</strong> ne ismételj kódot — egy logikának egy helyen kell lennie</li>
+<li><strong>KISS (Keep It Simple, Stupid):</strong> a legegyszerűbb működő megoldás a legjobb</li>
+<li><strong>YAGNI (You Aren't Gonna Need It):</strong> csak azt írd meg, amire most kell — ne tervezd túl</li>
+<li><strong>Demeter törvénye:</strong> csak a közvetlen szomszédoknak küldj üzenetet ("ne beszélj idegenekkel")</li>
+</ul>
+<h3>Jól bevált módszerek (best practices)</h3>
+<p><strong>TDD (Test-Driven Development):</strong></p>
+<p><strong>3 lépés (Red-Green-Refactor):</strong>
+1. <strong>Red:</strong> írj egy tesztet, ami <strong>megbukik</strong> (a funkció még nincs)
+2. <strong>Green:</strong> írj annyi kódot, hogy a teszt <strong>átmenjen</strong> — minimális megoldás
+3. <strong>Refactor:</strong> <strong>szépítsd</strong> a kódot, miközben a tesztek átmennek</p>
+<p><strong>Előnyök:</strong>
+- Automatikusan <strong>lefedett</strong> a kód tesztekkel
+- A kód <strong>tesztelhető</strong> szerkezetű lesz (mert úgy lett tervezve)
+- <strong>Korai visszajelzés</strong> — hibák hamar kiderülnek
+- <strong>Refactor-bátorság</strong> — biztosabbnak érzed magad</p>
+<h3>Egyéb jól bevált módszerek</h3>
+<ul>
+<li><strong>Code Review:</strong> minden kódot átnéz egy másik fejlesztő (PR-kezelés)</li>
+<li><strong>Continuous Integration (CI):</strong> minden commitnál automatikus build + teszt</li>
+<li><strong>Continuous Deployment (CD):</strong> zöld buildek automatikusan élesre kerülnek</li>
+<li><strong>Páros programozás:</strong> ketten egy gépen</li>
+<li><strong>Refactoring:</strong> a meglévő kód javítása a viselkedés megőrzésével</li>
+<li><strong>Naming conventions:</strong> beszédes, konzisztens változó- és metódusnevek</li>
+<li><strong>Verziókezelés (Git)</strong> — branch stratégiák (Git Flow, trunk-based)</li>
+<li><strong>Dokumentáció:</strong> kódba közvetlenül, vagy külön (README, JSDoc, doc-comment)</li>
+</ul>
+<hr />
+<h2>⚡ Kvíz / kulcsfogalmak</h2>
+<ul>
+<li>Statikus vs dinamikus weboldal</li>
+<li>LAMP stack</li>
+<li>PHP dinamikus típusosság</li>
+<li>$_GET / $_POST / $_SESSION / $_COOKIE különbsége</li>
+<li><code>include</code> vs <code>require</code> vs <code>*_once</code></li>
+<li>SQL Injection elleni védelem (prepared statements)</li>
+<li>XSS elleni védelem (htmlspecialchars)</li>
+<li>Cookie HttpOnly, Secure, SameSite flag-ek</li>
+<li>Session ID szerveroldali, az adat is ott</li>
+<li>3 GoF kategória (létrehozási, szerkezeti, viselkedési)</li>
+<li>Stratégia (kompozíció, futásban) vs Sablon metódus (öröklődés)</li>
+<li>Observer push vs pull</li>
+<li>SOLID 5 betűje</li>
+<li>Nyitva-zárt alapelv: új viselkedés = új osztály</li>
+<li>GOF1: interface-re programozz</li>
+<li>GOF2: kompozíció &gt; öröklődés</li>
+<li>DRY, KISS, YAGNI, Demeter</li>
+<li>TDD 3 lépése: Red, Green, Refactor</li>
+</ul>
+    </article>
+
+    
+      <nav class="page-nav bottom">
+        <a href="tetel_12.html" class="nav-btn nav-prev">← 12. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_14.html" class="nav-btn nav-next">14. tétel →</a>
+      </nav>
+  </div>
+  <script>
+const THEME_KEY = "kondenzalt-theme";
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  const btn = document.getElementById('theme-btn');
+  if (btn) btn.textContent = t === 'dark' ? '☀ Világos' : '🌙 Sötét';
+}
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  localStorage.setItem(THEME_KEY, next);
+  applyTheme(next);
+}
+(function() {
+  const t = localStorage.getItem(THEME_KEY) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(t);
+})();
+
+// Keyboard nav between tetelek: Left/Right arrow
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, textarea, select')) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'ArrowLeft') {
+    const prev = document.querySelector('.nav-prev');
+    if (prev && !prev.classList.contains('nav-disabled')) prev.click();
+  } else if (e.key === 'ArrowRight') {
+    const next = document.querySelector('.nav-next');
+    if (next && !next.classList.contains('nav-disabled')) next.click();
+  }
+});
+</script>
+</body>
+</html>

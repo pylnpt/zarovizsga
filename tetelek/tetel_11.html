@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="hu" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>11. tétel — kondenzált</title>
+  <style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #faf9f5;
+  --surface: #ffffff;
+  --surface-2: #f3f1ea;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #e5e2d8;
+  --accent: #6d28d9;
+  --accent-soft: #ede9fe;
+  --code-bg: #f5f3ec;
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+}
+[data-theme="dark"] {
+  --bg: #0f0f12;
+  --surface: #1a1a1f;
+  --surface-2: #232329;
+  --text: #ececec;
+  --muted: #9a9a9a;
+  --border: #2d2d33;
+  --accent: #a78bfa;
+  --accent-soft: #2a1f50;
+  --code-bg: #1d1d24;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.3);
+}
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg); color: var(--text);
+  font-size: 16px; line-height: 1.7;
+}
+.wrap { max-width: 900px; margin: 0 auto; padding: 28px 24px 72px; }
+
+header.site {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 22px;
+}
+header.site h1 {
+  margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;
+}
+header.site h1 small {
+  display: block; font-size: 13px; font-weight: 400; color: var(--muted); margin-top: 4px;
+}
+.theme-toggle {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 14px;
+}
+.theme-toggle:hover { background: var(--surface-2); }
+
+/* Per-tetel page navigation */
+.page-nav {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 20px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 12px;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+.page-nav.bottom { margin: 28px 0 0; position: static; }
+.nav-btn {
+  padding: 8px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.nav-btn:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.nav-home {
+  background: var(--accent);
+  color: white !important;
+  border-color: var(--accent);
+}
+.nav-home:hover { opacity: 0.9; }
+.nav-disabled {
+  opacity: 0.4; cursor: not-allowed; pointer-events: none;
+  color: var(--muted);
+}
+.nav-spacer { flex: 1; }
+
+/* Index: tetel card grid */
+.tetel-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin: 20px 0 30px;
+}
+.tetel-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.15s;
+  box-shadow: var(--shadow);
+}
+.tetel-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(109, 40, 217, 0.16);
+}
+.tetel-card .tetel-num {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+  min-width: 48px;
+}
+.tetel-card .tetel-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.tetel-card .tetel-arrow {
+  color: var(--muted);
+  font-size: 20px;
+}
+.tetel-card:hover .tetel-arrow { color: var(--accent); }
+
+.index-note {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.index-note strong { color: var(--accent); }
+.index-note kbd {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+/* Tetel article */
+article.tetel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 26px 30px 30px;
+  margin-bottom: 12px;
+}
+
+article.tetel h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 0 0 22px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--accent-soft);
+  letter-spacing: -0.3px;
+}
+
+article.tetel h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 32px 0 16px;
+  padding: 10px 14px;
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+}
+
+article.tetel h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 26px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid var(--accent-soft);
+}
+
+article.tetel h4 {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 20px 0 8px;
+}
+
+article.tetel blockquote {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  padding: 12px 16px;
+  margin: 12px 0 22px;
+  border-radius: 0 8px 8px 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+article.tetel blockquote p { margin: 0; }
+article.tetel blockquote strong { color: var(--accent); }
+
+article.tetel p { margin: 0 0 13px; line-height: 1.72; }
+article.tetel p strong, article.tetel li strong {
+  color: var(--accent); font-weight: 700;
+}
+
+article.tetel ul, article.tetel ol {
+  margin: 10px 0 16px; padding-left: 26px;
+}
+article.tetel li { margin: 7px 0; line-height: 1.62; }
+article.tetel ul { list-style: none; padding-left: 6px; }
+article.tetel ul li { position: relative; padding-left: 22px; }
+article.tetel ul li::before {
+  content: ""; position: absolute; left: 4px; top: 10px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+}
+article.tetel ol { padding-left: 28px; }
+article.tetel ol li::marker { color: var(--accent); font-weight: 700; }
+
+article.tetel hr {
+  border: none;
+  border-top: 2px dashed var(--border);
+  margin: 32px 0;
+}
+
+article.tetel code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+article.tetel pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 14px 0;
+}
+article.tetel pre code {
+  background: none; padding: 0; color: var(--text);
+  font-size: 13px; line-height: 1.55;
+}
+
+article.tetel table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+article.tetel th, article.tetel td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+article.tetel th {
+  background: var(--surface-2);
+  font-weight: 700;
+  font-size: 13px;
+}
+article.tetel tr:last-child td { border-bottom: none; }
+article.tetel tbody tr:nth-child(even) { background: var(--surface-2); }
+
+footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 50px; }
+
+@media (max-width: 720px) {
+  .wrap { padding: 14px 12px 56px; }
+  header.site h1 { font-size: 19px; }
+  article.tetel { padding: 18px 18px 22px; }
+  article.tetel h1 { font-size: 20px; }
+  article.tetel h2 { font-size: 17px; }
+  article.tetel h3 { font-size: 15.5px; }
+  .page-nav { padding: 8px; gap: 6px; }
+  .nav-btn { padding: 6px 10px; font-size: 13px; }
+  .tetel-card { padding: 14px 16px; }
+  .tetel-card .tetel-num { font-size: 22px; min-width: 40px; }
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site">
+      <h1>11. tétel
+        <small>11. tétel — Rendszerfejlesztési módszertanok · Nulladrendű logika</small>
+      </h1>
+      <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙 Sötét</button>
+    </header>
+
+    
+      <nav class="page-nav">
+        <a href="tetel_10.html" class="nav-btn nav-prev">← 10. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_12.html" class="nav-btn nav-next">12. tétel →</a>
+      </nav>
+
+    <article class="tetel">
+      <h1>11. tétel — Rendszerfejlesztési módszertanok · Nulladrendű logika</h1>
+<h2>a) A rendszerfejlesztés technológiája — módszertanok</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+1. Az életciklus dokumentumai
+2. Módszertanok
+3. Hagyományos és agilis fejlesztés összehasonlítása
+4. Prototípus alapú megközelítés
+5. Scrum
+6. Extrém programozás
+7. Kockázatmenedzsment</p>
+</blockquote>
+<h3>Az életciklus dokumentumai</h3>
+<p>A követelményspecifikációhoz képest sok az ismétlődő fejezet a későbbi dokumentumokban — ezekre <strong>hivatkozni elég</strong>.</p>
+<p>A <strong>funkcionális specifikációnak</strong> fontos része a <strong>megfeleltetés:</strong> a kövspec minden követelményéhez van-e funkció.</p>
+<p><strong>Fő dokumentumok:</strong>
+- <strong>Követelményspecifikáció</strong> (kövspec) — mit szeretne a megrendelő
+- <strong>Funkcionális specifikáció</strong> (funkspec) — felhasználói szemszögű válasz a kövspecre
+- <strong>Rendszerterv (nagyvonalú)</strong> — fejlesztői szemszög: mit/miért/hogyan/mikor/miből
+- <strong>Tesztterv</strong> és tesztesetek
+- <strong>Átadás-átvételi jegyzőkönyv</strong>, <strong>felhasználói dokumentáció</strong></p>
+<p><strong>Rendszerterv részei:</strong> rendszer célja, projektterv (szerepkörök, ütemterv, mérföldkövek), funkcionális terv (rendszerszereplők, használati esetek, képernyőtervek), fizikai környezet, absztrakt domain modell, <strong>architekturális terv</strong> (MVC, rétegek, bővíthetőség, biztonság), adatbázis terv, implementációs terv, tesztterv, telepítési terv, karbantartási terv.</p>
+<p><strong>Rendszerterv fajtái:</strong>
+- <strong>Konceptuális:</strong> mit, miért
+- <strong>Nagyvonalú:</strong> + hogyan, miből
+- <strong>Részletes:</strong> + mikor</p>
+<h3>Módszertanok osztályozása</h3>
+<ul>
+<li><strong>Életciklus fázisok sorrendje:</strong> lineáris, spirális, iteratív</li>
+<li><strong>Implementációs nyelv preferenciája:</strong> folyamat-, adatközpontú, strukturált (top-down/bottom-up), OO, szerviz, keverék</li>
+<li><strong>Megközelítés:</strong> jól dokumentált, prototípus-alapú, rapid, agilis, extrém, keverék</li>
+<li><strong>Dokumentáltság:</strong> könnyűsúlyú vs nehézsúlyú</li>
+<li><strong>Középpont:</strong> adat-, folyamat-, követelmény-, használati eset-, teszt-, felhasználó-, ember-, csapatközpontú</li>
+</ul>
+<p>Mindre jellemző: <strong>elemzés-tervezés</strong> és <strong>logikai-fizikai tervezés</strong> szétválasztása.</p>
+<h3>Strukturált (hagyományos) módszertanok</h3>
+<p><strong>Lineáris, jól dokumentált, nehézsúlyú, adat- és folyamatközpontú.</strong> Nagy, hosszú projektekhez. Pl. <strong>vízesés, SSADM, V-modell.</strong></p>
+<p><strong>Vízesés modell:</strong>
+- Nagy projektekhez, kevés döntési pont
+- <strong>Lineáris</strong>, nincs átfedés a lépések között
+- Lezárt fázisba <strong>nem térhetünk vissza</strong>
+- Rengeteg dokumentáció — biztosítja, hogy nincs félreértés
+- Fázisok: szükségletek → rendszertervezés → megvalósítás → tesztelés → üzembe helyezés és karbantartás</p>
+<p><strong>V-modell:</strong> vízesés + tesztelési ellenpárok. Minden fejlesztési lépéshez tartozik egy tesztelési lépés. Ha hibát találunk → vissza az érintett fejlesztési lépésre.</p>
+<p><strong>További strukturált:</strong> RUP, Spirál modell, Inkrementális fejlesztés, RAD (Rapid Application Development).</p>
+<h3>Hagyományos vs agilis</h3>
+<table>
+<thead>
+<tr>
+<th>Szempont</th>
+<th>Hagyományos</th>
+<th>Agilis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Dokumentáció</strong></td>
+<td>Sok és részletes</td>
+<td>Minimális; működő kód a fontos</td>
+</tr>
+<tr>
+<td><strong>Rugalmasság</strong></td>
+<td>Alacsony (lezárt fázisok)</td>
+<td>Magas (iteratív)</td>
+</tr>
+<tr>
+<td><strong>Gyorsaság</strong></td>
+<td>Lassú indulás</td>
+<td>Gyors első kiadás</td>
+</tr>
+<tr>
+<td><strong>Kommunikáció</strong></td>
+<td>Formális, írásos</td>
+<td>Direkt, napi szóbeli</td>
+</tr>
+</tbody>
+</table>
+<p>Az agilis résztvevők megpróbálnak amennyire lehet alkalmazkodni a projekthez.</p>
+<h3>Prototípus alapú megközelítés</h3>
+<p><strong>Cél:</strong> ne a projekt végén lássa a felhasználó először a terméket → félreértések elkerülése. <strong>Több prototípust</strong> szállítunk a végső átadás előtt.</p>
+<p>A követelményeket prototípusok segítségével <strong>finomíthatjuk</strong> — a user a látott alapján mondja meg, mi nem felel meg. Modern módszertanok többségében alkalmazzák, gyakran minden mérföldkőhöz tartozik prototípus.</p>
+<p>Jellemzők: <strong>iteratív, prototípus-alapú, gyakran rapid/agilis, könnyűsúlyú, követelményközpontú.</strong></p>
+<p><strong>Lépések:</strong>
+1. Alap követelmények meghatározása
+2. Kezdeti prototípus (csak UI, funkciók nélkül)
+3. Bemutatás → user visszajelez (mit tenne másként, miben hiányos)
+4. Követelmények pontosítása alapján → vissza 2-re</p>
+<p><strong>Két fő típus:</strong></p>
+<p><strong>Eldobható prototípus:</strong>
+- Nem lesz része a végső programnak
+- Követelmények gyors felmérésére
+- Bemutatás után eldobható
+- <strong>Költséghatékony:</strong> az életciklus elején kiderül, ha másképp kell csinálni
+- Megvalósítás: <strong>papír alapú</strong> (egyszerű rajz) vagy <strong>Mockup/prototype tool</strong> (kattintható UI)</p>
+<p><strong>Evolúciós prototípus:</strong>
+- A fejlesztés elején kidolgozott prototípus <strong>a rendszer lelke</strong> lesz
+- Később finomítjuk
+- Előny: az életciklus elején már működő rendszert kap a felhasználó
+- Bizonyos részekre fókuszálva fejleszt — kockázat minimalizálás (csak megértett részeket fejlesztünk tovább)</p>
+<p><strong>Hátrányok:</strong>
+- Ha a fejlesztők csak a prototípusra figyelnek → hanyagolják a teljes rendszer analízisét (gyenge teljesítmény, nehéz karbantartás, skálázás)
+- A user azt hiheti, hogy már kész
+- A fejlesztők ragaszkodhatnak a prototípushoz, és abból akarnak végső kiadást</p>
+<h3>Scrum</h3>
+<p><strong>Agilis módszertan.</strong> Nagy hangsúly a <strong>csapaton belüli összetartáson és kommunikáción</strong>. Arra épít, hogy a megrendelő igényei <strong>változhatnak</strong> fejlesztés közben.</p>
+<p><strong>Jellemzők:</strong> iteratív, objektum- vagy szerviz-orientált, prototípus-alapú, rapid/agilis, <strong>csapatközpontú, könnyűsúlyú</strong>.</p>
+<p><strong>Sprint:</strong>
+- 2–4 hetes fejlesztési időszak
+- <strong>Sprint Planninggel</strong> kezdődik, <strong>Retrospective</strong>-vel zárul
+- <strong>Minden sprint végén</strong> szállítható prototípus
+- Addig ismételjük, míg a Product Backlogról el nem fogynak a sztorik</p>
+<p><strong>Termékek:</strong>
+- <strong>Product Backlog:</strong> prioritizált sztorik (feladatok)
+- <strong>Sprint Backlog:</strong> az adott sprintre kiválasztott sztorik
+- <strong>Sztori:</strong> taszkokra bontható egység</p>
+<p><strong>Megbeszélések:</strong>
+- <strong>Sprint Planning:</strong> kiválasztják a sprintre kerülő sztorikat, súlyozással (ROI = priorítás / munka)
+- <strong>Daily Meeting:</strong> mit csináltam, mit fogok, milyen akadály?
+- <strong>Sprint Review:</strong> elkészültek áttekintése — elfogadják vagy nem
+- <strong>Sprint Retrospective</strong> (legfontosabb!) — problémák áttekintése, a következő sprint javítása miatt</p>
+<p><strong>Burn down chart:</strong> ideális tempóhoz képest hol tart a csapat.</p>
+<h3>Scrum szerepkörök</h3>
+<p><strong>"Disznók" (elkötelezettek a projekt sikerében):</strong>
+- <strong>Scrum Master (SM):</strong> felügyeli a folyamatot, segíti a csapatot, megoldja az akadályokat. Lényegében projekt menedzser.
+- <strong>Product Owner (PO):</strong> megrendelő szerepe; felelős, hogy a csapat mindig a legfontosabb részen dolgozzon. <strong>Nem lehet azonos SM-mel.</strong>
+- <strong>Csapat:</strong> 5–9 fő (fejlesztők, tesztelők, elemzők). Felelősek a bevállalt feladatokért.</p>
+<p><strong>"Csirkék" (érdekeltek, de nem felelősek):</strong>
+- <strong>Üzleti szereplők:</strong> megrendelők, tulajdonosok
+- <strong>Menedzsment:</strong> megfelelő környezet biztosítása</p>
+<p><strong>Akadály:</strong> csak munkahelyi lehet, magánéleti nem. Scrum Master oldja meg.</p>
+<h3>Extrém programozás (XP)</h3>
+<p><strong>Agilis módszertan.</strong> A bevált technikákat veszi át, minden mást feleslegesnek tekint.</p>
+<p><strong>4 tevékenység:</strong>
+- <strong>Kódolás</strong>
+- <strong>Tesztelés</strong> — extrém sok teszteléssel találja meg a hibákat. A tesztelés maga a dokumentáció. Unit-tesztek, <strong>nincs kövspec</strong> — átvételi teszteseteket fejlesztenek.
+- <strong>Odafigyelés</strong> — meg kell érteni a megrendelő igényeit
+- <strong>Tervezés</strong> — nem ad-hoc megoldások, független komponensek, OOP</p>
+<p><strong>5 érték:</strong> kommunikáció, egyszerűség, visszacsatolás, bátorság, tisztelet.
+- <strong>Kommunikáció:</strong> a dokumentációt helyettesíti — azt úgyse olvassa el senki
+- <strong>Egyszerűség:</strong> a legegyszerűbbtől induljunk, később lehet újraírni
+- <strong>Visszacsatolás:</strong> unit/integrációs/elfogadási tesztek; prototípus-bemutatások; csapat becslései
+- <strong>Bátorság:</strong> a legegyszerűbb megoldást választani, akkor is, ha holnap át kell írni
+- <strong>Tisztelet:</strong> nem szabad olyan kódot feltölteni, ami nem megy át a unit-teszteken</p>
+<p><strong>Technikái:</strong>
+- <strong>Páros programozás:</strong> egyik ír, másik figyel és szól ha hibát lát; folyamatos megbeszélés
+- <strong>Teszt-vezérelt fejlesztés (TDD):</strong> előbb a teszt, aztán a metódus — minden bővítés előtt új teszt
+- <strong>Forráskód-review:</strong> elkészült nagyobb modulokat vezető fejlesztő átnézi
+- <strong>Folyamatos integráció:</strong> nap/hét végén verziókezelőbe került kódok integrációs tesztje — korai félreértés-szűrés
+- <strong>Kódszépítés (refactoring):</strong> működő kódon szépítés — funkcionalitást <strong>nem szabad</strong> változtatni, minden unit-tesztet le kell futtatni a végén</p>
+<p><strong>Mikor jó?</strong> Ha a megrendelő tud biztosítani egy munkatársat, aki átlátja az igényeket.
+<strong>Mikor rossz?</strong> Ha sokszor kell átírni a kész részeket változó követelmények miatt.</p>
+<h3>Kockázatmenedzsment</h3>
+<p><strong>Mennyire sebezhető a rendszer + ha megtörténik a kár, mekkora</strong>.</p>
+<p>Két vetület:
+- <strong>Bekövetkezés valószínűsége</strong>
+- <strong>Kár mértéke</strong>
+- <strong>Súlyosság = valószínűség × kár</strong> — mindkettőt csökkenteni kell</p>
+<p><strong>Eszközök:</strong> <strong>COBIT</strong> (kockázatelemző keret), <strong>Common Criteria</strong> (biztonsági értékelés).</p>
+<p><strong>Példák:</strong> vírusirtó, banki tranzakciók biztonsága.</p>
+<p><strong>Lépések:</strong>
+1. <strong>Azonosítás</strong>
+2. <strong>Értékelés</strong> (mekkora a valószínűség és kár)
+3. <strong>Csökkentés</strong>
+4. <strong>Kommunikáció</strong></p>
+<hr />
+<h2>b) Az informatika logikai alapjai — nulladrendű logika</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+8. Nulladrendű logika szintaxisa és szemantikája
+9. Igazságtábla
+10. Normálformák nulladrendű logikában, CNF-re hozás algoritmusa, Tseitin transzformáció és Plaisted-Greenbaum kódolás
+11. Rezolúció nulladrendű logikában
+12. SAT, DPLL és DIMACS
+13. SMT és SMT-LIB</p>
+</blockquote>
+<h3>Nulladrendű vs elsőrendű</h3>
+<ul>
+<li><strong>Nulladrendű:</strong> minden objektum igaz/hamis típusú. <strong>Logikai változókat (ítéletváltozók)</strong> kapcsolunk össze logikai műveletekkel.</li>
+<li><strong>Elsőrendű:</strong> tetszőleges típusú objektumokon, <strong>predikátumokkal</strong>.</li>
+</ul>
+<h3>Szintaxis</h3>
+<p>Azt írja le, hogyan lehet <strong>formailag helyes</strong> kifejezéseket csinálni.</p>
+<p><strong>Példa:</strong> "Ha Kristóf bejárt órákra és sikerült a dolgozata, akkor megkapja a kettest."</p>
+<pre><code>K = &quot;Kristóf bejárt órákra&quot;
+D = &quot;Kristófnak sikerült a dolgozata&quot;
+E = &quot;Kristóf megkapja a kettest&quot;
+(K ∧ D) → E
+</code></pre>
+<p>Zárójelezéssel változtatható a kiértékelési sorrend. Formalizáláskor lényegtelen részeket (igeidők stb.) elhagyjuk.</p>
+<h3>Szemantika</h3>
+<p>A kifejezések <strong>jelentésével (igazságértékével)</strong> foglalkozik. Vizsgálja, hogy az egyes interpretációkban mi a kifejezés igazságértéke. Eszköze: <strong>igazságtábla</strong>.</p>
+<h3>Igazságtábla</h3>
+<p>Összetett logikai kifejezés kiértékelésére + szabályok megfogalmazására (pl. konjunkció, implikáció).</p>
+<p><strong>Interpretáció:</strong> egy <code>i</code> függvény az F formula interpretációja, ha F minden atomjához igaz vagy hamis értéket rendel. Pl. <strong>az igazságtábla egy sora</strong>.</p>
+<p><strong>Szemantikai tulajdonságok:</strong>
+- <strong>Tautológia (logikai törvény):</strong> minden interpretációban igaz
+- <strong>Kontradikció (kielégíthetetlenség, logikai ellentmondás):</strong> minden interpretációban hamis
+- <strong>Kielégíthetőség:</strong> legalább egy interpretációban igaz</p>
+<h3>Normálformák</h3>
+<ul>
+<li><strong>Literál:</strong> atom vagy negáltja</li>
+<li><strong>Klóz:</strong> <strong>literálok diszjunkciója</strong></li>
+<li><strong>KNF (CNF, Konjunktív Normálforma):</strong> F klózok konjunkciója</li>
+<li><strong>DNF (Diszjunktív Normálforma):</strong> F elemi konjunkciók diszjunkciója</li>
+</ul>
+<h3>KNF-re hozás algoritmusa</h3>
+<ol>
+<li><strong>Ekvivalencia eltüntetése:</strong> A ↔ B ≡ (A → B) ∧ (B → A)</li>
+<li><strong>Implikáció eltüntetése:</strong> A → B ≡ ¬A ∨ B</li>
+<li><strong>Negációk bevitele atomokig</strong> (de Morgan)</li>
+<li><strong>Disztributivitás:</strong> A ∨ (B ∧ C) → (A ∨ B) ∧ (A ∨ C)</li>
+</ol>
+<p><strong>Probléma:</strong> a disztributivitás miatt <strong>exponenciális méret</strong> lehet — vannak részformulák, amik duplikálódnak.</p>
+<h3>Tseitin transzformáció</h3>
+<p><strong>Lineáris algoritmus</strong> a KNF-re hozásra — a klózszám-robbanás elkerülésére.</p>
+<p><strong>Lényeg:</strong> minden <strong>nem literál részformulához</strong> új ítéletváltozót (X1, X2, ...) vezetünk be. A teljes formula A részformuláját felülírjuk X-szel, majd <strong>konjugálunk hozzá egy X ↔ A ekvivalenciát</strong>.</p>
+<p><strong>Stratégia:</strong> kintről befelé:
+- A teljes formulára X1
+- Annak részformuláira X2, X3
+- Egészen a literálok szintjéig</p>
+<p>Az eredmény külső operátorai konjunkciók → innen már könnyű KNF-et csinálni.</p>
+<h3>Plaisted-Greenbaum kódolás</h3>
+<p>A Tseitin sok klózt állít elő → radikálisan csökkenthető.</p>
+<p><strong>Lényege:</strong> felülvizsgáljuk az ekvivalenciákat — az ekvivalencia két egymással szembe mutató implikáció. Ha az egyikről belátható, hogy szükségtelen → spórolunk.</p>
+<p><strong>Polaritás-vizsgálat (feltételezve, hogy az előtte lévő formula KNF-ben van):</strong>
+- <strong>X mindkét polaritással szerepel:</strong> X ↔ A marad
+- <strong>Csak pozitív polaritással:</strong> X → A elég
+- <strong>Csak negatív polaritással:</strong> A → X elég</p>
+<h3>Rezolúció nulladrendű logikában</h3>
+<p><strong>Cáfoló eljárás:</strong> a bizonyítandó állítás tagadásából indulunk, és bizonyítjuk, hogy levezethető az üres klóz (UNSAT — kielégíthetetlen).</p>
+<ul>
+<li>A formula tautológia ↔ ¬A-ból levezethető ⊥</li>
+<li>P1, …, Pk ⊨ C ↔ P1 ∧ … ∧ Pk ∧ ¬C ⊨ ⊥</li>
+</ul>
+<p><strong>Rezolvens:</strong> C1 = P ∨ C'1, C2 = ¬P ∨ C'2 esetén <strong>C'1 ∨ C'2</strong> a rezolvensük (P és ¬P kiesik).</p>
+<p><strong>Algoritmus:</strong>
+1. Válassz két még nem rezolvált klózt: C1, C2
+2. Állítsd elő rezolvensüket, add a halmazhoz
+3. Ha az üres klóz előáll → UNSAT, állj
+4. Vissza 1-re</p>
+<p><strong>Nulladrendűben véges levezetés garantált.</strong></p>
+<h3>SAT</h3>
+<p><strong>Probléma:</strong> kielégíthető-e egy KNF-ben szereplő formula?</p>
+<ul>
+<li><strong>NP-teljes</strong> — nem ismert polinomiális algoritmus, csak exponenciális</li>
+<li><strong>3-SAT</strong> (3-hosszú klózok): NP-teljes. Pl. <code>(X1 ∨ ¬X2 ∨ X3) ∧ (X2 ∨ ¬X1)</code></li>
+<li><strong>2-SAT-ra van polinomiális megoldó algoritmus</strong></li>
+</ul>
+<h3>DPLL</h3>
+<p>A sima rezolúció nagy klózhalmazon nem elég hatékony. A DPLL:
+- <strong>Visszalépéses keresést</strong> használ
+- <strong>Rekurzív</strong> algoritmus
+- Az <strong>egységklózokat kiemelten</strong> kezeli (pl. <code>A</code>, <code>¬B</code>)</p>
+<p><strong>Unit propagáció:</strong> a rezolvensképzés speciális esete. C1 = P (egységklóz), C2 = ¬P ∨ C'2 → rezolvens C'2 (<strong>rövidebb klóz</strong>).</p>
+<h3>DIMACS</h3>
+<p><strong>SAT solverek standard input formátuma</strong> klózhalmazokra.</p>
+<ul>
+<li>Minden ítéletváltozót <strong>sorszám</strong> jelöl</li>
+<li><strong>Negáció:</strong> <code>-</code></li>
+<li><strong>Elválasztójel:</strong> szóköz</li>
+<li><strong>Klóz végjel:</strong> <code>0</code></li>
+<li><strong>Fejléc:</strong> <code>p cnf &lt;változó db&gt; &lt;klóz db&gt;</code></li>
+</ul>
+<p><strong>Példa:</strong> <code>(X1 ∨ ¬X2) ∧ (X2 ∨ X3)</code></p>
+<pre><code>p cnf 3 2
+1 -2 0
+2 3 0
+</code></pre>
+<h3>SMT (Satisfiability Modulo Theories)</h3>
+<p><strong>Magasabb szintű</strong> feladatleírás. A nulladrendű logikát kiegészíti:
+- Egész/valós számok
+- Aritmetika
+- Tömbök, listák
+- Egyéb elméletek</p>
+<p><strong>SMT:</strong> kielégíthetőség vizsgálata <strong>bizonyos elméletekre</strong> vonatkoztatva.</p>
+<p><strong>Alkalmazások:</strong> szoftververifikáció, rendezések, logikai fejtörők, aritmetikai problémák.</p>
+<h3>SMT-LIB</h3>
+<p>Az <strong>SMT solverek standard input formátuma</strong>. Komplexebb, <strong>emberközelibb</strong> mint a DIMACS:
+- Szöveges utasítások
+- Típusok
+- Aritmetikai operátorok
+- Függvényhívások</p>
+<hr />
+<h2>⚡ Kvíz / kulcsfogalmak</h2>
+<ul>
+<li>5 módszertan-osztályozási szempont</li>
+<li>Vízesés vs V-modell különbség</li>
+<li>Hagyományos vs agilis 4 dimenzió (dok, rugalmasság, gyorsaság, kommunikáció)</li>
+<li>Eldobható vs evolúciós prototípus</li>
+<li>Sprint, Daily, Review, Retrospective szerepe</li>
+<li>SM, PO, Csapat felelősségei (PO ≠ SM!)</li>
+<li>"Disznó" vs "csirke" szerepek</li>
+<li>XP 4 tevékenység + 5 érték + 5 technika (TDD, párprog, refactor, review, CI)</li>
+<li>Kockázat = valószínűség × kár; 4 lépés</li>
+<li>Tautológia, kontradikció, kielégíthetőség</li>
+<li>KNF: literál, klóz, alakja</li>
+<li>KNF-re hozás 4 lépése (ekv, imp, neg, disztributivitás)</li>
+<li>Tseitin lényege (új változó nem-literál részformulára, lineáris)</li>
+<li>Plaisted-Greenbaum polaritás-szabálya (mindkét/csak+/csak-)</li>
+<li>DIMACS formátum részei (p cnf, sorszámok, negálás, 0)</li>
+<li>3-SAT NP-teljes, 2-SAT polinomiális</li>
+<li>DPLL: backtracking + unit propagáció</li>
+</ul>
+    </article>
+
+    
+      <nav class="page-nav bottom">
+        <a href="tetel_10.html" class="nav-btn nav-prev">← 10. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_12.html" class="nav-btn nav-next">12. tétel →</a>
+      </nav>
+  </div>
+  <script>
+const THEME_KEY = "kondenzalt-theme";
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  const btn = document.getElementById('theme-btn');
+  if (btn) btn.textContent = t === 'dark' ? '☀ Világos' : '🌙 Sötét';
+}
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  localStorage.setItem(THEME_KEY, next);
+  applyTheme(next);
+}
+(function() {
+  const t = localStorage.getItem(THEME_KEY) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(t);
+})();
+
+// Keyboard nav between tetelek: Left/Right arrow
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, textarea, select')) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'ArrowLeft') {
+    const prev = document.querySelector('.nav-prev');
+    if (prev && !prev.classList.contains('nav-disabled')) prev.click();
+  } else if (e.key === 'ArrowRight') {
+    const next = document.querySelector('.nav-next');
+    if (next && !next.classList.contains('nav-disabled')) next.click();
+  }
+});
+</script>
+</body>
+</html>

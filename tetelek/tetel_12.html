@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="hu" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>12. tétel — kondenzált</title>
+  <style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #faf9f5;
+  --surface: #ffffff;
+  --surface-2: #f3f1ea;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #e5e2d8;
+  --accent: #6d28d9;
+  --accent-soft: #ede9fe;
+  --code-bg: #f5f3ec;
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+}
+[data-theme="dark"] {
+  --bg: #0f0f12;
+  --surface: #1a1a1f;
+  --surface-2: #232329;
+  --text: #ececec;
+  --muted: #9a9a9a;
+  --border: #2d2d33;
+  --accent: #a78bfa;
+  --accent-soft: #2a1f50;
+  --code-bg: #1d1d24;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.3);
+}
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg); color: var(--text);
+  font-size: 16px; line-height: 1.7;
+}
+.wrap { max-width: 900px; margin: 0 auto; padding: 28px 24px 72px; }
+
+header.site {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 22px;
+}
+header.site h1 {
+  margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;
+}
+header.site h1 small {
+  display: block; font-size: 13px; font-weight: 400; color: var(--muted); margin-top: 4px;
+}
+.theme-toggle {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 14px;
+}
+.theme-toggle:hover { background: var(--surface-2); }
+
+/* Per-tetel page navigation */
+.page-nav {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 20px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 12px;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+.page-nav.bottom { margin: 28px 0 0; position: static; }
+.nav-btn {
+  padding: 8px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.nav-btn:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.nav-home {
+  background: var(--accent);
+  color: white !important;
+  border-color: var(--accent);
+}
+.nav-home:hover { opacity: 0.9; }
+.nav-disabled {
+  opacity: 0.4; cursor: not-allowed; pointer-events: none;
+  color: var(--muted);
+}
+.nav-spacer { flex: 1; }
+
+/* Index: tetel card grid */
+.tetel-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin: 20px 0 30px;
+}
+.tetel-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.15s;
+  box-shadow: var(--shadow);
+}
+.tetel-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(109, 40, 217, 0.16);
+}
+.tetel-card .tetel-num {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+  min-width: 48px;
+}
+.tetel-card .tetel-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.tetel-card .tetel-arrow {
+  color: var(--muted);
+  font-size: 20px;
+}
+.tetel-card:hover .tetel-arrow { color: var(--accent); }
+
+.index-note {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.index-note strong { color: var(--accent); }
+.index-note kbd {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+/* Tetel article */
+article.tetel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 26px 30px 30px;
+  margin-bottom: 12px;
+}
+
+article.tetel h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 0 0 22px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--accent-soft);
+  letter-spacing: -0.3px;
+}
+
+article.tetel h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 32px 0 16px;
+  padding: 10px 14px;
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+}
+
+article.tetel h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 26px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid var(--accent-soft);
+}
+
+article.tetel h4 {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 20px 0 8px;
+}
+
+article.tetel blockquote {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  padding: 12px 16px;
+  margin: 12px 0 22px;
+  border-radius: 0 8px 8px 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+article.tetel blockquote p { margin: 0; }
+article.tetel blockquote strong { color: var(--accent); }
+
+article.tetel p { margin: 0 0 13px; line-height: 1.72; }
+article.tetel p strong, article.tetel li strong {
+  color: var(--accent); font-weight: 700;
+}
+
+article.tetel ul, article.tetel ol {
+  margin: 10px 0 16px; padding-left: 26px;
+}
+article.tetel li { margin: 7px 0; line-height: 1.62; }
+article.tetel ul { list-style: none; padding-left: 6px; }
+article.tetel ul li { position: relative; padding-left: 22px; }
+article.tetel ul li::before {
+  content: ""; position: absolute; left: 4px; top: 10px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+}
+article.tetel ol { padding-left: 28px; }
+article.tetel ol li::marker { color: var(--accent); font-weight: 700; }
+
+article.tetel hr {
+  border: none;
+  border-top: 2px dashed var(--border);
+  margin: 32px 0;
+}
+
+article.tetel code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+article.tetel pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 14px 0;
+}
+article.tetel pre code {
+  background: none; padding: 0; color: var(--text);
+  font-size: 13px; line-height: 1.55;
+}
+
+article.tetel table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+article.tetel th, article.tetel td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+article.tetel th {
+  background: var(--surface-2);
+  font-weight: 700;
+  font-size: 13px;
+}
+article.tetel tr:last-child td { border-bottom: none; }
+article.tetel tbody tr:nth-child(even) { background: var(--surface-2); }
+
+footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 50px; }
+
+@media (max-width: 720px) {
+  .wrap { padding: 14px 12px 56px; }
+  header.site h1 { font-size: 19px; }
+  article.tetel { padding: 18px 18px 22px; }
+  article.tetel h1 { font-size: 20px; }
+  article.tetel h2 { font-size: 17px; }
+  article.tetel h3 { font-size: 15.5px; }
+  .page-nav { padding: 8px; gap: 6px; }
+  .nav-btn { padding: 6px 10px; font-size: 13px; }
+  .tetel-card { padding: 14px 16px; }
+  .tetel-card .tetel-num { font-size: 22px; min-width: 40px; }
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site">
+      <h1>12. tétel
+        <small>12. tétel — Adatbázisok II (PL/SQL) · Számítógépi grafika</small>
+      </h1>
+      <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙 Sötét</button>
+    </header>
+
+    
+      <nav class="page-nav">
+        <a href="tetel_11.html" class="nav-btn nav-prev">← 11. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_13.html" class="nav-btn nav-next">13. tétel →</a>
+      </nav>
+
+    <article class="tetel">
+      <h1>12. tétel — Adatbázisok II (PL/SQL) · Számítógépi grafika</h1>
+<h2>a) Adatbázisrendszerek II — PL/SQL alapok</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+1. A PL/SQL alapjai: típusok, változók, konstansok, vezérlési szerkezetek
+2. SQL utasítások elhelyezésének és használatának lehetőségei a PL/SQL-ben
+3. A PL/SQL program felépítése
+4. Blokkok és alprogramok
+5. Tárolt eljárások, tárolt függvények összehasonlítása, csomagok készítésének célja és lehetőségei
+6. A tárolt alprogramok paraméterezési lehetőségei, az egyes lehetőségek jellemzői
+7. Kivételek kezelés PL/SQL-ben</p>
+</blockquote>
+<h3>PL/SQL alapok</h3>
+<p><strong>PL/SQL (Procedural Language for SQL):</strong> az Oracle eljárás-szerű kiterjesztése az SQL-hez. SQL-utasítások procedurális kódba ágyazhatók — változókkal, vezérlési szerkezetekkel, kivételkezeléssel.</p>
+<h3>Típusok</h3>
+<p><strong>Skalár típusok:</strong>
+- <strong>Numerikus:</strong> <code>NUMBER(p, s)</code>, <code>INTEGER</code>, <code>BINARY_INTEGER</code>, <code>PLS_INTEGER</code>, <code>FLOAT</code>
+- <strong>Karakteres:</strong> <code>CHAR(n)</code>, <code>VARCHAR2(n)</code>, <code>LONG</code>, <code>CLOB</code>
+- <strong>Dátum:</strong> <code>DATE</code>, <code>TIMESTAMP</code>
+- <strong>Logikai:</strong> <code>BOOLEAN</code> (csak PL/SQL-ben, nem SQL-ben!)
+- <strong>Bináris:</strong> <code>RAW</code>, <code>BLOB</code></p>
+<p><strong>Összetett típusok:</strong>
+- <strong><code>%TYPE</code>:</strong> átvesz egy tábla-oszlop típusát
+  - <code>nev Diakok.nev%TYPE;</code>
+- <strong><code>%ROWTYPE</code>:</strong> átvesz egy egész tábla sortípusát (rekord)
+  - <code>diak Diakok%ROWTYPE;</code>
+- <strong><code>RECORD</code>:</strong> saját rekord
+- <strong><code>TABLE</code>:</strong> asszociatív tömb
+- <strong><code>VARRAY</code>, <code>NESTED TABLE</code>:</strong> kollekciók</p>
+<h3>Változók és konstansok</h3>
+<pre><code class="language-plsql">DECLARE
+    nev VARCHAR2(50) := 'Anna';
+    eletkor NUMBER(3) NOT NULL := 25;
+    pi CONSTANT NUMBER := 3.14159;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(nev);
+END;
+</code></pre>
+<ul>
+<li><strong>Deklaráció:</strong> <code>név típus [:= kezdőérték];</code></li>
+<li><strong><code>CONSTANT</code>:</strong> futás közben nem módosítható</li>
+<li><strong><code>NOT NULL</code>:</strong> kötelező kezdőérték</li>
+</ul>
+<h3>Vezérlési szerkezetek</h3>
+<p><strong>Szelekció:</strong></p>
+<pre><code class="language-plsql">IF feltétel THEN ...
+ELSIF feltétel THEN ...
+ELSE ...
+END IF;
+
+CASE érték
+    WHEN 1 THEN ...
+    WHEN 2 THEN ...
+    ELSE ...
+END CASE;
+</code></pre>
+<p><strong>Ciklusok:</strong></p>
+<pre><code class="language-plsql">LOOP
+    ...
+    EXIT WHEN feltétel;
+END LOOP;
+
+WHILE feltétel LOOP
+    ...
+END LOOP;
+
+FOR i IN 1..10 LOOP
+    ...
+END LOOP;
+
+FOR rec IN (SELECT id, nev FROM Diakok) LOOP
+    DBMS_OUTPUT.PUT_LINE(rec.nev);
+END LOOP;
+</code></pre>
+<h3>SQL utasítások a PL/SQL-ben</h3>
+<p><strong>DML utasítások (SELECT, INSERT, UPDATE, DELETE)</strong> közvetlenül beágyazhatók.</p>
+<pre><code class="language-plsql">SELECT nev INTO v_nev FROM Diakok WHERE id = 1;
+
+UPDATE Diakok SET szul_ev = 2001 WHERE id = 1;
+
+INSERT INTO Diakok VALUES (1, 'Béla', 2000);
+
+DELETE FROM Diakok WHERE id = 1;
+</code></pre>
+<p><strong><code>SELECT … INTO</code>:</strong> egy sort kérdez le egy változóba. Ha nincs találat → <code>NO_DATA_FOUND</code>, ha több → <code>TOO_MANY_ROWS</code> kivétel.</p>
+<p><strong>DDL utasítások (CREATE, DROP, ALTER)</strong> csak <code>EXECUTE IMMEDIATE</code>-tel:</p>
+<pre><code class="language-plsql">EXECUTE IMMEDIATE 'CREATE TABLE tmp (id NUMBER)';
+</code></pre>
+<h3>PL/SQL program felépítése — blokk</h3>
+<p><strong>Anonim blokk:</strong></p>
+<pre><code class="language-plsql">DECLARE
+    -- deklarációk
+BEGIN
+    -- végrehajtható rész
+EXCEPTION
+    -- kivételkezelés
+END;
+</code></pre>
+<p>A blokk <strong>3 része:</strong>
+1. <strong>DECLARE</strong> — változók, típusok, kurzorok
+2. <strong>BEGIN … END</strong> — végrehajtandó utasítások (kötelező)
+3. <strong>EXCEPTION</strong> — kivételkezelés (opcionális)</p>
+<p>Blokkok <strong>egymásba ágyazhatók</strong>.</p>
+<h3>Alprogramok — eljárások és függvények</h3>
+<p><strong>Tárolt eljárás (PROCEDURE):</strong> nem ad vissza értéket (vagy OUT paraméteren keresztül).</p>
+<pre><code class="language-plsql">CREATE OR REPLACE PROCEDURE diak_torles(p_id IN NUMBER) IS
+BEGIN
+    DELETE FROM Diakok WHERE id = p_id;
+    COMMIT;
+END;
+</code></pre>
+<p><strong>Tárolt függvény (FUNCTION):</strong> mindig <strong>RETURN</strong> értékkel.</p>
+<pre><code class="language-plsql">CREATE OR REPLACE FUNCTION diak_szam RETURN NUMBER IS
+    v_szam NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO v_szam FROM Diakok;
+    RETURN v_szam;
+END;
+</code></pre>
+<h3>Eljárás vs függvény</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Procedure</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Visszatérés</td>
+<td>Nincs (vagy OUT-on)</td>
+<td>Kötelező RETURN</td>
+</tr>
+<tr>
+<td>Hívás</td>
+<td>Önálló utasításként</td>
+<td>Kifejezésben (SELECT, IF stb.)</td>
+</tr>
+<tr>
+<td>SQL-ben</td>
+<td>Nem hívható közvetlenül</td>
+<td>Hívható SELECT-ben</td>
+</tr>
+</tbody>
+</table>
+<h3>Csomagok (PACKAGE)</h3>
+<p><strong>Csomag:</strong> logikailag összetartozó eljárások, függvények, típusok, kurzorok <strong>csoportja</strong>. Két részből áll:</p>
+<p><strong>Specifikáció (interface):</strong> mit lehet kívülről hívni.</p>
+<pre><code class="language-plsql">CREATE OR REPLACE PACKAGE diak_pkg IS
+    PROCEDURE diak_torles(p_id IN NUMBER);
+    FUNCTION diak_szam RETURN NUMBER;
+END diak_pkg;
+</code></pre>
+<p><strong>Body (implementáció):</strong> hogyan van megvalósítva.</p>
+<pre><code class="language-plsql">CREATE OR REPLACE PACKAGE BODY diak_pkg IS
+    PROCEDURE diak_torles(p_id IN NUMBER) IS ...
+    FUNCTION diak_szam RETURN NUMBER IS ...
+END diak_pkg;
+</code></pre>
+<p><strong>Előnyök:</strong>
+- <strong>Encapsulation</strong> — csak a specifikációban deklaráltak láthatók kívülről
+- <strong>Modularitás</strong> — összetartozó dolgok egy helyen
+- <strong>Teljesítmény</strong> — első hívásnál egészében memóriába kerül
+- <strong>Globális állapot</strong> — csomag-szintű változók</p>
+<h3>Paraméterezési lehetőségek</h3>
+<p><strong>3 mód:</strong></p>
+<ul>
+<li><strong><code>IN</code> (alapeset):</strong> bemeneti, <strong>csak olvasható</strong> az alprogramban</li>
+<li><strong><code>OUT</code>:</strong> kimeneti, az alprogram <strong>adja vissza</strong> rajta. Híváskor null-ozódik. Csak változónak adható.</li>
+<li><strong><code>IN OUT</code>:</strong> be- és kimenet — bemenetnek is, és az alprogram is módosíthatja</li>
+</ul>
+<pre><code class="language-plsql">PROCEDURE p(
+    a IN NUMBER,
+    b OUT NUMBER,
+    c IN OUT VARCHAR2
+) IS BEGIN ... END;
+</code></pre>
+<p><strong>Paraméter-átadás módjai:</strong>
+- <strong>By value</strong> (IN alapeset): érték másolat
+- <strong>By reference</strong> (IN OUT): referencia
+- <strong>OUT:</strong> átadáskor érték nincs használva, csak visszamenetben</p>
+<p><strong>Hívás:</strong>
+- <strong>Pozicionális:</strong> <code>p(1, x, y)</code>
+- <strong>Megnevezett:</strong> <code>p(a =&gt; 1, b =&gt; x, c =&gt; y)</code>
+- <strong>Vegyesen</strong> is lehet (előbb a pozicionális)</p>
+<h3>Kivételek kezelése</h3>
+<p>PL/SQL-ben a hiba <strong>kivételként</strong> jelenik meg, és az <strong>EXCEPTION</strong> blokkban kezelhető.</p>
+<pre><code class="language-plsql">BEGIN
+    SELECT nev INTO v_nev FROM Diakok WHERE id = 999;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Nincs ilyen diák');
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Egyéb hiba: ' || SQLERRM);
+END;
+</code></pre>
+<p><strong>Beépített kivételek:</strong>
+- <code>NO_DATA_FOUND</code> — SELECT INTO nem talált
+- <code>TOO_MANY_ROWS</code> — SELECT INTO több sort kapott
+- <code>INVALID_CURSOR</code> — kurzor érvénytelen
+- <code>ZERO_DIVIDE</code> — nullával osztás
+- <code>VALUE_ERROR</code> — típusátalakítási hiba
+- <code>OTHERS</code> — minden más</p>
+<p><strong>Saját kivétel:</strong></p>
+<pre><code class="language-plsql">DECLARE
+    sajat_hiba EXCEPTION;
+BEGIN
+    IF rossz_feltetel THEN
+        RAISE sajat_hiba;
+    END IF;
+EXCEPTION
+    WHEN sajat_hiba THEN ...
+END;
+</code></pre>
+<p><strong><code>RAISE_APPLICATION_ERROR</code>:</strong> alkalmazás-specifikus hibakód+üzenet dobása (-20000 -től -20999-ig).</p>
+<hr />
+<h2>b) Bevezetés a számítógépi grafikába</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+8. Raszteres algoritmusok: DDA és MidPoint szakaszrajzoló-, MidPoint körrajzoló algoritmusok, Cohen-Sutherland vágó algoritmus
+9. Paraméteres görbék, Hermit ív, Bézier görbe, B-Spline
+10. Pont-transzformációk síkban, térben, homogén koordináták
+11. Tér leképezése síkra: párhuzamos és centrális vetítés, axonometria
+12. Poliéderek megadása
+13. Wire Frame modell, B-Rep adatstruktúra
+14. Poliéderek megjelenítése: hátsó lapok eltávolítása, Z-Buffer algoritmus, Flat-, Gouraud- és Phong árnyalás</p>
+</blockquote>
+<h3>Raszteres algoritmusok</h3>
+<p><strong>Cél:</strong> folytonos geometriai alakzatokat <strong>képpontokkal</strong> közelíteni. <strong>DDA (Digital Differential Analyzer)</strong> algoritmusok adnak választ.</p>
+<h3>DDA szakaszrajzoló</h3>
+<p>Az egyenes y = mx + b egyenletéből indul. m = dy/dx-ből meghatározzuk a növekményeket, és minden lépésben az x-et eggyel, az y-t m-mel növeljük.</p>
+<p><strong>Hátrány:</strong> lebegőpontos műveletek, az (x, y) értékeket <strong>kerekíteni kell</strong> → nem ideális kép.</p>
+<h3>MidPoint szakasz</h3>
+<p>Csak egész számokkal dolgozik. Tegyük fel, 0 ≤ m ≤ 1, balról jobbra rajzolunk.</p>
+<p>Adott a jelenleg megrajzolt pont P(xₚ, yₚ). A következő <strong>E</strong> (East) vagy <strong>NE</strong> (NorthEast) lehet. A <strong>felezőpont (M)</strong> és az elméleti egyenes viszonya alapján döntünk. Csak inkrementális egész számításokkal.</p>
+<h3>MidPoint kör</h3>
+<p>Origó középpontú r sugarú kör: x² + y² = r².</p>
+<p><strong>Nyolcas szimmetria:</strong> ha (x, y) a körön van, akkor a másik 7 pont is a kör része (mindenféle előjel- és koordináta-csere). Elég egy nyolcadot kiszámolni.</p>
+<p>Az aktuális P(xₚ, yₚ) után <strong>E</strong> vagy <strong>SE</strong> lesz a következő pont, a felezőpont M alapján.</p>
+<p>Ha a középpont nem az origó → koordináta-eltolás.</p>
+<h3>Cohen-Sutherland vágó (clipping)</h3>
+<p>A síkot <strong>9 részre</strong> osztjuk; a középső a képernyő. Minden részhez <strong>4 bites kódot</strong> rendelünk:
+- 1. bit: 1, ha a pont a felső vonal felett
+- 2. bit: 1, ha az alsó vonal alatt
+- 3. bit: 1, ha a jobb oldali vonaltól jobbra
+- 4. bit: 1, ha a bal oldali vonaltól balra</p>
+<p><strong>Algoritmus:</strong>
+- Ha <strong>mindkét végpont kódja 0000</strong> → szakasz teljesen belül
+- Ha a <strong>két kód AND-je nem 0</strong> → mindkét végpont ugyanazon az oldalon kívül → szakasz kívül esik
+- Egyébként: egyik végpontot eltoljuk a megfelelő képernyő-éllel való metszéspontra, és újra ellenőrizzük</p>
+<p><strong>Előny:</strong> hatékony, 3D-re általánosítható (6 bittel).
+<strong>Hátrány:</strong> csak téglalap ablakra működik, poligonra nem.</p>
+<h3>Paraméteres görbék</h3>
+<p>A síkon mozgó pont r(t) vektor egy görbét ír le.
+- Síkon: r(t) = (x(t), y(t))
+- Térben: r(t) = (x(t), y(t), z(t))</p>
+<p><strong>Megjelenítés:</strong> [a, b]-t felosztjuk, kiszámítjuk a pontokat, és törött vonallal kötjük össze.</p>
+<h3>Hermite-ív (interpoláció)</h3>
+<p>Két végpont (p₀, p₁) + két érintővektor (t₀, t₁) → harmadfokú polinomot keresünk:</p>
+<p>s(u) = a₃u³ + a₂u² + a₁u + a₀, u ∈ [0, 1]</p>
+<p>Feltételek: s(0) = p₀, s(1) = p₁, s'(0) = t₀, s'(1) = t₁.</p>
+<p>A 4 egyenletből Hermite-polinomokat kapunk:
+- H₀³(u) = 2u³ - 3u² + 1
+- H₁³(u) = -2u³ + 3u²
+- H₂³(u) = u³ - 2u² + u
+- H₃³(u) = u³ - u²</p>
+<p>s(u) = p₀·H₀³ + p₁·H₁³ + t₀·H₂³ + t₁·H₃³</p>
+<p><strong>Hátrányok:</strong> érintőkkel definiálni körülményes, hurok keletkezhet, görbe metszheti önmagát.</p>
+<h3>Bézier görbe (approximáció)</h3>
+<p>Approximáció: a görbe a kontrollpontokat <strong>közelíti</strong>, nem feltétlenül halad át rajtuk (csak az első és az utolsón).</p>
+<p><strong>Bernstein-polinom:</strong> Bᵢⁿ(u) = (n choose i) · uⁱ · (1-u)ⁿ⁻ⁱ</p>
+<p>s(u) = Σᵢ bᵢ · Bᵢⁿ(u), u ∈ [0, 1]</p>
+<p><strong>Tulajdonságok:</strong>
+- Végpontok interpolációja
+- Konvex burok-tulajdonság: a görbe a kontrollpontok konvex burkán belül marad
+- Affin transzformációkkal szemben invariáns (kontrollpontokat transzformáld, a görbét újraszámolod)
+- <strong>Globális változtathatóság:</strong> egy kontrollpont mozgatása az <strong>egész görbét</strong> befolyásolja
+- Konvex poligon → konvex görbe; konkáv poligon is generálhat konvex görbét</p>
+<p><strong>Hátrány:</strong> magas fokszámnál merev, nem követi a poligont jól → alacsony fokú görbéket csatlakoztatunk.</p>
+<h3>B-Spline</h3>
+<p>Bázisfüggvények (4 kontrollpontos esetben):
+- N₀(t) = (1-t)³/6
+- N₁(t) = (t³/2) - t² + 2/3
+- N₂(t) = (t³/2) + (t²/2) + (t/2) + 1/6
+- N₃(t) = t³/6</p>
+<p><strong>Tulajdonságok:</strong>
+- Görbeívek <strong>automatikusan csatlakoznak</strong>, megfelelő folytonossággal
+- Nem látszanak a csatlakozási pontok
+- A görbe nem érinti a végpontokat
+- Új kontrollpont <strong>lokálisan</strong> hat (csak közvetlen környezetét módosítja) — szemben a Bézier-rel</p>
+<h3>Homogén koordináták</h3>
+<p>A 3D-s pontot <strong>4 koordinátával</strong> reprezentáljuk (arányosság erejéig):
+- (x, y, z, w), ahol w ≠ 0
+- Két homogén koord. ugyanazt a pontot jelöli, ha az egyik a másik konstansszorosa
+- <strong>(0, 0, 0, 0) nem létezik</strong></p>
+<p><strong>Áttérés:</strong> Descartes (x, y, z) → homogén (x, y, z, 1).
+<strong>Visszatérés:</strong> (x, y, z, w) → (x/w, y/w, z/w) ha w ≠ 0.</p>
+<p><strong>Cél:</strong> az eltolás is mátrix-szorzással leírható lesz (Descartesben nem volt). Térben <strong>4×4 mátrixokkal</strong>.</p>
+<h3>Pont-transzformációk</h3>
+<p><strong>Geometriai transzformációk:</strong> a tér minden p pontjához egyértelműen rendelnek egy p' pontot. Térben <strong>4×4 mátrixokkal</strong> írjuk le, a pontok homogén koordinátákkal.</p>
+<p>A p pont transzformáltját p' = M · p adja.</p>
+<p><strong>Műveletek:</strong>
+- <strong>Eltolás (translation):</strong> p' = p + v
+- <strong>Forgatás (rotation):</strong> α szöggel, tengely körül. Tetszőleges tengely → 3 koordináta-tengely körüli forgatás kompozíciója
+- <strong>Tükrözés (reflection):</strong> koordinátasíkra. A nem szereplő tengelyhez tartozó koord. negálása
+- <strong>Origó középpontú nyújtás-zsugorítás (scaling):</strong> minden tengely irányában azonos mértékkel
+- <strong>Skálázás:</strong> különböző arányban a tengelyek mentén
+- <strong>Nyírás (shear):</strong> adott síkkal párhuzamos csúsztatás</p>
+<p><strong>Window-Viewport transzformáció:</strong> képsík ablak → képernyő ablak. Eltolás origóba → skálázás → eltolás a végleges pozícióba.</p>
+<h3>Tér leképezése síkra — vetítések</h3>
+<p><strong>Vetítés:</strong> R³ → R² leképezés.</p>
+<p><strong>Párhuzamos vetítés:</strong> a p pontot egy v irányvektor mentén eltoljuk, míg el nem éri a képsíkot.
+- Megtartja: egyenes, párhuzamosság, arányok
+- Nem tartja meg: távolság, szög</p>
+<p><strong>Centrális (perspektív) vetítés:</strong> vetítés centrumát (kamera) és a képsíkot kell megadni. Realisztikusabb — közelibb objektum nagyobb. Párhuzamos szelők tétele alkalmazható.</p>
+<p><strong>Axonometria:</strong> adott a térbeli koordináta-rendszer (origó + e₁, e₂, e₃) és ezek képei (origó' + e₁', e₂', e₃'). A térbeli p pont képét úgy kapjuk meg, hogy a koordinátáit megszorozzuk a hozzájuk tartozó egységvektorok képeivel és összegezzük.</p>
+<h3>Poliéderek</h3>
+<p>Színes, árnyalt megjelenítéshez a felületeket <strong>poligon hálóval</strong> közelítjük. Általában <strong>háromszögek</strong> (3 pont mindig egy síkban).</p>
+<h3>Wire Frame modell</h3>
+<p>Drótvázmodell — csak a <strong>csúcsokat</strong> és az <strong>éleket</strong> tárolja. Egyszerű, de:
+- A kép sokszor értelmezhetetlen
+- Nem lehet eltávolítani a nem látható részeket</p>
+<h3>B-Rep (Boundary Representation)</h3>
+<p>A Wire Frame továbbfejlesztése. Tárolja:
+- <strong>Geometriai info:</strong> csúcspontok koord., élek és lapok egyenlete
+- <strong>Topológiai info:</strong> lapok, élek, csúcspontok <strong>kapcsolatai</strong></p>
+<p>Élek és háromszögek tárolása <strong>csúcsokra mutatókkal</strong>.</p>
+<h3>Poliéderek megjelenítése — hátsó lapok eltávolítása</h3>
+<p>Zárt poliédereknél a háttér felé néző lapok nem látszanak. Lépések:
+1. Lap normálvektorának kiszámítása (vektoriális szorzat)
+2. A lapból a kamerába mutató vektor és a normál közötti szög (skaláris szorzat) — ha <strong>90°-nál nagyobb</strong>, akkor a lap nem látszik, eltávolítható</p>
+<p><strong>Rendezés átfedés-kezeléshez:</strong> a háromszögeket a <strong>súlypont z koordinátája szerint</strong> rendezzük (módosított gyorsrendezés) — hátulról kezdjük megjeleníteni, az elülsők kitakarják a hátsókat.</p>
+<h3>Z-Buffer algoritmus</h3>
+<p>Pixelenként vizsgálja, <strong>melyik objektum látszik</strong> ott. Minden pixelhez:
+- <strong>Mélységérték</strong> (Z) — kezdetben végtelen / max
+- <strong>Szín</strong></p>
+<p><strong>Algoritmus:</strong>
+1. Inicializálás: minden pixel Z = max, szín = háttér
+2. Bejárjuk az objektumokat, azokon belül a vetület pixeleit
+3. Ha a pixelhez tartozó pont z koord. <strong>közelebb</strong> van, mint a tárolt érték → kicseréljük (új szín, új Z)</p>
+<p>Egyszerű, gyors, párhuzamosítható. Hardver támogatott.</p>
+<h3>Árnyalási technikák</h3>
+<p><strong>Flat (konstans) árnyalás:</strong>
+- Minden lap egy pontjában kiszámítjuk a színt → azt használjuk az egész lapra
+- Akkor ideális, ha a fény párhuzamos, a kamera végtelenben, a felület poliéder
+- <strong>Görbült felületek poliéder-közelítésénél:</strong> ugrásszerű színváltások a szomszédos lapok közt</p>
+<p><strong>Gouraud árnyalás:</strong>
+- Minden csúcsban kiszámítjuk a színt a normálisok alapján
+- Lap élein: lineáris interpoláció
+- Belső pontokban: kettős lineáris interpoláció
+- <strong>Hátrányok:</strong> körvonal nem sima (látszik a poligon), nagy tükröződésnél ugrás</p>
+<p><strong>Phong árnyalás:</strong>
+- A csúcsokban tárolt <strong>normálisokat</strong> interpolálja (nem a színeket!)
+- Minden belső pontban kiszámolja a normált, majd a színt
+- <strong>Több számítás</strong>, de <strong>szebb</strong> eredmény
+- Sima tükröződés, görbült érzet még poliéderből is</p>
+<hr />
+<h2>⚡ Kvíz / kulcsfogalmak</h2>
+<ul>
+<li>PL/SQL %TYPE és %ROWTYPE értelme</li>
+<li>Anonim blokk 3 része (DECLARE, BEGIN, EXCEPTION)</li>
+<li>Procedure vs Function (visszatérés, hívási mód)</li>
+<li>Package: specifikáció vs body</li>
+<li>IN / OUT / IN OUT paraméterek</li>
+<li>Beépített kivételek: NO_DATA_FOUND, TOO_MANY_ROWS, ZERO_DIVIDE, OTHERS</li>
+<li>DDA vs MidPoint különbség (kerekítés vs egész)</li>
+<li>Nyolcas szimmetria elve a körnél</li>
+<li>Cohen-Sutherland 4 bites kódolás</li>
+<li>Hermite ív: 2 pont + 2 érintő, 4 Hermite polinom</li>
+<li>Bézier: approximáció, Bernstein, konvex burok</li>
+<li>Bézier vs B-Spline (globális vs lokális hatás)</li>
+<li>Homogén koord: miért 4 koord, miért fontos</li>
+<li>Pont-transzformációk: eltolás, forgatás, skálázás, tükrözés, nyírás</li>
+<li>Párhuzamos vs centrális vetítés</li>
+<li>Z-Buffer algoritmus alapelve</li>
+<li>Flat / Gouraud / Phong különbség (mit interpolál: szín vs normál)</li>
+</ul>
+    </article>
+
+    
+      <nav class="page-nav bottom">
+        <a href="tetel_11.html" class="nav-btn nav-prev">← 11. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_13.html" class="nav-btn nav-next">13. tétel →</a>
+      </nav>
+  </div>
+  <script>
+const THEME_KEY = "kondenzalt-theme";
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  const btn = document.getElementById('theme-btn');
+  if (btn) btn.textContent = t === 'dark' ? '☀ Világos' : '🌙 Sötét';
+}
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  localStorage.setItem(THEME_KEY, next);
+  applyTheme(next);
+}
+(function() {
+  const t = localStorage.getItem(THEME_KEY) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(t);
+})();
+
+// Keyboard nav between tetelek: Left/Right arrow
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, textarea, select')) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'ArrowLeft') {
+    const prev = document.querySelector('.nav-prev');
+    if (prev && !prev.classList.contains('nav-disabled')) prev.click();
+  } else if (e.key === 'ArrowRight') {
+    const next = document.querySelector('.nav-next');
+    if (next && !next.classList.contains('nav-disabled')) next.click();
+  }
+});
+</script>
+</body>
+</html>

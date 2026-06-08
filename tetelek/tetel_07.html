@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="hu" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>7. tétel — kondenzált</title>
+  <style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #faf9f5;
+  --surface: #ffffff;
+  --surface-2: #f3f1ea;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #e5e2d8;
+  --accent: #6d28d9;
+  --accent-soft: #ede9fe;
+  --code-bg: #f5f3ec;
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+}
+[data-theme="dark"] {
+  --bg: #0f0f12;
+  --surface: #1a1a1f;
+  --surface-2: #232329;
+  --text: #ececec;
+  --muted: #9a9a9a;
+  --border: #2d2d33;
+  --accent: #a78bfa;
+  --accent-soft: #2a1f50;
+  --code-bg: #1d1d24;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.3);
+}
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg); color: var(--text);
+  font-size: 16px; line-height: 1.7;
+}
+.wrap { max-width: 900px; margin: 0 auto; padding: 28px 24px 72px; }
+
+header.site {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 22px;
+}
+header.site h1 {
+  margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;
+}
+header.site h1 small {
+  display: block; font-size: 13px; font-weight: 400; color: var(--muted); margin-top: 4px;
+}
+.theme-toggle {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 14px;
+}
+.theme-toggle:hover { background: var(--surface-2); }
+
+/* Per-tetel page navigation */
+.page-nav {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 20px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 12px;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+.page-nav.bottom { margin: 28px 0 0; position: static; }
+.nav-btn {
+  padding: 8px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.nav-btn:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.nav-home {
+  background: var(--accent);
+  color: white !important;
+  border-color: var(--accent);
+}
+.nav-home:hover { opacity: 0.9; }
+.nav-disabled {
+  opacity: 0.4; cursor: not-allowed; pointer-events: none;
+  color: var(--muted);
+}
+.nav-spacer { flex: 1; }
+
+/* Index: tetel card grid */
+.tetel-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin: 20px 0 30px;
+}
+.tetel-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.15s;
+  box-shadow: var(--shadow);
+}
+.tetel-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(109, 40, 217, 0.16);
+}
+.tetel-card .tetel-num {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+  min-width: 48px;
+}
+.tetel-card .tetel-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.tetel-card .tetel-arrow {
+  color: var(--muted);
+  font-size: 20px;
+}
+.tetel-card:hover .tetel-arrow { color: var(--accent); }
+
+.index-note {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.index-note strong { color: var(--accent); }
+.index-note kbd {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+/* Tetel article */
+article.tetel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 26px 30px 30px;
+  margin-bottom: 12px;
+}
+
+article.tetel h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 0 0 22px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--accent-soft);
+  letter-spacing: -0.3px;
+}
+
+article.tetel h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 32px 0 16px;
+  padding: 10px 14px;
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+}
+
+article.tetel h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 26px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid var(--accent-soft);
+}
+
+article.tetel h4 {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 20px 0 8px;
+}
+
+article.tetel blockquote {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  padding: 12px 16px;
+  margin: 12px 0 22px;
+  border-radius: 0 8px 8px 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+article.tetel blockquote p { margin: 0; }
+article.tetel blockquote strong { color: var(--accent); }
+
+article.tetel p { margin: 0 0 13px; line-height: 1.72; }
+article.tetel p strong, article.tetel li strong {
+  color: var(--accent); font-weight: 700;
+}
+
+article.tetel ul, article.tetel ol {
+  margin: 10px 0 16px; padding-left: 26px;
+}
+article.tetel li { margin: 7px 0; line-height: 1.62; }
+article.tetel ul { list-style: none; padding-left: 6px; }
+article.tetel ul li { position: relative; padding-left: 22px; }
+article.tetel ul li::before {
+  content: ""; position: absolute; left: 4px; top: 10px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+}
+article.tetel ol { padding-left: 28px; }
+article.tetel ol li::marker { color: var(--accent); font-weight: 700; }
+
+article.tetel hr {
+  border: none;
+  border-top: 2px dashed var(--border);
+  margin: 32px 0;
+}
+
+article.tetel code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+article.tetel pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 14px 0;
+}
+article.tetel pre code {
+  background: none; padding: 0; color: var(--text);
+  font-size: 13px; line-height: 1.55;
+}
+
+article.tetel table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+article.tetel th, article.tetel td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+article.tetel th {
+  background: var(--surface-2);
+  font-weight: 700;
+  font-size: 13px;
+}
+article.tetel tr:last-child td { border-bottom: none; }
+article.tetel tbody tr:nth-child(even) { background: var(--surface-2); }
+
+footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 50px; }
+
+@media (max-width: 720px) {
+  .wrap { padding: 14px 12px 56px; }
+  header.site h1 { font-size: 19px; }
+  article.tetel { padding: 18px 18px 22px; }
+  article.tetel h1 { font-size: 20px; }
+  article.tetel h2 { font-size: 17px; }
+  article.tetel h3 { font-size: 15.5px; }
+  .page-nav { padding: 8px; gap: 6px; }
+  .nav-btn { padding: 6px 10px; font-size: 13px; }
+  .tetel-card { padding: 14px 16px; }
+  .tetel-card .tetel-num { font-size: 22px; min-width: 40px; }
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site">
+      <h1>7. tétel
+        <small>7. tétel — OOP öröklődés · Adatbázisok I (SQL)</small>
+      </h1>
+      <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙 Sötét</button>
+    </header>
+
+    
+      <nav class="page-nav">
+        <a href="tetel_06.html" class="nav-btn nav-prev">← 6. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_08.html" class="nav-btn nav-next">8. tétel →</a>
+      </nav>
+
+    <article class="tetel">
+      <h1>7. tétel — OOP öröklődés · Adatbázisok I (SQL)</h1>
+<h2>a) Magasszintű programozási nyelvek II — Öröklődés</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+1. Öröklődés
+2. Korai kötés, késői kötés
+3. Konstruktorok, konstruktorhívási lánc, osztályszintű konstruktor
+4. Típuskompatibilitás, object osztály
+5. Dinamikus és statikus osztályok</p>
+</blockquote>
+<h3>Öröklődés</h3>
+<p>Új osztály egy meglévő osztály <strong>képességeit örökli, kibővítheti, módosíthatja</strong>.</p>
+<p><strong>Szintaxis (C#):</strong></p>
+<pre><code class="language-csharp">class Allat {
+    public string Nev { get; set; }
+    public virtual void Hangot() { Console.WriteLine(&quot;...&quot;); }
+}
+
+class Kutya : Allat {
+    public override void Hangot() { Console.WriteLine(&quot;Vau!&quot;); }
+}
+</code></pre>
+<ul>
+<li><code>:</code> jellel jelöljük az ős-osztályt</li>
+<li>C#-ban <strong>egyszeres öröklődés</strong> osztályoknál; <strong>többszörös</strong> csak interface-eknél</li>
+<li>Az <strong>ős védett és public tagjait</strong> örökli a gyerek; a private-okat <strong>nem közvetlenül</strong></li>
+<li>A <code>sealed</code> kulcsszóval <strong>megtilthatjuk</strong> az öröklődést</li>
+</ul>
+<h3>Korai és késői kötés</h3>
+<p><strong>Korai kötés (static / early binding):</strong> a metódushívást <strong>fordításkor</strong> dönti el a fordító — a változó deklarált típusa alapján.</p>
+<p><strong>Késői kötés (dynamic / late binding):</strong> a metódushívást <strong>futásidőben</strong> dönti el — az objektum tényleges típusa alapján.</p>
+<p>C#-ban:
+- Alapból <strong>korai kötés</strong>
+- <code>virtual</code> + <code>override</code> kombóval → <strong>késői kötés</strong>
+- A <code>virtual</code> metódusokhoz az osztály egy <strong>DMT (Dinamikus Metódus Tábla, vtable)</strong>-t épít, ami az ősosztály felé mutat
+- A hívás a DMT-ből oldódik fel — ezért működik a polimorfizmus</p>
+<pre><code class="language-csharp">Allat a = new Kutya();
+a.Hangot();  // -&gt; &quot;Vau!&quot; (késői kötés, mert virtual + override)
+</code></pre>
+<p><strong><code>new</code> módosító:</strong> ha a gyerek metódus elrejti az ős metódusát kötéssel (<code>new</code> jelzéssel), <strong>nincs polimorfizmus</strong> — a deklarált típus dönt.</p>
+<h3>Konstruktorok</h3>
+<p>A konstruktor egy speciális metódus, amely <strong>az objektum létrehozásakor fut le</strong>. Inicializálja az állapotot.</p>
+<ul>
+<li>Neve <strong>megegyezik</strong> az osztály nevével</li>
+<li><strong>Nincs</strong> visszatérési típusa</li>
+<li>Lehet <strong>több</strong> (overload-olt) konstruktor</li>
+<li>Ha nem írunk → alapértelmezett (paraméter nélküli) konstruktor készül</li>
+</ul>
+<pre><code class="language-csharp">class Pont {
+    public int X, Y;
+    public Pont(int x, int y) { X = x; Y = y; }
+    public Pont() : this(0, 0) {}  // ugyanezen osztály másik konstruktorát hívja
+}
+</code></pre>
+<h3>Konstruktorhívási lánc</h3>
+<p>Származtatott osztály létrehozásakor <strong>mindig lefut az ős-konstruktor</strong> is, az osztály hierarchia mentén <strong>az ős felől lefelé</strong>.</p>
+<pre><code class="language-csharp">class Allat {
+    public Allat() { Console.WriteLine(&quot;Allat()&quot;); }
+}
+class Kutya : Allat {
+    public Kutya() { Console.WriteLine(&quot;Kutya()&quot;); }
+}
+
+new Kutya();  // -&gt; &quot;Allat()&quot; majd &quot;Kutya()&quot;
+</code></pre>
+<p>A <code>: base(args)</code> szintaxissal <strong>explicit</strong> ős-konstruktort hívhatunk:</p>
+<pre><code class="language-csharp">class Kutya : Allat {
+    public Kutya(string nev) : base() { ... }
+}
+</code></pre>
+<h3>Osztályszintű (<code>static</code>) konstruktor</h3>
+<p>Lefut <strong>egyszer</strong>, automatikusan, az osztály <strong>első használata előtt</strong>. Inicializálja a <code>static</code> mezőket.</p>
+<pre><code class="language-csharp">class Logger {
+    public static string FileName;
+    static Logger() {
+        FileName = &quot;default.log&quot;;
+    }
+}
+</code></pre>
+<ul>
+<li>Paraméter nélküli</li>
+<li>Nem hívható manuálisan</li>
+<li>Pontos lefutási idejét a runtime határozza meg</li>
+</ul>
+<h3>Típuskompatibilitás, object osztály</h3>
+<p><strong>Felfelé castolás (upcasting):</strong> a leszármazott típusú objektum hozzárendelhető egy ősosztály típusú változóhoz. <strong>Implicit</strong>, mindig biztonságos.</p>
+<pre><code class="language-csharp">Kutya k = new Kutya();
+Allat a = k;  // implicit upcast
+</code></pre>
+<p><strong>Lefelé castolás (downcasting):</strong> ősből gyerekbe — <strong>explicit</strong> kell, és <strong>kockázatos</strong> (futásidejű kivétel, ha tényleg nem az a típus).</p>
+<pre><code class="language-csharp">Allat a = new Kutya();
+Kutya k = (Kutya)a;  // explicit cast, működik
+Kutya k = a as Kutya;  // null, ha nem Kutya
+if (a is Kutya k) { ... }  // type pattern (C# 7+)
+</code></pre>
+<p><strong><code>object</code> osztály:</strong> C#-ban <strong>minden</strong> osztály végül az <code>object</code>-ből származik. Tehát bármi értékét el lehet helyezni <code>object</code> típusú változóban.</p>
+<p>Az <code>object</code> metódusai (örökölhetők/felülbírálhatók):
+- <code>ToString()</code> — szöveges reprezentáció
+- <code>Equals(object)</code> — egyenlőség
+- <code>GetHashCode()</code> — hash kód
+- <code>GetType()</code> — futásidejű típus</p>
+<h3>Dinamikus és statikus osztályok</h3>
+<p><strong>Statikus osztály (<code>static class</code>):</strong>
+- Nem <strong>példányosítható</strong> (új objektumot nem lehet belőle létrehozni)
+- Csak <code>static</code> tagokat tartalmazhat
+- Hasznos: matematikai/segédfüggvények csoportosítására (pl. <code>Math</code>, <code>Console</code>)
+- Nem örökölhető (implicit sealed)</p>
+<pre><code class="language-csharp">public static class Math {
+    public static double Sqrt(double x) { ... }
+}
+</code></pre>
+<h3>✚ Pótlás: Dinamikus osztály (<code>dynamic</code>)</h3>
+<p>A C# <strong>erősen típusos</strong> nyelv (a fordítás során ellenőrzi a típusokat), de a <code>dynamic</code> kulcsszóval <strong>futásidőben</strong> is feloldhatjuk a típusellenőrzést.</p>
+<p><strong><code>dynamic</code> típus:</strong> a fordító nem ellenőrzi a műveleteket — minden a futás során oldódik fel a <strong>DLR (Dynamic Language Runtime)</strong>-on keresztül.</p>
+<pre><code class="language-csharp">dynamic x = &quot;Hello&quot;;
+x = 5;             // OK — futásban változhat a típus
+x.SomeMethod();    // fordításkor OK, futásban dől el
+</code></pre>
+<p><strong>Felhasználása:</strong>
+- <strong>COM/Interop</strong> — Office automatizálás, ahol a típusok futásban derülnek ki
+- <strong>JSON / XML</strong> dinamikus feldolgozása
+- <strong>Reflection</strong> alternatívája
+- <strong>IronPython / IronRuby</strong> integráció</p>
+<p><strong><code>ExpandoObject</code>:</strong> dinamikusan bővíthető objektum — futás közben adhatunk hozzá tulajdonságokat.</p>
+<pre><code class="language-csharp">dynamic obj = new ExpandoObject();
+obj.Nev = &quot;Peti&quot;;
+obj.Eletkor = 25;
+</code></pre>
+<p><strong>Kockázat:</strong> elveszti a fordítóidejű biztonságot, lassabb is a normál típusosnál.</p>
+<p><strong>Dinamikus vs statikus típusosság:</strong>
+- <strong>Statikus:</strong> C#, Java, C++, Rust — a típusok fordításkor rögzítettek
+- <strong>Dinamikus:</strong> Python, JavaScript, Ruby — a típusok futás közben oldódnak fel</p>
+<hr />
+<h2>b) Adatbázisrendszerek I — SQL</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+6. SQL nyelv
+7. Relációsémák definiálása
+8. Indexek
+9. Táblák módosítása
+10. SELECT parancs
+11. Beágyazott lekérdezések
+12. Több táblára vonatkozó lekérdezések
+13. Privilégiumok
+14. Szerepkörök
+15. Tranzakció kezelés, ROLLBACK, COMMIT</p>
+</blockquote>
+<h3>SQL nyelv</h3>
+<p><strong>SQL (Structured Query Language):</strong> szabványos lekérdező és manipuláló nyelv relációs adatbázisokhoz. <strong>Deklaratív</strong> — leírjuk, mit akarunk, nem hogyan.</p>
+<p><strong>SQL al-nyelvek:</strong>
+- <strong>DDL (Data Definition Language):</strong> sémák, táblák — <code>CREATE</code>, <code>ALTER</code>, <code>DROP</code>
+- <strong>DML (Data Manipulation Language):</strong> adatok — <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>, <code>SELECT</code>
+- <strong>DCL (Data Control Language):</strong> jogosultságok — <code>GRANT</code>, <code>REVOKE</code>
+- <strong>TCL (Transaction Control):</strong> <code>COMMIT</code>, <code>ROLLBACK</code>, <code>SAVEPOINT</code></p>
+<h3>Relációsémák definiálása</h3>
+<pre><code class="language-sql">CREATE TABLE Diakok (
+    id INT PRIMARY KEY,
+    nev VARCHAR(50) NOT NULL,
+    szul_ev INT,
+    csoport_id INT,
+    FOREIGN KEY (csoport_id) REFERENCES Csoportok(id)
+);
+</code></pre>
+<p><strong>Megszorítások (constraints):</strong>
+- <code>PRIMARY KEY</code> — elsődleges kulcs
+- <code>FOREIGN KEY ... REFERENCES</code> — idegen kulcs
+- <code>NOT NULL</code> — kötelező érték
+- <code>UNIQUE</code> — egyedi
+- <code>CHECK (feltétel)</code> — érték-megszorítás
+- <code>DEFAULT</code> — alapérték</p>
+<h3>Táblák módosítása (ALTER, DROP)</h3>
+<pre><code class="language-sql">ALTER TABLE Diakok ADD email VARCHAR(100);
+ALTER TABLE Diakok MODIFY nev VARCHAR(80) NOT NULL;
+ALTER TABLE Diakok DROP COLUMN email;
+DROP TABLE Diakok;
+</code></pre>
+<h3>Indexek</h3>
+<p><strong>Index:</strong> különálló adatszerkezet, ami <strong>felgyorsítja</strong> a keresést egy oszlopon. Tipikusan <strong>B-fa</strong> vagy <strong>B+-fa</strong>.</p>
+<pre><code class="language-sql">CREATE INDEX idx_nev ON Diakok(nev);
+DROP INDEX idx_nev;
+</code></pre>
+<p><strong>Előny:</strong> gyors <code>WHERE</code> keresés, <code>JOIN</code>, rendezés.
+<strong>Hátrány:</strong> több hely, lassabb <code>INSERT/UPDATE/DELETE</code> (az indexet is karban kell tartani).</p>
+<p>A <strong>PRIMARY KEY</strong> és gyakran a <code>UNIQUE</code> automatikusan indexelt.</p>
+<h3>SELECT parancs</h3>
+<p><strong>Alapforma:</strong></p>
+<pre><code class="language-sql">SELECT oszlop1, oszlop2
+FROM tábla
+WHERE feltétel
+GROUP BY oszlop
+HAVING csoport_feltétel
+ORDER BY oszlop [ASC|DESC]
+LIMIT n;
+</code></pre>
+<p><strong>Klauzulák sorrendje a végrehajtásban (logikailag):</strong> FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT.</p>
+<p><strong>Aggregáló függvények:</strong> <code>COUNT(*)</code>, <code>SUM(x)</code>, <code>AVG(x)</code>, <code>MIN(x)</code>, <code>MAX(x)</code>.</p>
+<p><strong><code>GROUP BY</code>:</strong> csoportosítás. <strong><code>HAVING</code>:</strong> szűrés a csoportokon (WHERE az egyedi sorokon).</p>
+<pre><code class="language-sql">SELECT varos, COUNT(*) AS db
+FROM dolgozok
+GROUP BY varos
+HAVING COUNT(*) &gt; 10;
+</code></pre>
+<p><strong><code>DISTINCT</code>:</strong> duplikátumok eltávolítása.</p>
+<h3>Több táblára vonatkozó lekérdezések — JOIN</h3>
+<p><strong>INNER JOIN:</strong> csak azokat a sorokat adja vissza, amelyekre van pár.</p>
+<pre><code class="language-sql">SELECT d.nev, c.nev AS csoport
+FROM Diakok d
+JOIN Csoportok c ON d.csoport_id = c.id;
+</code></pre>
+<p><strong>LEFT JOIN:</strong> a bal tábla minden sorát visszaadja; ha nincs pár → NULL.
+<strong>RIGHT JOIN:</strong> a jobb tábla minden sorát.
+<strong>FULL JOIN:</strong> mindkettő minden sorát; nincs pár → NULL.
+<strong>CROSS JOIN (Descartes-szorzat):</strong> minden bal-jobb kombináció. <code>FROM a, b</code> (<code>WHERE</code> nélkül).</p>
+<p><strong>Self-join:</strong> ugyanaz a tábla aliasszal.</p>
+<h3>Beágyazott lekérdezések (subquery)</h3>
+<p>Egy SELECT belsejében másik SELECT.</p>
+<p><strong>Skalár subquery:</strong> egyetlen értéket ad.</p>
+<pre><code class="language-sql">SELECT nev FROM dolgozo WHERE fizetes &gt; (SELECT AVG(fizetes) FROM dolgozo);
+</code></pre>
+<p><strong><code>IN</code> / <code>NOT IN</code>:</strong> halmaz-tagság.</p>
+<pre><code class="language-sql">SELECT nev FROM dolgozo WHERE varos IN (SELECT varos FROM kozpont);
+</code></pre>
+<p><strong><code>EXISTS</code>:</strong> van-e legalább egy találat.</p>
+<pre><code class="language-sql">SELECT * FROM dolgozo d
+WHERE EXISTS (SELECT 1 FROM project p WHERE p.vezet = d.id);
+</code></pre>
+<p><strong>Korrelált subquery:</strong> a belső kérdés a külső sor egy oszlopára hivatkozik.</p>
+<h3>DML — adatkezelés</h3>
+<pre><code class="language-sql">INSERT INTO Diakok (id, nev, szul_ev) VALUES (1, 'Anna', 2000);
+INSERT INTO Diakok VALUES (2, 'Béla', 1999, 5);
+
+UPDATE Diakok SET szul_ev = 2001 WHERE id = 1;
+
+DELETE FROM Diakok WHERE szul_ev &lt; 1990;
+</code></pre>
+<h3>Privilégiumok</h3>
+<p><strong><code>GRANT</code> és <code>REVOKE</code>:</strong> jogosultságok adása és visszavonása.</p>
+<pre><code class="language-sql">GRANT SELECT, UPDATE ON Diakok TO test_user;
+REVOKE UPDATE ON Diakok FROM test_user;
+GRANT ALL PRIVILEGES ON Diakok TO admin_user;
+</code></pre>
+<p><strong>Privilégium fajtái:</strong> SELECT, INSERT, UPDATE, DELETE, REFERENCES, ALTER, INDEX, EXECUTE.</p>
+<p><strong><code>WITH GRANT OPTION</code>:</strong> a kapott jogot a felhasználó tovább is adhatja.</p>
+<h3>Szerepkörök (roles)</h3>
+<p>Jogosultságok <strong>csoportja</strong>. Felhasználóknak szerepkört rendelünk → öröklik a szerepkör jogait.</p>
+<pre><code class="language-sql">CREATE ROLE fejleszto;
+GRANT SELECT, UPDATE ON Diakok TO fejleszto;
+GRANT fejleszto TO peter;
+</code></pre>
+<p>Előny: ha sok felhasználónak ugyanaz a joga, egy helyen kezelhető.</p>
+<h3>Tranzakciókezelés — ACID</h3>
+<p><strong>Tranzakció:</strong> logikai egységként kezelt műveletek sorozata. <strong>Vagy minden végbemegy, vagy semmi.</strong></p>
+<p><strong>ACID tulajdonságok:</strong>
+- <strong>Atomicity (atomosság):</strong> mindent vagy semmit
+- <strong>Consistency (konzisztencia):</strong> az integritási megszorítások a tranzakció előtt és után is teljesülnek
+- <strong>Isolation (elkülönítés):</strong> a tranzakciók látszólag egymástól függetlenül futnak
+- <strong>Durability (tartósság):</strong> ha COMMIT-olt, többé nem vész el</p>
+<h3>COMMIT és ROLLBACK</h3>
+<p><strong><code>COMMIT</code>:</strong> véglegesíti a tranzakció módosításait. A többi felhasználó számára is láthatóvá válik.</p>
+<p><strong><code>ROLLBACK</code>:</strong> <strong>visszagörgeti</strong> a tranzakció módosításait, mintha meg sem történtek volna. <strong>COMMIT után már nincs rá lehetőség.</strong></p>
+<p><strong><code>SAVEPOINT</code>:</strong> köztes mentési pont — onnantól is lehet rollback.</p>
+<p><strong>Implicit COMMIT</strong> történik:
+- DDL utasítás (CREATE, ALTER, DROP) kiadásakor
+- Felhasználó kilépésekor</p>
+<p><strong>Implicit ROLLBACK</strong> történik, ha az alkalmazás rendellenesen fejeződik be.</p>
+<hr />
+<h2>⚡ Kvíz / kulcsfogalmak</h2>
+<ul>
+<li>C# egyszeres osztály-öröklődés + tetszőleges interface</li>
+<li><code>virtual</code> + <code>override</code> = késői kötés (polimorfizmus); <code>new</code> = elrejtés</li>
+<li>DMT / vtable szerepe</li>
+<li>Konstruktorhívási lánc iránya (ős → leszármazott)</li>
+<li><code>: base(args)</code> és <code>: this(args)</code></li>
+<li><code>static class</code> nem példányosítható, csak statikus tagok</li>
+<li><code>dynamic</code> típus + DLR</li>
+<li>Upcast implicit, downcast explicit + <code>as</code> / <code>is</code></li>
+<li><code>object</code> osztály 4 örökölt metódusa (ToString, Equals, GetHashCode, GetType)</li>
+<li>SQL 4 al-nyelv (DDL, DML, DCL, TCL)</li>
+<li>Constraintek: PRIMARY KEY, FOREIGN KEY, NOT NULL, UNIQUE, CHECK</li>
+<li>Index: gyorsít SELECT-et, lassít INSERT/UPDATE-et</li>
+<li>JOIN típusok: INNER, LEFT, RIGHT, FULL, CROSS</li>
+<li>WHERE vs HAVING (egyedi sor vs csoport)</li>
+<li>GRANT, REVOKE, role</li>
+<li>ACID 4 betűje (Atomicity, Consistency, Isolation, Durability)</li>
+<li>COMMIT vs ROLLBACK; implicit COMMIT mikor</li>
+</ul>
+    </article>
+
+    
+      <nav class="page-nav bottom">
+        <a href="tetel_06.html" class="nav-btn nav-prev">← 6. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_08.html" class="nav-btn nav-next">8. tétel →</a>
+      </nav>
+  </div>
+  <script>
+const THEME_KEY = "kondenzalt-theme";
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  const btn = document.getElementById('theme-btn');
+  if (btn) btn.textContent = t === 'dark' ? '☀ Világos' : '🌙 Sötét';
+}
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  localStorage.setItem(THEME_KEY, next);
+  applyTheme(next);
+}
+(function() {
+  const t = localStorage.getItem(THEME_KEY) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(t);
+})();
+
+// Keyboard nav between tetelek: Left/Right arrow
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, textarea, select')) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'ArrowLeft') {
+    const prev = document.querySelector('.nav-prev');
+    if (prev && !prev.classList.contains('nav-disabled')) prev.click();
+  } else if (e.key === 'ArrowRight') {
+    const next = document.querySelector('.nav-next');
+    if (next && !next.classList.contains('nav-disabled')) next.click();
+  }
+});
+</script>
+</body>
+</html>

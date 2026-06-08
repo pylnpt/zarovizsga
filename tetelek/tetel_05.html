@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="hu" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>5. tétel — kondenzált</title>
+  <style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #faf9f5;
+  --surface: #ffffff;
+  --surface-2: #f3f1ea;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #e5e2d8;
+  --accent: #6d28d9;
+  --accent-soft: #ede9fe;
+  --code-bg: #f5f3ec;
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+}
+[data-theme="dark"] {
+  --bg: #0f0f12;
+  --surface: #1a1a1f;
+  --surface-2: #232329;
+  --text: #ececec;
+  --muted: #9a9a9a;
+  --border: #2d2d33;
+  --accent: #a78bfa;
+  --accent-soft: #2a1f50;
+  --code-bg: #1d1d24;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.3);
+}
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg); color: var(--text);
+  font-size: 16px; line-height: 1.7;
+}
+.wrap { max-width: 900px; margin: 0 auto; padding: 28px 24px 72px; }
+
+header.site {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 22px;
+}
+header.site h1 {
+  margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;
+}
+header.site h1 small {
+  display: block; font-size: 13px; font-weight: 400; color: var(--muted); margin-top: 4px;
+}
+.theme-toggle {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 14px;
+}
+.theme-toggle:hover { background: var(--surface-2); }
+
+/* Per-tetel page navigation */
+.page-nav {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 20px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 12px;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+.page-nav.bottom { margin: 28px 0 0; position: static; }
+.nav-btn {
+  padding: 8px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.nav-btn:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.nav-home {
+  background: var(--accent);
+  color: white !important;
+  border-color: var(--accent);
+}
+.nav-home:hover { opacity: 0.9; }
+.nav-disabled {
+  opacity: 0.4; cursor: not-allowed; pointer-events: none;
+  color: var(--muted);
+}
+.nav-spacer { flex: 1; }
+
+/* Index: tetel card grid */
+.tetel-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin: 20px 0 30px;
+}
+.tetel-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.15s;
+  box-shadow: var(--shadow);
+}
+.tetel-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(109, 40, 217, 0.16);
+}
+.tetel-card .tetel-num {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+  min-width: 48px;
+}
+.tetel-card .tetel-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.tetel-card .tetel-arrow {
+  color: var(--muted);
+  font-size: 20px;
+}
+.tetel-card:hover .tetel-arrow { color: var(--accent); }
+
+.index-note {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.index-note strong { color: var(--accent); }
+.index-note kbd {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+/* Tetel article */
+article.tetel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 26px 30px 30px;
+  margin-bottom: 12px;
+}
+
+article.tetel h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 0 0 22px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--accent-soft);
+  letter-spacing: -0.3px;
+}
+
+article.tetel h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 32px 0 16px;
+  padding: 10px 14px;
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+}
+
+article.tetel h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 26px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid var(--accent-soft);
+}
+
+article.tetel h4 {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 20px 0 8px;
+}
+
+article.tetel blockquote {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  padding: 12px 16px;
+  margin: 12px 0 22px;
+  border-radius: 0 8px 8px 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+article.tetel blockquote p { margin: 0; }
+article.tetel blockquote strong { color: var(--accent); }
+
+article.tetel p { margin: 0 0 13px; line-height: 1.72; }
+article.tetel p strong, article.tetel li strong {
+  color: var(--accent); font-weight: 700;
+}
+
+article.tetel ul, article.tetel ol {
+  margin: 10px 0 16px; padding-left: 26px;
+}
+article.tetel li { margin: 7px 0; line-height: 1.62; }
+article.tetel ul { list-style: none; padding-left: 6px; }
+article.tetel ul li { position: relative; padding-left: 22px; }
+article.tetel ul li::before {
+  content: ""; position: absolute; left: 4px; top: 10px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+}
+article.tetel ol { padding-left: 28px; }
+article.tetel ol li::marker { color: var(--accent); font-weight: 700; }
+
+article.tetel hr {
+  border: none;
+  border-top: 2px dashed var(--border);
+  margin: 32px 0;
+}
+
+article.tetel code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+article.tetel pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 14px 0;
+}
+article.tetel pre code {
+  background: none; padding: 0; color: var(--text);
+  font-size: 13px; line-height: 1.55;
+}
+
+article.tetel table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+article.tetel th, article.tetel td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+article.tetel th {
+  background: var(--surface-2);
+  font-weight: 700;
+  font-size: 13px;
+}
+article.tetel tr:last-child td { border-bottom: none; }
+article.tetel tbody tr:nth-child(even) { background: var(--surface-2); }
+
+footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 50px; }
+
+@media (max-width: 720px) {
+  .wrap { padding: 14px 12px 56px; }
+  header.site h1 { font-size: 19px; }
+  article.tetel { padding: 18px 18px 22px; }
+  article.tetel h1 { font-size: 20px; }
+  article.tetel h2 { font-size: 17px; }
+  article.tetel h3 { font-size: 15.5px; }
+  .page-nav { padding: 8px; gap: 6px; }
+  .nav-btn { padding: 6px 10px; font-size: 13px; }
+  .tetel-card { padding: 14px 16px; }
+  .tetel-card .tetel-num { font-size: 22px; min-width: 40px; }
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site">
+      <h1>5. tétel
+        <small>5. tétel — OOP alapok · Architektúrák (cache + I/O)</small>
+      </h1>
+      <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙 Sötét</button>
+    </header>
+
+    
+      <nav class="page-nav">
+        <a href="tetel_04.html" class="nav-btn nav-prev">← 4. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_06.html" class="nav-btn nav-next">6. tétel →</a>
+      </nav>
+
+    <article class="tetel">
+      <h1>5. tétel — OOP alapok · Architektúrák (cache + I/O)</h1>
+<h2>a) Magasszintű programozási nyelvek II — OOP alapok</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+1. Az OOP alapelvei, alapfogalmai
+2. Mezők, metódusok, property-k, adatrejtés
+3. Konténerosztályok használata és indexelők
+4. Osztályszint és példányszint
+5. Névterek
+6. Bővítő metódusok
+7. Operator overloading</p>
+</blockquote>
+<h3>OOP alapelvei</h3>
+<p>A négy klasszikus alapelv:</p>
+<ol>
+<li>
+<p><strong>Egységbe zárás (encapsulation):</strong> az adat és a rajta értelmezett műveletek egy egységben (osztályban) vannak; az adat <strong>adatrejtéssel</strong> védett.</p>
+</li>
+<li>
+<p><strong>Adatrejtés (information hiding):</strong> az osztály belső állapota kívülről nem közvetlenül elérhető — <code>private</code> mezők, csak <code>public</code> metódusokon / property-ken keresztül.</p>
+</li>
+<li>
+<p><strong>Öröklődés (inheritance):</strong> új osztály egy meglévő osztály képességeit örökli + bővíti.</p>
+</li>
+<li>
+<p><strong>Többalakúság (polymorphism):</strong> ugyanaz a metódus-név más-más viselkedést jelent a típustól függően (override-olás, virtual).</p>
+</li>
+</ol>
+<h3>Alapfogalmak</h3>
+<ul>
+<li><strong>Osztály (class):</strong> sablon — definiálja, milyen adatai és metódusai vannak az objektumoknak.</li>
+<li><strong>Objektum (példány):</strong> osztály egy konkrét megvalósulása.</li>
+<li><strong>Konstruktor:</strong> speciális metódus, ami létrehozáskor fut le.</li>
+<li><strong>Destruktor / finalizer:</strong> felszabadításkor (C#-ban a GC kezeli).</li>
+</ul>
+<h3>Mezők</h3>
+<p>A <strong>mező (field)</strong> az osztály adat-tartalma:
+- <code>private</code> (alapeset C#-ban): csak az osztályon belül látható
+- <code>public</code>: bárhonnan
+- <code>protected</code>: az osztály + leszármazottak
+- <code>internal</code>: ugyanazon assembly-n belül
+- <code>static</code>: osztályszint (lásd lent)
+- <code>readonly</code>: csak konstruktorban kaphat értéket</p>
+<h3>Metódusok</h3>
+<p>Az osztály viselkedése. <strong>Szignatúra:</strong> név + paraméterlista. Visszatérési típussal. Lehet <code>static</code> vagy példányszintű.</p>
+<p><strong>Túlterhelés (overload):</strong> azonos név, más paramétertípus.</p>
+<h3>Property-k</h3>
+<p>C# specifikus konstrukció — getter/setter elegáns szintaxisa. Kívülről úgy viselkedik, mint egy mező, de <strong>metódushívás</strong> alatta.</p>
+<pre><code class="language-csharp">public int Eletkor {
+    get { return eletkor; }
+    set {
+        if (value &gt;= 0) eletkor = value;
+    }
+}
+
+// Auto-property
+public string Nev { get; set; }
+public string Id { get; init; }  // C# 9+, csak konstruktorban
+</code></pre>
+<h3>Adatrejtés</h3>
+<p>A <code>private</code> mezőket csak public property-ken vagy metódusokon keresztül érjük el → a belső állapot védett, módosításnál érvényesíthetjük az <strong>invariánsokat</strong> (pl. életkor nem lehet negatív).</p>
+<h3>Konténerosztályok használata</h3>
+<p>A <strong><code>System.Collections.Generic</code></strong> névtér tartalmazza:
+- <code>List&lt;T&gt;</code> — dinamikus tömb
+- <code>Dictionary&lt;K, V&gt;</code> — hash-tábla
+- <code>HashSet&lt;T&gt;</code> — halmaz
+- <code>Stack&lt;T&gt;</code>, <code>Queue&lt;T&gt;</code> — verem, sor
+- <code>LinkedList&lt;T&gt;</code> — láncolt lista
+- <code>SortedSet&lt;T&gt;</code>, <code>SortedDictionary&lt;K, V&gt;</code> — rendezett (fa-alapú)</p>
+<p>Mind generikusak — típusbiztos, <strong>boxing nélküli</strong>.</p>
+<h3>Indexelők</h3>
+<p>C# specifikus — az osztály objektumai indexelhetők, mint egy tömb.</p>
+<pre><code class="language-csharp">class Tarolo {
+    private string[] items = new string[10];
+    public string this[int i] {
+        get { return items[i]; }
+        set { items[i] = value; }
+    }
+}
+
+Tarolo t = new();
+t[3] = &quot;alma&quot;;   // indexelő hívása
+</code></pre>
+<h3>Osztályszint és példányszint</h3>
+<p><strong>Példányszintű (instance):</strong> az objektumhoz tartozik. Példányonként külön értéke van.</p>
+<p><strong>Osztályszintű (<code>static</code>):</strong>
+- Az osztályhoz tartozik, nem példányhoz
+- Egyetlen közös példánya van az alkalmazásban
+- Példányosítás nélkül elérhető (<code>Math.Sqrt(2)</code>)
+- <strong>Osztályszintű konstruktor (<code>static constructor</code>):</strong> egyszer fut le, az osztály első használatakor</p>
+<h3>Névterek (namespace)</h3>
+<p>Csoportosítja az összetartozó típusokat, <strong>névütközéseket</strong> kerüli el.</p>
+<pre><code class="language-csharp">namespace MyApp.Models {
+    public class Felhasznalo { ... }
+}
+
+// Használat:
+using MyApp.Models;
+var u = new Felhasznalo();
+
+// Vagy teljes minősítéssel:
+var u = new MyApp.Models.Felhasznalo();
+</code></pre>
+<p>A BCL is névterekbe szervezett: <code>System</code>, <code>System.IO</code>, <code>System.Collections.Generic</code>, <code>System.Linq</code> stb.</p>
+<h3>Bővítő metódusok (extension methods)</h3>
+<p>Lehetővé teszi, hogy <strong>meglévő típushoz</strong> új metódust adjunk, anélkül, hogy módosítanánk az eredetit. <strong><code>static</code></strong> metódus statikus osztályban, első paraméter elé <code>this</code>.</p>
+<pre><code class="language-csharp">public static class StringExtensions {
+    public static bool IsEmail(this string s) {
+        return s.Contains(&quot;@&quot;);
+    }
+}
+
+// Használat — úgy néz ki, mintha a string osztály metódusa lenne
+&quot;foo@bar.com&quot;.IsEmail();
+</code></pre>
+<p>A <strong>LINQ teljes egészében bővítő metódusokra épül.</strong></p>
+<h3>Operator overloading</h3>
+<p>Lehetővé teszi, hogy saját operátorokat definiáljunk osztályokhoz.</p>
+<pre><code class="language-csharp">public static Vector operator +(Vector a, Vector b) {
+    return new Vector(a.X + b.X, a.Y + b.Y);
+}
+</code></pre>
+<p>Megkötések:
+- Csak <code>static</code> lehet
+- Az <code>==</code> és <code>!=</code>, <code>&lt;</code> és <code>&gt;</code> <strong>párban</strong> definiálandók
+- Bizonyos operátorok nem overload-olhatók (pl. <code>&amp;&amp;</code>, <code>||</code>, <code>=</code>)
+- Ha <code>==</code>-t definiálsz, az <code>Equals</code> és <code>GetHashCode</code> is felülbírálandó</p>
+<hr />
+<h2>b) Architektúrák — cache, memória hierarchia, I/O perifériák</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+8. A cache használat
+9. Lokalitási elvek ismertetése
+10. A memória hierarchia szintjeinek összehasonlítása, a cache(ek) helye a szintek között
+11. Felépítése, az elérési változatok
+12. Címbitek számának meghatározása az elérési módoktól függően
+13. Visszaírási módok
+14. A dirty és valid flag-ek szerepe
+15. <strong>I/O és tipikus perifériák PC-s, mobil és robotikai környezetben.</strong></p>
+</blockquote>
+<h3>Cache használata</h3>
+<p><strong>Cache (gyorsítótár):</strong> kis méretű, gyors átmeneti tároló — a CPU és a lassabb fő memória között. Cél: csökkenti az átlagos memória-elérési időt.</p>
+<p>A gyorsítótár vezérlője bemásolja a kért adatot a cache-be — a következő hozzáférés gyors.</p>
+<ul>
+<li><strong>Cache hit:</strong> a kért adat benne van a cache-ben</li>
+<li><strong>Cache miss:</strong> nincs benne — meg kell várni a lassabb memóriát</li>
+</ul>
+<p><strong>Hatékonyság:</strong> átlagos elérési idő = hit_rate × cache_idő + miss_rate × memória_idő.</p>
+<h3>Lokalitási elvek</h3>
+<p>A cache hatékonyságának alapja, hogy a CPU <strong>hajlamos ugyanazokat a memóriaterületeket többször felhasználni</strong>.</p>
+<ul>
+<li><strong>Időbeli lokalitás (temporal):</strong> ha egy adatot most használtam, <strong>valószínűleg újra fogom</strong> használni hamarosan (pl. ciklusváltozók).</li>
+<li><strong>Térbeli lokalitás (spatial):</strong> ha egy memóriaterületet érintek, <strong>a környezetét is</strong> valószínűleg érinteni fogom (pl. tömb-bejárás).</li>
+</ul>
+<p>A cache <strong>adatblokkokat</strong> (cache line) húz be — kihasználja a térbeli lokalitást.</p>
+<h3>Memória hierarchia</h3>
+<table>
+<thead>
+<tr>
+<th>Szint</th>
+<th>Méret</th>
+<th>Sebesség</th>
+<th>Hozzáférés</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CPU regiszterek</strong></td>
+<td>~bájt</td>
+<td>~1 ciklus</td>
+<td>Közvetlen</td>
+</tr>
+<tr>
+<td><strong>L1 cache</strong></td>
+<td>~32-64 KB</td>
+<td>~3-5 ciklus</td>
+<td>CPU-mag</td>
+</tr>
+<tr>
+<td><strong>L2 cache</strong></td>
+<td>~256 KB – 1 MB</td>
+<td>~10-20 ciklus</td>
+<td>CPU-mag (vagy közös)</td>
+</tr>
+<tr>
+<td><strong>L3 cache</strong></td>
+<td>~4-32 MB</td>
+<td>~30-50 ciklus</td>
+<td>Magok közös</td>
+</tr>
+<tr>
+<td><strong>Operatív memória (RAM)</strong></td>
+<td>~GB</td>
+<td>~100-200 ciklus</td>
+<td>DRAM</td>
+</tr>
+<tr>
+<td><strong>SSD/HDD</strong></td>
+<td>~TB</td>
+<td>~milliszekundum</td>
+<td>Háttértár</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cache helye:</strong> a CPU és a RAM között. L1 a leggyorsabb, legkisebb; L3 a leglassabb cache de a leggyorsabb RAM-nál.</p>
+<h3>Cache felépítése</h3>
+<p>A cache <strong>sorokra (cache line)</strong> van osztva. Egy sor tartalma:
+- <strong>Címtár (tag):</strong> az adatblokk eredeti memóriabeli helyét azonosítja
+- <strong>Adatblokk:</strong> 2ⁿ bájt egybefüggő memóriaterület (jellemzően 64 bájt)
+- <strong>Valid bit</strong> és <strong>dirty bit</strong></p>
+<h3>Elérési változatok</h3>
+<p><strong>1. Direkt leképezésű (direct mapped):</strong>
+- Minden memóriablokk <strong>pontosan egy</strong> cache-sorba kerülhet
+- A cím index részéből számoljuk
+- Gyors, egyszerű — de <strong>ütközés</strong> gyakori, ha két használt blokk ugyanoda esne</p>
+<p><strong>2. Asszociatív (fully associative):</strong>
+- Bármely memóriablokk <strong>bármelyik</strong> cache-sorba kerülhet
+- Minden sort párhuzamosan kell ellenőrizni → drága
+- Nincs ütközés</p>
+<p><strong>3. Halmaz-asszociatív (n-way set associative):</strong>
+- Köztes megoldás — a cache halmazokra (set) osztva, minden halmazban n cache-sor
+- Egy memóriablokk <strong>n</strong> lehetséges helyre kerülhet
+- Gyakorlatban: 2-, 4-, 8-way</p>
+<h3>Címbitek számának meghatározása</h3>
+<p>A memóriacímet <strong>3 részre</strong> bontjuk:
+- <strong>Tag (címtár):</strong> azonosítja a blokkot
+- <strong>Index (set):</strong> melyik halmaz / sor
+- <strong>Offset (eltolás):</strong> a blokkon belüli bájt-pozíció</p>
+<p>Ha az adatblokk <strong>2^b</strong> bájt, az index <strong>2^i</strong> sor (vagy set), és a cím <strong>n</strong> bites:
+- <strong>Offset bitek</strong> = b
+- <strong>Index bitek</strong> = i
+- <strong>Tag bitek</strong> = n − i − b</p>
+<p><strong>Direkt leképezés</strong> esetén az index közvetlenül a sor sorszáma. <strong>n-way</strong> esetén a set indexe; a tag azt mondja meg, melyik sor a setben.</p>
+<h3>Visszaírási módok</h3>
+<p><strong>Write-through:</strong> a CPU által módosított adatot <strong>azonnal</strong> kiírja a memóriába (és a cache-be is). 
+- Egyszerű, mindig konzisztens
+- <strong>Lassú</strong> (minden írás memóriát ér)</p>
+<p><strong>Write-back:</strong> a módosítás <strong>csak a cache-be</strong> megy. A <strong>dirty bitet 1-re</strong> állítja. A cache sor törlésekor (kiváltáskor) írja vissza a memóriába.
+- Gyors
+- Bonyolultabb (konzisztencia kezelés szükséges, főleg multiprocesszoros)</p>
+<h3>Dirty és valid flag-ek</h3>
+<p><strong>Valid bit (1 bit):</strong> érvényes-e az adott cache sor adata?
+- Bekapcsoláskor 0
+- Adat betöltésekor 1-re vált
+- Sor felszabadításakor 0-ra (több algoritmus van, pl. LRU = legrégebben használt)</p>
+<p><strong>Dirty bit (1 bit):</strong> a CPU módosította-e a cache sor adatát?
+- Ha nem módosítottuk → 0 (visszaírás nem szükséges)
+- Ha módosítottuk → 1 (a sor törlésekor vissza kell írni)
+- Sor érvénytelenítése előtt: ha dirty=1 → write-back a memóriába</p>
+<h3>✚ Pótlás: I/O és tipikus perifériák</h3>
+<p><strong>Input/Output (I/O):</strong> a CPU és a külvilág (perifériák) közötti adatcsere.</p>
+<p><strong>I/O alapmódok:</strong>
+- <strong>Programmed I/O (polling):</strong> a CPU rendszeresen lekérdezi a periféria állapotát. Egyszerű, de CPU-pazarló.
+- <strong>Megszakítás (interrupt) vezérelt:</strong> a periféria szól, ha kész — a CPU mást csinálhat addig.
+- <strong>DMA (Direct Memory Access):</strong> dedikált vezérlő közvetlenül a memória és a periféria között mozgat adatot, a CPU csak indítja és értesítést kap a végén. <strong>Nagy adatmennyiséghez ideális.</strong></p>
+<p><strong>Címzési módok:</strong>
+- <strong>Port I/O:</strong> külön I/O címtér, dedikált utasítások (Intel <code>IN</code>, <code>OUT</code>)
+- <strong>Memóriába képezett I/O (MMIO):</strong> a periféria a memóriacímtér része — normál load/store utasítások használhatók</p>
+<h3>PC perifériák</h3>
+<ul>
+<li><strong>Beviteli:</strong> billentyűzet (USB), egér, szkenner, mikrofon, webkamera, <strong>érintőképernyő</strong></li>
+<li><strong>Kiviteli:</strong> monitor (HDMI, DisplayPort, VGA), nyomtató (USB, hálózat), hangszóró</li>
+<li><strong>Tárolás:</strong> HDD (SATA), SSD (NVMe, SATA), USB drive, optikai meghajtó (egyre ritkább)</li>
+<li><strong>Hálózati:</strong> Ethernet (RJ45), Wi-Fi, Bluetooth</li>
+<li><strong>Buszok:</strong> USB (1.1/2/3/4/USB-C), PCI Express (bővítőkártyák), SATA</li>
+</ul>
+<h3>Mobil perifériák</h3>
+<p>A mobil eszközök erősen <strong>integráltak</strong> — a perifériák a SoC (System on Chip) köré épülnek.</p>
+<ul>
+<li><strong>Beviteli:</strong> <strong>érintőképernyő</strong> (kapacitív multitouch), gomb, mikrofon</li>
+<li><strong>Szenzorok</strong> (jellegzetesen mobil): </li>
+<li><strong>Gyorsulásmérő (accelerometer)</strong> — eszköz mozgása, képernyő-orientáció</li>
+<li><strong>Giroszkóp (gyroscope)</strong> — forgási sebesség</li>
+<li><strong>Magnetométer</strong> — irány (iránytű)</li>
+<li><strong>GPS</strong> — helymeghatározás</li>
+<li><strong>Közelség-érzékelő (proximity)</strong> — pl. fülhöz emelt telefon képernyőjének kikapcsolása</li>
+<li><strong>Fény-érzékelő</strong> — automatikus fényerő</li>
+<li><strong>Ujjlenyomat-olvasó, arcfelismerés</strong></li>
+<li><strong>Kiviteli:</strong> képernyő (OLED, LCD), hangszóró, rezgő motor</li>
+<li><strong>Kapcsolódás:</strong> Bluetooth, Wi-Fi, mobilhálózat (4G/5G), NFC (érintéses fizetés)</li>
+<li><strong>Kamera(k):</strong> fő- és előlapi, mélységérzékelés (ToF, LiDAR)</li>
+</ul>
+<h3>Robotikai környezet perifériái</h3>
+<p>A robotok <strong>szenzor-aktuátor</strong> alapúak — bemenetek a környezetről, kimenetek mozgásra.</p>
+<p><strong>Szenzorok (bemenet):</strong>
+- <strong>LIDAR</strong> — lézeres távolságmérés, 360°-os térképezés
+- <strong>Ultrahangos (sonar)</strong> — közeli akadály-detektálás
+- <strong>IR (infravörös)</strong> szenzorok — vonalkövetés, közelség
+- <strong>Kamera + computer vision</strong> — objektum-felismerés, vizuális SLAM
+- <strong>IMU (Inertial Measurement Unit):</strong> accelerometer + giroszkóp + magnetométer együtt
+- <strong>Erő- / nyomás-érzékelők</strong> — érintés, robotkéz
+- <strong>Enkóderek</strong> — motor pozíció / fordulatszám
+- <strong>GPS</strong> — kültéri pozícionálás</p>
+<p><strong>Aktuátorok (kimenet):</strong>
+- <strong>DC motorok</strong>, <strong>léptetőmotorok</strong>, <strong>szervomotorok</strong>
+- <strong>Lineáris aktuátorok</strong>
+- <strong>Mágnesszelepek, pneumatika</strong></p>
+<p><strong>Vezérlő interfészek:</strong>
+- <strong>GPIO</strong> (General Purpose Input/Output) — digitális ki/be (Raspberry Pi, Arduino)
+- <strong>PWM</strong> (Pulse Width Modulation) — motorvezérlés, szervó pozícionálás
+- <strong>I²C, SPI, UART</strong> — soros kommunikáció szenzorokkal, MCU-kkal
+- <strong>CAN bus</strong> — autóipari, ipari robotika
+- <strong>EtherCAT, PROFINET</strong> — ipari hálózat</p>
+<p><strong>Robotikai stack:</strong> szenzorfúzió → percepció → tervezés (path planning) → vezérlés → aktuátorok.</p>
+<hr />
+<h2>⚡ Kvíz / kulcsfogalmak</h2>
+<ul>
+<li>OOP 4 alapelve (egységbe zárás, adatrejtés, öröklődés, polimorfizmus)</li>
+<li>Mező vs property: property = metódussal kontrollált hozzáférés</li>
+<li>Static vs példányszintű</li>
+<li>Static konstruktor mikor fut le?</li>
+<li>Bővítő metódus (<code>this</code> az első paraméter elé)</li>
+<li>Mit nem szabad / nem lehet operátor-túlterhelésnél (<code>&amp;&amp;</code>, <code>=</code>)</li>
+<li>Időbeli vs térbeli lokalitás</li>
+<li>Cache hierarchia (regiszter → L1 → L2 → L3 → RAM)</li>
+<li>Direkt / asszociatív / n-way set associative különbség</li>
+<li>Címfelosztás: tag / index / offset bitek számolása</li>
+<li>Write-through vs write-back</li>
+<li>Valid bit és dirty bit szerepe</li>
+<li>3 I/O mód: polling, interrupt, DMA</li>
+<li>PC vs mobil vs robotikai perifériák jellemző különbségei</li>
+<li>LIDAR, IMU, enkóder mire való</li>
+<li>GPIO, PWM, I²C/SPI/UART fogalma</li>
+</ul>
+    </article>
+
+    
+      <nav class="page-nav bottom">
+        <a href="tetel_04.html" class="nav-btn nav-prev">← 4. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_06.html" class="nav-btn nav-next">6. tétel →</a>
+      </nav>
+  </div>
+  <script>
+const THEME_KEY = "kondenzalt-theme";
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  const btn = document.getElementById('theme-btn');
+  if (btn) btn.textContent = t === 'dark' ? '☀ Világos' : '🌙 Sötét';
+}
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  localStorage.setItem(THEME_KEY, next);
+  applyTheme(next);
+}
+(function() {
+  const t = localStorage.getItem(THEME_KEY) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(t);
+})();
+
+// Keyboard nav between tetelek: Left/Right arrow
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, textarea, select')) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'ArrowLeft') {
+    const prev = document.querySelector('.nav-prev');
+    if (prev && !prev.classList.contains('nav-disabled')) prev.click();
+  } else if (e.key === 'ArrowRight') {
+    const next = document.querySelector('.nav-next');
+    if (next && !next.classList.contains('nav-disabled')) next.click();
+  }
+});
+</script>
+</body>
+</html>

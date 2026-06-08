@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="hu" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>9. tétel — kondenzált</title>
+  <style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #faf9f5;
+  --surface: #ffffff;
+  --surface-2: #f3f1ea;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #e5e2d8;
+  --accent: #6d28d9;
+  --accent-soft: #ede9fe;
+  --code-bg: #f5f3ec;
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+}
+[data-theme="dark"] {
+  --bg: #0f0f12;
+  --surface: #1a1a1f;
+  --surface-2: #232329;
+  --text: #ececec;
+  --muted: #9a9a9a;
+  --border: #2d2d33;
+  --accent: #a78bfa;
+  --accent-soft: #2a1f50;
+  --code-bg: #1d1d24;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.3);
+}
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg); color: var(--text);
+  font-size: 16px; line-height: 1.7;
+}
+.wrap { max-width: 900px; margin: 0 auto; padding: 28px 24px 72px; }
+
+header.site {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 22px;
+}
+header.site h1 {
+  margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;
+}
+header.site h1 small {
+  display: block; font-size: 13px; font-weight: 400; color: var(--muted); margin-top: 4px;
+}
+.theme-toggle {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 14px;
+}
+.theme-toggle:hover { background: var(--surface-2); }
+
+/* Per-tetel page navigation */
+.page-nav {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 20px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 12px;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+.page-nav.bottom { margin: 28px 0 0; position: static; }
+.nav-btn {
+  padding: 8px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.nav-btn:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.nav-home {
+  background: var(--accent);
+  color: white !important;
+  border-color: var(--accent);
+}
+.nav-home:hover { opacity: 0.9; }
+.nav-disabled {
+  opacity: 0.4; cursor: not-allowed; pointer-events: none;
+  color: var(--muted);
+}
+.nav-spacer { flex: 1; }
+
+/* Index: tetel card grid */
+.tetel-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin: 20px 0 30px;
+}
+.tetel-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.15s;
+  box-shadow: var(--shadow);
+}
+.tetel-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(109, 40, 217, 0.16);
+}
+.tetel-card .tetel-num {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+  min-width: 48px;
+}
+.tetel-card .tetel-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.tetel-card .tetel-arrow {
+  color: var(--muted);
+  font-size: 20px;
+}
+.tetel-card:hover .tetel-arrow { color: var(--accent); }
+
+.index-note {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.index-note strong { color: var(--accent); }
+.index-note kbd {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+/* Tetel article */
+article.tetel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 26px 30px 30px;
+  margin-bottom: 12px;
+}
+
+article.tetel h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 0 0 22px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--accent-soft);
+  letter-spacing: -0.3px;
+}
+
+article.tetel h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 32px 0 16px;
+  padding: 10px 14px;
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+}
+
+article.tetel h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 26px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid var(--accent-soft);
+}
+
+article.tetel h4 {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 20px 0 8px;
+}
+
+article.tetel blockquote {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  padding: 12px 16px;
+  margin: 12px 0 22px;
+  border-radius: 0 8px 8px 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+article.tetel blockquote p { margin: 0; }
+article.tetel blockquote strong { color: var(--accent); }
+
+article.tetel p { margin: 0 0 13px; line-height: 1.72; }
+article.tetel p strong, article.tetel li strong {
+  color: var(--accent); font-weight: 700;
+}
+
+article.tetel ul, article.tetel ol {
+  margin: 10px 0 16px; padding-left: 26px;
+}
+article.tetel li { margin: 7px 0; line-height: 1.62; }
+article.tetel ul { list-style: none; padding-left: 6px; }
+article.tetel ul li { position: relative; padding-left: 22px; }
+article.tetel ul li::before {
+  content: ""; position: absolute; left: 4px; top: 10px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+}
+article.tetel ol { padding-left: 28px; }
+article.tetel ol li::marker { color: var(--accent); font-weight: 700; }
+
+article.tetel hr {
+  border: none;
+  border-top: 2px dashed var(--border);
+  margin: 32px 0;
+}
+
+article.tetel code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+article.tetel pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 14px 0;
+}
+article.tetel pre code {
+  background: none; padding: 0; color: var(--text);
+  font-size: 13px; line-height: 1.55;
+}
+
+article.tetel table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+article.tetel th, article.tetel td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+article.tetel th {
+  background: var(--surface-2);
+  font-weight: 700;
+  font-size: 13px;
+}
+article.tetel tr:last-child td { border-bottom: none; }
+article.tetel tbody tr:nth-child(even) { background: var(--surface-2); }
+
+footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 50px; }
+
+@media (max-width: 720px) {
+  .wrap { padding: 14px 12px 56px; }
+  header.site h1 { font-size: 19px; }
+  article.tetel { padding: 18px 18px 22px; }
+  article.tetel h1 { font-size: 20px; }
+  article.tetel h2 { font-size: 17px; }
+  article.tetel h3 { font-size: 15.5px; }
+  .page-nav { padding: 8px; gap: 6px; }
+  .nav-btn { padding: 6px 10px; font-size: 13px; }
+  .tetel-card { padding: 14px 16px; }
+  .tetel-card .tetel-num { font-size: 22px; min-width: 40px; }
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site">
+      <h1>9. tétel
+        <small>9. tétel — Formális nyelvek · Rendszerfejlesztés technológiája</small>
+      </h1>
+      <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙 Sötét</button>
+    </header>
+
+    
+      <nav class="page-nav">
+        <a href="tetel_08.html" class="nav-btn nav-prev">← 8. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_10.html" class="nav-btn nav-next">10. tétel →</a>
+      </nav>
+
+    <article class="tetel">
+      <h1>9. tétel — Formális nyelvek · Rendszerfejlesztés technológiája</h1>
+<h2>a) Formális nyelvek</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+1. Ábécék, szavak, formális nyelvek
+2. Műveletek szavakkal és nyelvekkel
+3. Szintaxisleíró eszközök
+4. Generatív grammatikák, Chomsky-féle osztályozás
+5. Levezetési fák, elemzési stratégiák
+6. A véges és a verem-automaták, a Turing gépek és változataik ismertetése
+7. A delta leképezés tulajdonságai, megadási módjai a különböző automaták esetén
+8. Az automaták és a grammatikák kapcsolata</p>
+</blockquote>
+<h3>Ábécé, szó, nyelv</h3>
+<ul>
+<li><strong>Ábécé (V):</strong> véges, nem üres halmaz, elemei jelek (karakterek, szimbólumok)</li>
+<li><strong>Szó:</strong> ábécé jeleiből alkotott véges sorozat. <strong>Üres szó: ε</strong></li>
+<li><strong>V*</strong> (lezárt): az ábécé fölött összes lehetséges szó halmaza</li>
+<li><strong>V⁺</strong> (pozitív lezárt): V* \ {ε} — az üres szó kivételével</li>
+<li><strong>Formális nyelv:</strong> L ⊆ V* — egy adott ábécé fölötti szavak részhalmaza</li>
+</ul>
+<p><strong>Megadási módok:</strong> felsorolás, szabály szöveges/matematikai leírása, <strong>generatív grammatika</strong>.</p>
+<h3>Műveletek szavakkal</h3>
+<ul>
+<li><strong>Konkatenáció (+):</strong> α = "alma", β = "fa" → α+β = "almafa"</li>
+<li>Asszociatív, <strong>nem kommutatív</strong> (ab ≠ ba)</li>
+<li>Neutrális elem: <strong>ε</strong> (εα = αε = α)</li>
+<li><strong>Hatványozás:</strong> α⁰ = ε, αⁿ = α + αⁿ⁻¹</li>
+<li><strong>Tükrözés:</strong> palindrom (abc-cba)</li>
+<li><strong>Primitív szó:</strong> egyetlen másik szónak sem hatványa</li>
+<li><strong>Konjugáltak:</strong> α = γδ és β = δγ</li>
+<li><strong>Periodikus szó:</strong> pl. "123123123"</li>
+<li><strong>Valódi prefixum/szuffixum:</strong> α a szó prefixuma/szuffixuma, és |α| ≠ 0</li>
+</ul>
+<h3>Műveletek nyelvekkel (ábécékkel)</h3>
+<ul>
+<li><strong>Komplexus szorzás:</strong> A · B := {ab | a ∈ A, b ∈ B}</li>
+<li><strong>Hatvány:</strong> A⁰ := {ε}, Aⁿ — n karakter hosszú szavak halmaza</li>
+</ul>
+<h3>Szintaxisleíró eszközök</h3>
+<ul>
+<li><strong>Szintaxisdiagram:</strong> nem precíz, de látványos — szintaxisfát eredményez</li>
+<li><strong>Gömbölyű sarkú</strong> téglalap: terminális</li>
+<li><strong>Szögletes sarkú</strong> téglalap: nemterminális</li>
+<li>Programozási nyelvek szintaxisának leírására</li>
+<li><strong>EBNF (Extended Backus-Naur Form):</strong> nem grafikus, karakteres jelölés. Programnyelvek és parancsok definiálására</li>
+</ul>
+<h3>Generatív grammatikák</h3>
+<p><strong>Cél:</strong> eldönteni, hogy egy szó eleme-e a nyelvnek. Két stratégia:
+- <strong>Top-down:</strong> szintaxisfa-építés a kezdőszimbólumból
+- <strong>Bottom-up:</strong> az elemezendő mondat szimbólumait helyettesítjük a szabályokkal</p>
+<p><strong>Definíció — G(V, W, S, P) formális négyes:</strong>
+- <strong>V:</strong> terminális jelek ábécéje
+- <strong>W:</strong> nemterminális jelek ábécéje (<strong>V ∩ W = ∅</strong>)
+- <strong>S ∈ W:</strong> kezdőszimbólum
+- <strong>P:</strong> helyettesítési szabályok halmaza</p>
+<p>A generálást a kezdőszimbólumtól indítjuk; amíg nincs nemterminális → mehet tovább. Két eset:
+- Nincs alkalmazható szabály → nem eleme a nyelvnek
+- Van → alkalmazzuk</p>
+<h3>Chomsky-féle osztályozás</h3>
+<table>
+<thead>
+<tr>
+<th>Szint</th>
+<th>Név</th>
+<th>Szabály alak</th>
+<th>Felhasználás</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0</strong></td>
+<td>Mondatszerkezetű</td>
+<td>αAβ → γ</td>
+<td>Beszélt nyelvek; erőforrásigényes</td>
+</tr>
+<tr>
+<td><strong>1</strong></td>
+<td>Környezetfüggő</td>
+<td>αAβ → αωβ (+ S → ε)</td>
+<td><strong>Szemantikai elemzés</strong> — környezet ismerete kell</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>Környezetfüggetlen</td>
+<td>A → ω (+ S → ε)</td>
+<td><strong>Szintaktikai elemzés</strong> — programnyelvek</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>Reguláris</td>
+<td>A → a / A → Ba (vagy A → aB)</td>
+<td><strong>Lexikális elemzés</strong></td>
+</tr>
+</tbody>
+</table>
+<p>A szabályok <strong>0-tól 3-ig szigorodnak</strong> → reguláris nyelv beilleszthető a többibe.</p>
+<h3>Levezetési fák, elemzési stratégiák</h3>
+<p><strong>Környezetfüggetlen nyelvtannal</strong> eldönthető, hogy egy szó generálható-e az adott nyelvtannal — ehhez használjuk a <strong>levezetési fát</strong>. Ha balról jobbra, fentről lefelé olvasva megjelenik a szó → generálható.</p>
+<ul>
+<li><strong>Kanonikus levezetés:</strong> mindig a legbaloldalibb nemterminálist helyettesítjük tovább</li>
+<li><strong>Top-down:</strong> start szimbólumból fentről lefelé</li>
+<li><strong>Bottom-up:</strong> alulról felfelé, szabályok behelyettesítésével</li>
+<li><strong>Visszalépéses elemzés:</strong> ha sikertelen, próbálhatunk más helyettesítést</li>
+<li><strong>Hossz-nemcsökkentő stratégia:</strong> a mondatforma bővül; ha több terminálisunk van, mint a szó hossza → sikertelen</li>
+</ul>
+<h3>Automaták — közös komponensek</h3>
+<p>Minden Chomsky-osztályhoz tartozik egy automata-típus, ami <strong>eldönti egy szóról, hogy helyes-e</strong> (kivéve 0 — arra nincs algoritmus).</p>
+<p><strong>Komponensek:</strong>
+- <strong>Input szalag:</strong> cellákra osztva, jelek; általában véges
+- <strong>Olvasó-fej:</strong> egy cella fölött áll, balra-jobbra léphet
+- <strong>Output szalag</strong> (opcionális)
+- <strong>Író-olvasó fej</strong> (output szalaghoz)
+- <strong>Belső állapotok:</strong> egyszerre csak egyben</p>
+<h3>Véges automata</h3>
+<p><strong>Nincs</strong> output szalag, nincs író-olvasó fej. Input szalag véges (input hosszú).</p>
+<p><strong>Definíció: G(K, V, δ, q₀, F)</strong>
+- <strong>K:</strong> belső állapotok (véges)
+- <strong>V:</strong> input ábécé
+- <strong>δ ⊆ K × V → K:</strong> állapotátmeneti függvény
+- <strong>q₀ ∈ K:</strong> kezdőállapot
+- <strong>F ⊆ K:</strong> befejező (elfogadó) állapotok</p>
+<p><strong>Működés:</strong>
+- Beolvas, δ alapján vált állapotot, jobbra léptet
+- Megáll, ha a fej <strong>leszalad</strong> a szalagról
+- Akkor fogad el, ha <strong>elfogadó állapotban</strong> áll meg
+- <strong>Fix n lépés után megáll</strong></p>
+<h3>Verem automata</h3>
+<p><strong>Van</strong> output (verem) és író-olvasó fej. Csak a <strong>verem tetejére</strong> ír. Írás után jobbra lép, olvasásnál előbb balra, kiolvas.</p>
+<p><strong>Definíció: G(K, V, W, δ, q₀, z₀, F)</strong>
+- <strong>V:</strong> input ábécé, <strong>W:</strong> verem (output) ábécé
+- <strong>δ ⊆ K × (V ∪ {ε}) × W → K × W*</strong> — input lehet ε (nem olvasás)
+- <strong>z₀ ∈ W:</strong> verem-üres szimbólum</p>
+<p><strong>Működés:</strong>
+- Az olvasó-fej vagy olvas vagy nem
+- A veremből mindig olvas a tetejéről
+- δ alapján új állapotba megy, verembe <strong>szót ír</strong>
+- Ha olvasott, a fej jobbra lép
+- <strong>Nem mindig megáll</strong> (nem olvas minden lépésben)</p>
+<h3>Turing gépek</h3>
+<p>Az input szalagra <strong>írni is tud</strong>. A szalag <strong>mindkét irányban végtelen</strong>.</p>
+<p><strong>Definíció: G(K, V, W, δ, q₀, B, F)</strong>
+- <strong>B ∈ W:</strong> BLANK (üres jel)
+- <strong>δ ⊆ K × W → K × W × {←, →}</strong> — parciális (nincs mindenre definiálva)</p>
+<p><strong>Működés:</strong>
+- Beolvas, állapotot vált, <strong>ír</strong> vissza a szalagra, balra/jobbra léptet
+- <strong>Megáll, ha δ nincs értelmezve</strong> az aktuális (q, a) páron</p>
+<h3>Turing gép változatai</h3>
+<ul>
+<li><strong>Egyirányú végtelen szalagos:</strong> egy irányba végtelen, másik irányba leléphet. <strong>Ekvivalens</strong> az általánossal</li>
+<li><strong>Több szalagú:</strong> több szalagja van, δ minden szalagra olvas és ír, mindegyik fejre külön léptet. <strong>Ekvivalens</strong> az egyszalagossal</li>
+<li><strong>Lineárisan korlátolt:</strong> input/output szalag <strong>mindkét irányba véges</strong></li>
+</ul>
+<h3>Delta leképezés megadási módjai</h3>
+<ul>
+<li><strong>Véges automatánál:</strong> táblázat vagy állapotgráf — (q, a) → q'</li>
+<li><strong>Verem automatánál:</strong> (q, a vagy ε, w_top) → (q', w_write)</li>
+<li><strong>Turing gépnél:</strong> (q, a) → (q', a', irány)</li>
+</ul>
+<h3>Automaták és grammatikák kapcsolata</h3>
+<p>Egy nyelvet <strong>grammatika generál</strong>, <strong>automata felismer</strong>. Az automata gyakorlatilag az algoritmus, amit a grammatikából csinálunk.</p>
+<table>
+<thead>
+<tr>
+<th>Chomsky</th>
+<th>Grammatika</th>
+<th>Automata</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Mondatszerkezetű</td>
+<td>Turing-gép</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Környezetfüggő</td>
+<td>Lineárisan korlátolt Turing-gép</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Környezetfüggetlen</td>
+<td>Verem-automata</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Reguláris</td>
+<td>Véges automata</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>b) A rendszerfejlesztés technológiája</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+9. Szoftver életciklus
+10. Tervezés, implementáció, tesztelési iterációk
+11. Rendszerfejlesztés eszközei, feladatkövetés, verziókövetés
+12. Tesztelési technikák, tesztelés szintjei</p>
+</blockquote>
+<h3>Szoftver és életciklus</h3>
+<p><strong>Szoftver típusok:</strong>
+- <strong>Egyedi:</strong> ismert megrendelő (pl. állami megbízás)
+- <strong>Dobozos:</strong> ismeretlen vásárlók (játékok, operációs rendszerek)</p>
+<p>A szoftver <strong>állandóan változik</strong> (új igények, bővítés) → ezért <strong>ciklus</strong>. A módszertanok határozzák meg a lépéseket. <strong>Cél:</strong> magas minőség minimális költséggel.</p>
+<h3>Életciklus állomásai</h3>
+<ol>
+<li>Új igény felmerül a felhasználói oldalon</li>
+<li><strong>Igények elemzése</strong>, meghatározása → követelményspecifikáció</li>
+<li><strong>Rendszerjavaslat</strong> (funkcionális specifikáció, ütemterv, szerződés)</li>
+<li><strong>Rendszerspecifikáció</strong> (megvalósíthatósági tanulmány, nagyvonalú rendszerterv)</li>
+<li><strong>Logikai és fizikai tervezés</strong></li>
+<li><strong>Implementáció</strong></li>
+<li><strong>Tesztelés</strong> (tesztterv, tesztesetek, teszt napló, validált szoftver)</li>
+<li><strong>Rendszerátadás és bevezetés</strong> (felhasználói dokumentáció)</li>
+<li><strong>Üzemeltetés és karbantartás</strong></li>
+<li>Új igény → vissza az 1-re</li>
+</ol>
+<h3>Néhány dokumentum részletesen</h3>
+<p><strong>Követelményspecifikáció (alapja a riportok):</strong>
+- Jelenlegi helyzet, vágyálomrendszer, jogszabályi háttér
+- Jelenlegi és igényelt üzleti folyamatok
+- Követelménylista, riportok szövege, fogalomszótár</p>
+<p><strong>Riportok típusai (igényfelmérés):</strong>
+- <strong>Szabad:</strong> megrendelő saját szavakkal mondja; felhívjuk a figyelmét ellentmondásokra
+- <strong>Irányított:</strong> előre megírt kérdőív, általánosabb véleménykutatás</p>
+<p><strong>Funkcionális specifikáció:</strong> a <strong>felhasználó szemszögéből</strong> írja le a rendszert. A követelményspec igényeire ad választ.</p>
+<p><strong>Nagyvonalú rendszerterv:</strong> mit/miért/hogyan/mikor/miből — <strong>fejlesztői szemszög</strong>. Reális, megvalósítható.</p>
+<h3>Tervezés-implementáció-tesztelés iterációk</h3>
+<p><strong>Logikai rendszerterv</strong> (megvalósítás "hogyan" része, fizikai korlátok nélkül): üzleti folyamatok, követelmények, használati esetek, állapotgépek, funkcionális felépítés, menük, UI, logikai adatmodell, adatfolyamok.</p>
+<p><strong>Fizikai rendszerterv</strong> (fizikai megszorítások): osztály-, adatbázis-, teszt-, telepítési tervek, rendszerspecifikációk, szoftver architektúra.</p>
+<p><strong>Lightweight módszertan:</strong> nem készít rendszertervet (időigényes).</p>
+<p><strong>Implementáció:</strong> forráskód + programozói dokumentáció.</p>
+<p><strong>Tesztelés:</strong> hibák megtalálása üzembe helyezés előtt. <strong>Hiba mindig van.</strong></p>
+<p><strong>Iteráció:</strong> modern (agilis, prototípus-alapú) módszertanok ezt <strong>iteratívan</strong> végzik — minden iteráció szállíthat valamit.</p>
+<h3>Rendszerátadás, üzemeltetés</h3>
+<p><strong>Átadás dokumentumai:</strong> felhasználói dokumentáció, üzembe helyezési kézikönyv, átadás-átvételi jegyzőkönyv.</p>
+<p><strong>Üzemeltetői elvárások:</strong>
+- Rendszeres biztonsági mentés
+- Meghibásodás esetén utolsó konzisztens állapot visszaállítása
+- Frissítés, hibák javítása (átvizsgálás + bejelentések alapján)
+- Biztonsági beállítások felülvizsgálata</p>
+<p><strong>Rendelkezésre állás négy pillére:</strong> megbízhatóság, karbantarthatóság, szolgáltatási képesség, biztonság.</p>
+<h3>Rendszerfejlesztés eszközei</h3>
+<p><strong>Feladatkövetés</strong> (Kanban/Scrum board):
+- Projektfeladatokat átláthatóvá teszi
+- Programozók kiválasztják, melyiken dolgoznak
+- Ha kész → áthelyezik "kész" oszlopba
+- Csökkenti a gyakori állapotjelentések szükségességét</p>
+<p><strong>Verziókövetés:</strong>
+- Tartalmi változások követése: ki, mikor módosította
+- <strong>Korábbi állapotok előhívása</strong>
+- Állapotok közötti különbség (<strong>diff</strong>)
+- Ütközés (conflict) esetén a későbbi módosítót értesíti
+- <strong>Elágazások (branch)</strong> létrehozása
+- Rendszerek: <strong>Git</strong>, SVN (Subversion), Mercurial, IBM ClearCase</p>
+<h3>Tesztelési technikák</h3>
+<ul>
+<li><strong>Feketedobozos:</strong> csak a specifikáció ismert → tesztesetek onnan készülnek</li>
+<li><strong>Fehérdobozos:</strong> a <strong>forráskód alapján</strong> készülnek a tesztesetek</li>
+<li><strong>Szürkedobozos:</strong> a forráskód egy része ismert → annak alapján</li>
+</ul>
+<p><strong>Strukturálisan tesztelünk:</strong> kódsorok, elágazások, metódusok, osztályok, funkciók, modulok.</p>
+<h3>Tesztelés szintjei</h3>
+<ol>
+<li><strong>Komponensteszt</strong> (külön-külön):
+   - <strong>Unit-teszt:</strong> metódusokat teszteli
+   - <strong>Modulteszt:</strong> modulok használat szerinti tesztje</li>
+<li><strong>Integrációs teszt:</strong> komponensek közötti együttműködés</li>
+<li><strong>Rendszerteszt:</strong> az egész rendszer együtt
+   - Kész terméket tesztel: megfelel-e követelmény-, funkcionális spec-nek és rendszertervnek
+   - Gyakran <strong>külön cég</strong> végzi, nem a fejlesztők</li>
+<li><strong>Átadás-átvételi teszt:</strong> végfelhasználók a kész rendszeren
+   - <strong>Alfa:</strong> cégen belül, de nem fejlesztők
+   - <strong>Béta:</strong> szűk felhasználói csoport
+   - <strong>Felhasználói átvételi:</strong> éles környezetben (nem termelésben), majdnem minden user
+   - <strong>Üzemeltetői átvételi:</strong> rendszergazdák; biztonsági funkciók</li>
+</ol>
+<p><strong>Regressziós teszt:</strong> változtatás után <strong>az ÖSSZES unit-teszt</strong> lefuttatása — nem rontott-e el valamit, ami eddig működött.</p>
+<hr />
+<h2>⚡ Kvíz / kulcsfogalmak</h2>
+<ul>
+<li>V*, V⁺, ε definíciói</li>
+<li>Konkatenáció tulajdonságai (asszociatív, nem kommutatív)</li>
+<li>4 Chomsky-osztály + szabályalak + felhasználás (mit nyelvet ismer fel + automata-pár)</li>
+<li>Generatív grammatika G(V, W, S, P)</li>
+<li>Véges/verem/Turing automata δ-jának szignatúrája</li>
+<li>Mi a különbség a verem automata és a Turing-gép között (output szalag, írhatóság, megáll-e)</li>
+<li>Turing-gép változatai</li>
+<li>Életciklus 9 állomása sorrendben</li>
+<li>Riport típusai (szabad vs irányított)</li>
+<li>3 doboz tesztelés (fekete/fehér/szürke)</li>
+<li>4 tesztelési szint (komponens/integráció/rendszer/átadás-átvétel)</li>
+<li>Alfa/béta/üzemeltetői/felhasználói átvételi tesztek különbsége</li>
+<li>Regressziós teszt fogalma</li>
+</ul>
+    </article>
+
+    
+      <nav class="page-nav bottom">
+        <a href="tetel_08.html" class="nav-btn nav-prev">← 8. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_10.html" class="nav-btn nav-next">10. tétel →</a>
+      </nav>
+  </div>
+  <script>
+const THEME_KEY = "kondenzalt-theme";
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  const btn = document.getElementById('theme-btn');
+  if (btn) btn.textContent = t === 'dark' ? '☀ Világos' : '🌙 Sötét';
+}
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  localStorage.setItem(THEME_KEY, next);
+  applyTheme(next);
+}
+(function() {
+  const t = localStorage.getItem(THEME_KEY) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(t);
+})();
+
+// Keyboard nav between tetelek: Left/Right arrow
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, textarea, select')) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'ArrowLeft') {
+    const prev = document.querySelector('.nav-prev');
+    if (prev && !prev.classList.contains('nav-disabled')) prev.click();
+  } else if (e.key === 'ArrowRight') {
+    const next = document.querySelector('.nav-next');
+    if (next && !next.classList.contains('nav-disabled')) next.click();
+  }
+});
+</script>
+</body>
+</html>

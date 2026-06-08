@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="hu" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>10. tétel — kondenzált</title>
+  <style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #faf9f5;
+  --surface: #ffffff;
+  --surface-2: #f3f1ea;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #e5e2d8;
+  --accent: #6d28d9;
+  --accent-soft: #ede9fe;
+  --code-bg: #f5f3ec;
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+}
+[data-theme="dark"] {
+  --bg: #0f0f12;
+  --surface: #1a1a1f;
+  --surface-2: #232329;
+  --text: #ececec;
+  --muted: #9a9a9a;
+  --border: #2d2d33;
+  --accent: #a78bfa;
+  --accent-soft: #2a1f50;
+  --code-bg: #1d1d24;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.3);
+}
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg); color: var(--text);
+  font-size: 16px; line-height: 1.7;
+}
+.wrap { max-width: 900px; margin: 0 auto; padding: 28px 24px 72px; }
+
+header.site {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 22px;
+}
+header.site h1 {
+  margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;
+}
+header.site h1 small {
+  display: block; font-size: 13px; font-weight: 400; color: var(--muted); margin-top: 4px;
+}
+.theme-toggle {
+  background: var(--surface); border: 1px solid var(--border); color: var(--text);
+  padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 14px;
+}
+.theme-toggle:hover { background: var(--surface-2); }
+
+/* Per-tetel page navigation */
+.page-nav {
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 0 20px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 12px;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+.page-nav.bottom { margin: 28px 0 0; position: static; }
+.nav-btn {
+  padding: 8px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.nav-btn:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.nav-home {
+  background: var(--accent);
+  color: white !important;
+  border-color: var(--accent);
+}
+.nav-home:hover { opacity: 0.9; }
+.nav-disabled {
+  opacity: 0.4; cursor: not-allowed; pointer-events: none;
+  color: var(--muted);
+}
+.nav-spacer { flex: 1; }
+
+/* Index: tetel card grid */
+.tetel-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin: 20px 0 30px;
+}
+.tetel-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.15s;
+  box-shadow: var(--shadow);
+}
+.tetel-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(109, 40, 217, 0.16);
+}
+.tetel-card .tetel-num {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent);
+  min-width: 48px;
+}
+.tetel-card .tetel-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.tetel-card .tetel-arrow {
+  color: var(--muted);
+  font-size: 20px;
+}
+.tetel-card:hover .tetel-arrow { color: var(--accent); }
+
+.index-note {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.index-note strong { color: var(--accent); }
+.index-note kbd {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+/* Tetel article */
+article.tetel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 26px 30px 30px;
+  margin-bottom: 12px;
+}
+
+article.tetel h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 0 0 22px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--accent-soft);
+  letter-spacing: -0.3px;
+}
+
+article.tetel h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 32px 0 16px;
+  padding: 10px 14px;
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+}
+
+article.tetel h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 26px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid var(--accent-soft);
+}
+
+article.tetel h4 {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 20px 0 8px;
+}
+
+article.tetel blockquote {
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  padding: 12px 16px;
+  margin: 12px 0 22px;
+  border-radius: 0 8px 8px 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+article.tetel blockquote p { margin: 0; }
+article.tetel blockquote strong { color: var(--accent); }
+
+article.tetel p { margin: 0 0 13px; line-height: 1.72; }
+article.tetel p strong, article.tetel li strong {
+  color: var(--accent); font-weight: 700;
+}
+
+article.tetel ul, article.tetel ol {
+  margin: 10px 0 16px; padding-left: 26px;
+}
+article.tetel li { margin: 7px 0; line-height: 1.62; }
+article.tetel ul { list-style: none; padding-left: 6px; }
+article.tetel ul li { position: relative; padding-left: 22px; }
+article.tetel ul li::before {
+  content: ""; position: absolute; left: 4px; top: 10px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+}
+article.tetel ol { padding-left: 28px; }
+article.tetel ol li::marker { color: var(--accent); font-weight: 700; }
+
+article.tetel hr {
+  border: none;
+  border-top: 2px dashed var(--border);
+  margin: 32px 0;
+}
+
+article.tetel code {
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+article.tetel pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 14px 0;
+}
+article.tetel pre code {
+  background: none; padding: 0; color: var(--text);
+  font-size: 13px; line-height: 1.55;
+}
+
+article.tetel table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+article.tetel th, article.tetel td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+article.tetel th {
+  background: var(--surface-2);
+  font-weight: 700;
+  font-size: 13px;
+}
+article.tetel tr:last-child td { border-bottom: none; }
+article.tetel tbody tr:nth-child(even) { background: var(--surface-2); }
+
+footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 50px; }
+
+@media (max-width: 720px) {
+  .wrap { padding: 14px 12px 56px; }
+  header.site h1 { font-size: 19px; }
+  article.tetel { padding: 18px 18px 22px; }
+  article.tetel h1 { font-size: 20px; }
+  article.tetel h2 { font-size: 17px; }
+  article.tetel h3 { font-size: 15.5px; }
+  .page-nav { padding: 8px; gap: 6px; }
+  .nav-btn { padding: 6px 10px; font-size: 13px; }
+  .tetel-card { padding: 14px 16px; }
+  .tetel-card .tetel-num { font-size: 22px; min-width: 40px; }
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site">
+      <h1>10. tétel
+        <small>10. tétel — Hálózati architektúrák · Szolgáltatásorientált programozás</small>
+      </h1>
+      <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">🌙 Sötét</button>
+    </header>
+
+    
+      <nav class="page-nav">
+        <a href="tetel_09.html" class="nav-btn nav-prev">← 9. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_11.html" class="nav-btn nav-next">11. tétel →</a>
+      </nav>
+
+    <article class="tetel">
+      <h1>10. tétel — Hálózati architektúrák · Szolgáltatásorientált programozás</h1>
+<h2>a) Hálózati architektúrák és protokollok</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+1. Csomagkapcsolt hálózatok működése, az OSI és a TCP/IP modell összehasonlítása, forgalomirányítási és IP címzési alapok
+2. Kapcsolódó protokollok: TCP, UDP, ICMP, DNS</p>
+</blockquote>
+<h3>Csomagkapcsolt hálózatok működése</h3>
+<p><strong>Hálózat:</strong> egymással kapcsolatban lévő <strong>csomópontok</strong> (node) összessége.
+<strong>Csomópont:</strong> önálló kommunikációra képes, saját hálózati címmel rendelkező eszköz (számítógép, router, nyomtató).</p>
+<p><strong>Csomagkapcsolás:</strong> nincs előre kiépített összeköttetés. Az üzenetet <strong>adatcsomagokra</strong> bontják, mindegyik fejrésze tartalmazza a címzett(ek) címét.</p>
+<ul>
+<li>A csomagok <strong>különböző útvonalakon</strong> juthatnak el a címzetthez (router-ek döntenek)</li>
+<li>A beérkezési <strong>sorrend megváltozhat</strong> — a címzettnek kell helyreraknia</li>
+<li><strong>Csomag is elveszhet</strong>, ha a router korlátozott kapacitása miatt eldobja</li>
+<li>Ellentétben az áramkörkapcsolt hálózatokkal (régi telefonhálózat), ahol fix útvonal van</li>
+</ul>
+<h3>OSI és TCP/IP modell</h3>
+<p><strong>OSI (Open Systems Interconnection) — elméleti, 7 réteg:</strong>
+1. <strong>Fizikai</strong> — bit-átvitel (kábel, jel)
+2. <strong>Adatkapcsolati</strong> — keret, MAC, hiba-detektálás (Ethernet)
+3. <strong>Hálózati</strong> — csomagok, útvonal-választás (IP)
+4. <strong>Szállítási</strong> — végpont-végpont (TCP, UDP)
+5. <strong>Viszony</strong> — session-ök kezelése
+6. <strong>Megjelenítési</strong> — kódolás, titkosítás
+7. <strong>Alkalmazási</strong> — végfelhasználói szolgáltatások (HTTP, DNS, FTP)</p>
+<p><strong>TCP/IP — gyakorlati, 4 (vagy 5) réteg:</strong>
+1. <strong>Network access (host-to-network)</strong> — fizikai + adatkapcsolati
+2. <strong>Internet</strong> — IP, ICMP
+3. <strong>Transport</strong> — TCP, UDP
+4. <strong>Application</strong> — HTTP, DNS, FTP, SSH, SMTP …</p>
+<p><strong>OSI vs TCP/IP különbség:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Szempont</th>
+<th>OSI</th>
+<th>TCP/IP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rétegek száma</td>
+<td>7</td>
+<td>4-5</td>
+</tr>
+<tr>
+<td>Eredet</td>
+<td>Elméleti modell</td>
+<td>Valós protokollok</td>
+</tr>
+<tr>
+<td>Felhasználás</td>
+<td>Oktatás, referencia</td>
+<td>Internet <strong>élesben</strong></td>
+</tr>
+<tr>
+<td>Réteg-elválasztás</td>
+<td>Szigorú</td>
+<td>Lazább</td>
+</tr>
+<tr>
+<td>Megjelenítés / viszony</td>
+<td>Külön réteg</td>
+<td>Application-be olvasztva</td>
+</tr>
+</tbody>
+</table>
+<h3>Forgalomirányítás (routing) alapjai</h3>
+<p>A <strong>router</strong> dönti el, hogy melyik felé továbbítson egy csomagot.</p>
+<p><strong>Útválasztási tábla:</strong> célhálózat → következő hop.</p>
+<p><strong>Útválasztási protokollok:</strong>
+- <strong>Statikus:</strong> kézzel beállított
+- <strong>Dinamikus:</strong>
+  - <strong>Distance-vector</strong> (pl. RIP): szomszédoktól tanul, hop-szám alapú
+  - <strong>Link-state</strong> (pl. OSPF): mindenki ismeri a teljes topológiát, Dijkstra-algoritmussal számol
+  - <strong>BGP</strong> (Border Gateway Protocol): autonóm rendszerek között</p>
+<h3>IP címzési alapok</h3>
+<p><strong>IPv4:</strong> 32 bites cím, négy oktett (pl. <code>192.168.1.1</code>).</p>
+<p><strong>Cím részei:</strong> <strong>hálózat-azonosító</strong> + <strong>host-azonosító</strong>. A felosztást <strong>alhálózati maszk</strong> (subnet mask) adja meg, pl. <code>/24</code> = <code>255.255.255.0</code> = 24 bit hálózat + 8 bit host.</p>
+<p><strong>Privát címtartományok</strong> (RFC 1918):
+- <code>10.0.0.0/8</code>
+- <code>172.16.0.0/12</code>
+- <code>192.168.0.0/16</code></p>
+<p><strong>CIDR (Classless Inter-Domain Routing):</strong> rugalmas alhálózati méretek (<code>/16</code>, <code>/24</code>, <code>/28</code> stb.). Felváltotta a régi osztályos (Class A/B/C) rendszert.</p>
+<p><strong>IPv6:</strong> 128 bites cím (pl. <code>2001:0db8:85a3::8a2e:0370:7334</code>). Sokkal több cím, beépített biztonság, autokonfigurációs képességek.</p>
+<p><strong>NAT (Network Address Translation):</strong> belső privát címek lefordítása nyilvános címekre — IPv4-cím-spórolás.</p>
+<h3>TCP — Transmission Control Protocol</h3>
+<p><strong>Kapcsolatorientált</strong>, <strong>megbízható</strong>, <strong>stream alapú</strong> szállítási protokoll.</p>
+<p><strong>Tulajdonságok:</strong>
+- <strong>Kapcsolat felépítése (3-way handshake):</strong> SYN → SYN-ACK → ACK
+- <strong>Nyugtázás (ACK):</strong> minden csomag kap nyugtát
+- <strong>Újraküldés:</strong> ha nincs ACK időben
+- <strong>Sorszámozás:</strong> csomagok helyreállítása sorrendbe
+- <strong>Folyamszabályozás (flow control):</strong> receiver tempójához igazodik (ablakméret)
+- <strong>Torlódásvezérlés (congestion control):</strong> hálózati torlódás detektálása, lassítás</p>
+<p><strong>Felhasználás:</strong> HTTP, HTTPS, SSH, FTP, SMTP — mindenhol, ahol fontos a megbízhatóság.</p>
+<h3>UDP — User Datagram Protocol</h3>
+<p><strong>Kapcsolat nélküli</strong>, <strong>megbízhatatlan</strong>, <strong>csomag alapú</strong>.</p>
+<p><strong>Tulajdonságok:</strong>
+- Nincs handshake — azonnal küld
+- <strong>Nincs</strong> nyugtázás, nincs újraküldés
+- <strong>Gyors</strong>, kis overhead
+- A csomag elveszhet, megduplikálódhat, sorrend cserélődhet</p>
+<p><strong>Felhasználás:</strong> valós idejű audio/videó (VoIP, streaming), online játékok, <strong>DNS</strong>, <strong>DHCP</strong>.</p>
+<h3>ICMP — Internet Control Message Protocol</h3>
+<p><strong>Hálózati réteg</strong> protokoll, <strong>hibajelzésre</strong> és <strong>diagnosztikára</strong>.</p>
+<p><strong>Tipikus üzenetek:</strong>
+- <strong>Echo Request / Reply</strong> — <code>ping</code> használja
+- <strong>Destination Unreachable</strong> — nem érhető el a cél
+- <strong>Time Exceeded</strong> — TTL lejárt; <code>traceroute</code> használja
+- <strong>Redirect</strong> — jobb útvonal javasolt</p>
+<p>ICMP <strong>nem</strong> szállít user-adatot — kontroll/hiba üzenetek.</p>
+<h3>DNS — Domain Name System</h3>
+<p><strong>Cél:</strong> <strong>domain név → IP cím</strong> feloldás (és vissza).</p>
+<p><strong>Hierarchikus rendszer:</strong>
+- <strong>Root server-ek</strong> (.) — 13 globális szerverpáros
+- <strong>TLD server-ek</strong> (.com, .hu, .org)
+- <strong>Authoritative server-ek</strong> (specifikus domainek)</p>
+<p><strong>Rekordtípusok:</strong>
+- <strong>A:</strong> IPv4 cím
+- <strong>AAAA:</strong> IPv6 cím
+- <strong>CNAME:</strong> alias másik névre
+- <strong>MX:</strong> mail szerver
+- <strong>NS:</strong> name server
+- <strong>TXT:</strong> szöveges (SPF, DKIM, verifikáció)</p>
+<p><strong>DNS feloldás folyamata:</strong>
+1. Kliens kérdezi a <strong>resolver-t</strong> (helyi DNS)
+2. Resolver kérdezi a <strong>root server-t</strong> → tudja a TLD-t
+3. TLD server → tudja az authoritative szervert
+4. Authoritative szerver → adja az IP-t
+5. Resolver visszaadja a kliensnek, <strong>cache-eli</strong></p>
+<p>Általában <strong>UDP</strong> 53-as port; nagyobb válaszhoz TCP.</p>
+<hr />
+<h2>b) Szolgáltatásorientált programozás</h2>
+<blockquote>
+<p><strong>Hivatalos kérdés:</strong>
+3. Az RPC architektúrája, működési elve, jellemzői
+4. A Google RPC működési elve, jellemzői
+5. A protocol buffers szerepe a gRPC-ben
+6. A WEB, egyrétegű, kliens-szerver modell, többrétegű alkalmazások, vastag és vékony kliensek, elosztott rendszerek jellemzői
+7. A REST tulajdonságai
+8. A web service jellemzői
+9. A WCF architektúrája, az ASMX és a WCF közötti eltérések</p>
+</blockquote>
+<h3>RPC architektúrája</h3>
+<p><strong>RPC (Remote Procedure Call):</strong> távoli eljáráshívás. A kliens úgy hívja meg a szerver egy függvényét, mintha lokális lenne.</p>
+<p><strong>Komponensek:</strong>
+- <strong>Kliens stub:</strong> kliens oldalon "csomagolja" a hívást (paraméter sorosítás)
+- <strong>Szerver stub (skeleton):</strong> szerver oldalon "kicsomagolja"
+- <strong>Marshalling/unmarshalling:</strong> paraméterek és eredmény sorosítása</p>
+<p><strong>Lépések:</strong>
+1. Kliens hívja a stub-ot
+2. Stub sorosítja a paramétereket, hálózaton átküldi
+3. Szerver oldalon kicsomagolja, hívja a tényleges függvényt
+4. Eredmény vissza ugyanígy</p>
+<p><strong>Jellemzők:</strong> szinkron (alapból), elrejti a hálózatot, könnyebb fejlesztés. Hátrány: rejti a hálózati hibákat.</p>
+<h3>Google RPC (gRPC)</h3>
+<p>A Google modern RPC-megvalósítása.</p>
+<p><strong>Jellemzők:</strong>
+- <strong>HTTP/2</strong> transzporton fut — multiplexing, server push, fejléc-tömörítés
+- <strong>Bináris formátum</strong> — kisebb, gyorsabb (mint a szöveges JSON)
+- <strong>Streaming támogatás:</strong> unary, server streaming, client streaming, bidirectional
+- <strong>Több nyelvű:</strong> kódgenerálás .proto fájlokból
+- <strong>Deadline / cancellation</strong> — beépített</p>
+<h3>Protocol Buffers</h3>
+<p>A gRPC szerializációs nyelve. <strong>Bináris</strong>, sémaalapú formátum.</p>
+<pre><code class="language-protobuf">syntax = &quot;proto3&quot;;
+
+message Felhasznalo {
+    int32 id = 1;
+    string nev = 2;
+    repeated string emailek = 3;
+}
+
+service FelhasznaloService {
+    rpc GetById(GetByIdRequest) returns (Felhasznalo);
+}
+</code></pre>
+<p><strong>Előnyök:</strong>
+- <strong>Kisebb</strong> payload, mint a JSON
+- <strong>Gyorsabb</strong> sorosítás/visszafejtés
+- <strong>Erős típusosság</strong> — séma-validáció
+- <strong>Verziókezelés:</strong> új mezők hozzáadása nem törli a régi klienseket</p>
+<h3>Web és alkalmazás-architektúrák</h3>
+<p><strong>WEB:</strong> decentralizált, <strong>HTTP</strong> protokoll alapú információ-rendszer.</p>
+<p><strong>Egyrétegű (monolit):</strong> minden egy alkalmazásban (UI, logika, adat) — egyszerű, nehezen skálázódik.</p>
+<p><strong>Kliens-szerver modell:</strong> a logikát megosztjuk; kliens kéri, szerver szolgál.</p>
+<p><strong>Többrétegű (3-tier):</strong>
+1. <strong>Prezentációs réteg</strong> (UI) — kliens oldal
+2. <strong>Üzleti logika</strong> (alkalmazásszerver)
+3. <strong>Adat réteg</strong> (DB)</p>
+<p>Előny: minden réteg külön skálázható, könnyebb karbantartani.</p>
+<h3>Vastag vs vékony kliens</h3>
+<ul>
+<li><strong>Vékony kliens (thin):</strong> keveset csinál a kliensen, sok a szerveren (pl. klasszikus webalkalmazás, böngészőből)</li>
+<li><strong>Vastag kliens (thick / fat):</strong> sok logika a kliensen (pl. asztali alkalmazás, gazdag SPA)</li>
+</ul>
+<p>A modern SPA-k (React, Vue) félúton vannak — sok kliens-oldali logika, de szerverre támaszkodnak adatért.</p>
+<h3>Elosztott rendszerek jellemzői</h3>
+<ul>
+<li>Több gép, ami egységes rendszerként viselkedik</li>
+<li><strong>Skálázhatóság:</strong> horizontális (több gép)</li>
+<li><strong>Hibatűrés:</strong> egy gép kiesése nem dönti meg az egészet</li>
+<li><strong>Konzisztencia kérdések</strong> (CAP-tétel: Consistency, Availability, Partition tolerance — csak 2 lehet)</li>
+<li><strong>Hálózati latency</strong> és <strong>partícionálódás</strong> valós kihívás</li>
+</ul>
+<h3>REST tulajdonságai</h3>
+<p><strong>REST (Representational State Transfer):</strong> HTTP-alapú architekturális stílus.</p>
+<p><strong>Alapelvek:</strong>
+- <strong>Erőforrás-orientált</strong> — URI azonosít egy erőforrást (pl. <code>/users/123</code>)
+- <strong>Stateless</strong> — minden kérés önálló, a szerver nem tárol kliens-állapotot
+- <strong>Egységes interface</strong> — HTTP igék: GET (lekérdez), POST (létrehoz), PUT (frissít teljesen), PATCH (részben), DELETE
+- <strong>Cache-elhető</strong> válaszok
+- <strong>Réteges architektúra</strong> — proxy-k, CDN-ek beékelhetők
+- <strong>Reprezentáció:</strong> általában JSON (régebben XML)</p>
+<p><strong>Példa:</strong>
+- <code>GET /users/123</code> — felhasználó adatai
+- <code>POST /users</code> body-val — új felhasználó
+- <code>DELETE /users/123</code> — felhasználó törlése</p>
+<h3>Web service jellemzői</h3>
+<p><strong>Web service:</strong> hálózaton keresztül elérhető, <strong>gép-gép</strong> kommunikációs API.</p>
+<p><strong>Két fő típus:</strong>
+- <strong>SOAP</strong> (Simple Object Access Protocol): XML-alapú, szigorú séma (WSDL), bonyolultabb
+- <strong>REST</strong>: könnyebb, JSON-alapú, ma elterjedtebb</p>
+<p>Mindkettő platformfüggetlen — bármely nyelv hívhatja.</p>
+<h3>WCF architektúrája</h3>
+<p><strong>WCF (Windows Communication Foundation):</strong> Microsoft technológia szolgáltatás-orientált alkalmazások építésére. .NET keretrendszer része.</p>
+<p><strong>Fő fogalmak — ABC:</strong>
+- <strong>A — Address:</strong> hol érhető el a szolgáltatás (URI)
+- <strong>B — Binding:</strong> hogyan kommunikál (HTTP, TCP, MSMQ, named pipe…)
+- <strong>C — Contract:</strong> mit kínál (interface, metódusok)</p>
+<p><strong>Architektúra:</strong>
+- <strong>Service:</strong> maga az implementáció
+- <strong>Endpoint:</strong> A + B + C kombináció
+- <strong>Host:</strong> futtatókörnyezet (IIS, Windows Service, self-hosted)
+- <strong>Client (proxy):</strong> generálva a contract alapján</p>
+<h3>ASMX vs WCF</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ASMX (Web Services)</th>
+<th>WCF</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Protokoll</td>
+<td>Csak HTTP/SOAP</td>
+<td>Bármi: HTTP, TCP, MSMQ, NamedPipe</td>
+</tr>
+<tr>
+<td>Szerializáció</td>
+<td>XML</td>
+<td>XML, JSON, bináris</td>
+</tr>
+<tr>
+<td>Konfiguráció</td>
+<td>Web.config (egyszerű)</td>
+<td>Részletes (binding-ok)</td>
+</tr>
+<tr>
+<td>Hosting</td>
+<td>IIS</td>
+<td>IIS, Windows Service, EXE</td>
+</tr>
+<tr>
+<td>Biztonság</td>
+<td>Egyszerű</td>
+<td>Beépített WS-Security</td>
+</tr>
+<tr>
+<td>Bonyolultság</td>
+<td>Kis projekt</td>
+<td>Komplex, vállalati</td>
+</tr>
+</tbody>
+</table>
+<p><strong>ASMX:</strong> régi, egyszerű webszolgáltatás. <strong>WCF:</strong> modernebb, sokoldalú, de bonyolultabb. Ma a Microsoft inkább <strong>ASP.NET Core Web API</strong> vagy <strong>gRPC</strong> felé tol mindenkit.</p>
+<hr />
+<h2>⚡ Kvíz / kulcsfogalmak</h2>
+<ul>
+<li>Csomagkapcsolt vs áramkörkapcsolt</li>
+<li>OSI 7 réteg sorrendje</li>
+<li>TCP/IP 4 réteg</li>
+<li>OSI vs TCP/IP különbségek (rétegszám, elmélet vs gyakorlat)</li>
+<li>IPv4 felépítése: hálózat + host, /24 = mask 255.255.255.0</li>
+<li>Privát címtartományok 3 darab</li>
+<li>TCP: kapcsolatorientált, 3-way handshake, megbízható</li>
+<li>UDP: kapcsolat nélküli, gyors, megbízhatatlan</li>
+<li>TCP vs UDP: mikor melyiket</li>
+<li>ICMP: ping, traceroute alapja</li>
+<li>DNS: név → IP, hierarchia, A/AAAA/CNAME/MX rekord</li>
+<li>RPC architektúra: stub, marshalling</li>
+<li>gRPC: HTTP/2, protobuf, streaming</li>
+<li>REST 5 alapelve (resource, stateless, uniform interface, cache, layered)</li>
+<li>WCF ABC: Address, Binding, Contract</li>
+<li>ASMX vs WCF különbségek</li>
+</ul>
+    </article>
+
+    
+      <nav class="page-nav bottom">
+        <a href="tetel_09.html" class="nav-btn nav-prev">← 9. tétel</a>
+        <span class="nav-spacer"></span>
+        <a href="../kondenzalt.html" class="nav-btn nav-home">⌂ Index</a>
+        <span class="nav-spacer"></span>
+        <a href="tetel_11.html" class="nav-btn nav-next">11. tétel →</a>
+      </nav>
+  </div>
+  <script>
+const THEME_KEY = "kondenzalt-theme";
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  const btn = document.getElementById('theme-btn');
+  if (btn) btn.textContent = t === 'dark' ? '☀ Világos' : '🌙 Sötét';
+}
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  localStorage.setItem(THEME_KEY, next);
+  applyTheme(next);
+}
+(function() {
+  const t = localStorage.getItem(THEME_KEY) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(t);
+})();
+
+// Keyboard nav between tetelek: Left/Right arrow
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, textarea, select')) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'ArrowLeft') {
+    const prev = document.querySelector('.nav-prev');
+    if (prev && !prev.classList.contains('nav-disabled')) prev.click();
+  } else if (e.key === 'ArrowRight') {
+    const next = document.querySelector('.nav-next');
+    if (next && !next.classList.contains('nav-disabled')) next.click();
+  }
+});
+</script>
+</body>
+</html>
