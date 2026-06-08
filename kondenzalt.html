@@ -290,6 +290,156 @@ article.tetel tbody tr:nth-child(even) { background: var(--surface-2); }
 
 footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 50px; }
 
+/* === Chat widget === */
+.chat-fab {
+  position: fixed; bottom: 24px; right: 24px;
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  background: var(--accent); color: white;
+  border: none; cursor: pointer; font-size: 26px;
+  box-shadow: 0 4px 16px rgba(109, 40, 217, 0.32);
+  z-index: 1000; transition: transform 0.15s;
+}
+.chat-fab:hover { transform: scale(1.06); }
+.chat-fab.hidden, .chat-panel.hidden, .chat-modal.hidden { display: none; }
+
+.chat-panel {
+  position: fixed; bottom: 24px; right: 24px;
+  width: 440px; max-width: calc(100vw - 24px);
+  height: 640px; max-height: calc(100vh - 48px);
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.22);
+  display: flex; flex-direction: column;
+  z-index: 1001; overflow: hidden;
+}
+.chat-header {
+  display: flex; align-items: center; gap: 6px;
+  padding: 11px 14px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+.chat-title { flex: 1; font-weight: 700; font-size: 14px; }
+.chat-icon-btn {
+  background: transparent; border: none;
+  font-size: 16px; cursor: pointer;
+  padding: 5px 8px; border-radius: 6px;
+  color: var(--text);
+}
+.chat-icon-btn:hover { background: var(--bg); }
+
+.chat-messages {
+  flex: 1; overflow-y: auto;
+  padding: 14px;
+  display: flex; flex-direction: column; gap: 11px;
+}
+.chat-msg {
+  max-width: 86%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 14px; line-height: 1.55;
+  word-wrap: break-word;
+}
+.chat-msg.user {
+  align-self: flex-end;
+  background: var(--accent); color: white;
+  border-bottom-right-radius: 4px;
+}
+.chat-msg.assistant {
+  align-self: flex-start;
+  background: var(--surface-2); color: var(--text);
+  border-bottom-left-radius: 4px;
+}
+.chat-msg code {
+  background: rgba(0,0,0,0.07);
+  padding: 1px 5px; border-radius: 3px;
+  font-family: "SF Mono", Consolas, monospace; font-size: 0.9em;
+}
+.chat-msg.user code { background: rgba(255,255,255,0.22); }
+.chat-msg pre {
+  background: rgba(0,0,0,0.07);
+  padding: 8px 11px; border-radius: 6px;
+  overflow-x: auto; margin: 6px 0;
+  font-family: "SF Mono", Consolas, monospace; font-size: 12.5px;
+}
+.chat-msg.user pre { background: rgba(255,255,255,0.18); color: white; }
+.chat-msg.error {
+  align-self: stretch; max-width: 100%;
+  background: #fee2e2; color: #991b1b;
+  border: 1px solid #fecaca; font-size: 13px;
+}
+[data-theme="dark"] .chat-msg.error { background: #3a1417; color: #fca5a5; border-color: #5a2024; }
+.chat-msg.system-hint {
+  align-self: center; max-width: 100%;
+  background: var(--accent-soft); color: var(--text);
+  font-size: 12.5px; text-align: center;
+  padding: 8px 14px; line-height: 1.45;
+}
+
+.chat-input-row {
+  border-top: 1px solid var(--border);
+  padding: 10px; gap: 8px;
+  display: flex; background: var(--surface);
+}
+.chat-input {
+  flex: 1; resize: none;
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 9px 12px;
+  font-family: inherit; font-size: 14px; line-height: 1.45;
+  background: var(--bg); color: var(--text);
+  min-height: 40px; max-height: 120px;
+}
+.chat-input:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: transparent; }
+.chat-send {
+  background: var(--accent); color: white;
+  border: none; border-radius: 8px;
+  padding: 0 18px; cursor: pointer;
+  font-size: 14px; font-weight: 700;
+}
+.chat-send:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.chat-modal {
+  position: fixed; inset: 0; z-index: 2000;
+  background: rgba(0,0,0,0.45);
+  display: flex; align-items: center; justify-content: center;
+}
+.chat-modal-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 22px 26px;
+  max-width: 480px; width: 92vw;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.3);
+}
+.chat-modal-box h3 { margin: 0 0 10px; font-size: 18px; }
+.chat-modal-box p { font-size: 13.5px; line-height: 1.5; color: var(--muted); margin: 6px 0 10px; }
+.chat-modal-box label { font-size: 13px; font-weight: 600; color: var(--text); display: block; margin-top: 12px; }
+.chat-modal-box input, .chat-modal-box select {
+  width: 100%; box-sizing: border-box;
+  padding: 9px 12px; margin: 6px 0;
+  border: 1px solid var(--border); border-radius: 8px;
+  background: var(--bg); color: var(--text);
+  font-size: 13.5px; font-family: monospace;
+}
+.chat-modal-box select { font-family: inherit; }
+.chat-modal-actions {
+  display: flex; gap: 8px; justify-content: flex-end;
+  margin-top: 16px;
+}
+.chat-modal-actions button {
+  padding: 8px 18px; border-radius: 7px;
+  border: 1px solid var(--border); background: var(--surface);
+  color: var(--text); cursor: pointer; font-weight: 600; font-size: 14px;
+}
+.chat-modal-actions button.primary {
+  background: var(--accent); color: white; border-color: var(--accent);
+}
+.chat-modal-link { font-size: 12px; }
+.chat-modal-link a { color: var(--accent); }
+
+@media (max-width: 720px) {
+  .chat-panel { width: calc(100vw - 16px); height: calc(100vh - 90px); right: 8px; bottom: 8px; }
+  .chat-fab { right: 14px; bottom: 14px; width: 52px; height: 52px; font-size: 22px; }
+}
+
 @media (max-width: 720px) {
   .wrap { padding: 14px 12px 56px; }
   header.site h1 { font-size: 19px; }
@@ -422,6 +572,198 @@ document.addEventListener('keydown', e => {
   } else if (e.key === 'ArrowRight') {
     const next = document.querySelector('.nav-next');
     if (next && !next.classList.contains('nav-disabled')) next.click();
+  }
+});
+
+// === Chat widget ===
+const CHAT_KEY = "anthropic-api-key";
+const CHAT_MODEL_KEY = "chat-model";
+const DEFAULT_MODEL = "claude-sonnet-4-6";
+
+let chatHistory = [];
+let chatStreaming = false;
+
+function chatTetelNum() {
+  return (document.title.match(/(\d+)\.\s*tétel/) || [])[1] || "?";
+}
+
+function chatOpen() {
+  const n = chatTetelNum();
+  const t = document.getElementById('chat-title');
+  if (t) t.textContent = `Beszélgetés a ${n}. tételről`;
+  document.getElementById('chat-panel').classList.remove('hidden');
+  document.getElementById('chat-fab').classList.add('hidden');
+  document.getElementById('chat-input').focus();
+  if (chatHistory.length === 0 && !document.querySelector('.chat-msg')) {
+    chatAddMsg('system-hint',
+      'Kérdezz bármit a tételből — magyarázat, példa, vizsgakérdés. Az anyag automatikusan a kontextusban van.');
+    if (!localStorage.getItem(CHAT_KEY)) {
+      chatAddMsg('system-hint',
+        'Először kattints a ⚙️-re, és add meg az Anthropic API kulcsod (console.anthropic.com).');
+    }
+  }
+}
+function chatClose() {
+  document.getElementById('chat-panel').classList.add('hidden');
+  document.getElementById('chat-fab').classList.remove('hidden');
+}
+function chatClear() {
+  if (chatHistory.length && !confirm("Beszélgetést törlöd?")) return;
+  chatHistory = [];
+  document.getElementById('chat-messages').innerHTML = '';
+  chatAddMsg('system-hint', 'Új beszélgetés indítva.');
+}
+function chatSettings() {
+  document.getElementById('chat-modal-input').value = localStorage.getItem(CHAT_KEY) || '';
+  document.getElementById('chat-modal-model').value = localStorage.getItem(CHAT_MODEL_KEY) || DEFAULT_MODEL;
+  document.getElementById('chat-modal').classList.remove('hidden');
+  setTimeout(() => document.getElementById('chat-modal-input').focus(), 50);
+}
+function chatModalCancel() { document.getElementById('chat-modal').classList.add('hidden'); }
+function chatModalSave() {
+  const key = document.getElementById('chat-modal-input').value.trim();
+  const model = document.getElementById('chat-modal-model').value;
+  if (key) localStorage.setItem(CHAT_KEY, key);
+  localStorage.setItem(CHAT_MODEL_KEY, model);
+  document.getElementById('chat-modal').classList.add('hidden');
+}
+
+function chatEscape(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+function chatRenderMd(text) {
+  let t = chatEscape(text);
+  t = t.replace(/```([\s\S]*?)```/g, (_, code) => `<pre>${code.trim()}</pre>`);
+  t = t.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+  t = t.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
+  t = t.replace(/(^|[\s(])\*([^*\n]+)\*(?=[\s.,!?)]|$)/g, '$1<em>$2</em>');
+  t = t.replace(/\n/g, '<br>');
+  return t;
+}
+function chatAddMsg(role, html) {
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role}`;
+  div.innerHTML = html;
+  const c = document.getElementById('chat-messages');
+  c.appendChild(div);
+  c.scrollTop = c.scrollHeight;
+  return div;
+}
+function chatGetTetelContent() {
+  const art = document.querySelector('article.tetel');
+  return art ? art.innerText : '';
+}
+
+async function chatSend() {
+  if (chatStreaming) return;
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  const apiKey = localStorage.getItem(CHAT_KEY);
+  if (!apiKey) {
+    chatAddMsg('system-hint', 'Add meg az API kulcsod a ⚙️-ben.');
+    chatSettings();
+    return;
+  }
+  input.value = ''; input.style.height = 'auto';
+  chatAddMsg('user', chatEscape(text).replace(/\n/g, '<br>'));
+  chatHistory.push({role: 'user', content: text});
+
+  const sendBtn = document.getElementById('chat-send');
+  sendBtn.disabled = true; chatStreaming = true;
+
+  const n = chatTetelNum();
+  const tetel = chatGetTetelContent();
+  const model = localStorage.getItem(CHAT_MODEL_KEY) || DEFAULT_MODEL;
+  const system = `Magyar nyelven beszélgetünk. Az EKKE Programtervező Informatikus BSc záróvizsga ${n}. tételéről van szó. A felhasználó (Péter) vizsga előtt áll néhány nappal és aktívan tanul. Légy konkrét, segítőkész vizsgáztató / tanár szerepében: kérdezz vissza, magyarázz, javítsd a tévedéseket, adj konkrét példákat. Tömör, magyar válaszok, lényegre törő. Ha sokat ír Péter, vizsgakérdéseket is tehetsz fel neki, vagy építsd a beszélgetést egy mock-vizsga felé.
+
+A tétel kondenzált anyaga referenciaként (ne ismételd meg, hivatkozz rá szükség szerint):
+
+---
+${tetel}
+---`;
+
+  const bubble = chatAddMsg('assistant', '<em style="opacity:0.6">gondolkodik…</em>');
+  let assistantText = '';
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "x-api-key": apiKey,
+        "anthropic-version": "2023-06-01",
+        "anthropic-dangerous-direct-browser-access": "true",
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        model: model,
+        max_tokens: 4096,
+        stream: true,
+        system: [
+          {type: "text", text: system, cache_control: {type: "ephemeral"}}
+        ],
+        messages: chatHistory
+      })
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      bubble.classList.remove('assistant');
+      bubble.classList.add('error');
+      bubble.textContent = `Hiba: ${res.status} — ${err.substring(0, 300)}`;
+      chatHistory.pop();
+      return;
+    }
+    const reader = res.body.getReader();
+    const dec = new TextDecoder();
+    let buf = "";
+    while (true) {
+      const {done, value} = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, {stream: true});
+      const lines = buf.split("\n");
+      buf = lines.pop() || "";
+      for (const line of lines) {
+        if (!line.startsWith("data: ")) continue;
+        const data = line.slice(6);
+        if (data === "[DONE]") continue;
+        try {
+          const ev = JSON.parse(data);
+          if (ev.type === "content_block_delta" && ev.delta && ev.delta.type === "text_delta") {
+            assistantText += ev.delta.text;
+            bubble.innerHTML = chatRenderMd(assistantText);
+            const c = document.getElementById('chat-messages');
+            c.scrollTop = c.scrollHeight;
+          }
+        } catch (e) {}
+      }
+    }
+    if (assistantText) chatHistory.push({role: 'assistant', content: assistantText});
+  } catch (err) {
+    bubble.classList.remove('assistant');
+    bubble.classList.add('error');
+    bubble.textContent = `Hálózati hiba: ${err.message}`;
+    chatHistory.pop();
+  } finally {
+    sendBtn.disabled = false; chatStreaming = false;
+    document.getElementById('chat-input').focus();
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.target.id === 'chat-input' && e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault(); chatSend();
+  }
+  if (e.target.id === 'chat-modal-input' && e.key === 'Enter') {
+    e.preventDefault(); chatModalSave();
+  }
+  if (e.key === 'Escape') {
+    if (!document.getElementById('chat-modal').classList.contains('hidden')) chatModalCancel();
+    else if (!document.getElementById('chat-panel').classList.contains('hidden')) chatClose();
+  }
+});
+document.addEventListener('input', e => {
+  if (e.target.id === 'chat-input') {
+    e.target.style.height = 'auto';
+    e.target.style.height = Math.min(120, e.target.scrollHeight) + 'px';
   }
 });
 </script>
