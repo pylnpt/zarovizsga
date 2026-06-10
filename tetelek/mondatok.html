@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>280 mondat — záróvizsga beszédvázlat</title>
+  <style>
+* { box-sizing: border-box; }
+:root {
+  --bg: #ffffff;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #d8d5cc;
+  --accent: #6d28d9;
+  --accent-soft: #ede9fe;
+  --code-bg: #f5f3ec;
+}
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg); color: var(--text);
+  font-size: 14px; line-height: 1.55;
+}
+.wrap { max-width: 840px; margin: 0 auto; padding: 28px 28px 60px; }
+
+header.site {
+  margin-bottom: 22px;
+  border-bottom: 3px solid var(--accent);
+  padding-bottom: 12px;
+}
+header.site h1 {
+  margin: 0; font-size: 22px; font-weight: 800; color: var(--accent);
+  letter-spacing: -0.3px;
+}
+header.site small {
+  display: block; font-size: 12.5px; font-weight: 400;
+  color: var(--muted); margin-top: 4px;
+}
+
+h2 {
+  font-size: 17px; font-weight: 800;
+  margin: 26px 0 10px;
+  padding: 9px 13px;
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  color: var(--text);
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+p { margin: 0 0 9px; line-height: 1.65; }
+strong { color: var(--accent); font-weight: 700; }
+
+ol {
+  margin: 6px 0 14px;
+  padding-left: 24px;
+  counter-reset: item;
+}
+ol li {
+  margin: 6px 0;
+  line-height: 1.6;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+ol li::marker { color: var(--accent); font-weight: 700; }
+
+hr {
+  border: none;
+  border-top: 1px dashed var(--border);
+  margin: 22px 0;
+  page-break-after: always;
+  break-after: page;
+}
+
+code {
+  background: var(--code-bg);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 0.92em;
+  color: var(--accent);
+}
+
+@page { size: A4; margin: 14mm 14mm 16mm 14mm; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site">
+      <h1>280 mondat — záróvizsga beszédvázlat</h1>
+      <small>EKKE Programtervező Informatikus BSc · Záróvizsga · 14 tétel × 2 alpont × 10 mondat</small>
+    </header>
+    <h1>280 mondat — záróvizsga beszédvázlat</h1>
+<p>Alpontonként 10 összefüggő, kimondható mondat. A hivatalos kérdés minden topicját érinti, sorrendben olvasva folyamatos beszéd.</p>
+<hr />
+<h2>1.a Bevezetés az informatikába</h2>
+<ol>
+<li>Az <strong>információ</strong> új ismereteket hordozó jelek tartalmi befogadása, ami cselekvésre késztet; az <strong>adat</strong> ennek a hordozója, önmagában jelentés nélküli.</li>
+<li>Az információ útja: <strong>adó → kódolás → csatorna (zaj) → dekódolás → vevő</strong>, ezért a kódolás-dekódolás minőség kulcsfontosságú.</li>
+<li>Az információ mértékegysége a <strong>bit</strong>: két egyenlően valószínű jel egyikének kiválasztásához tartozó információmennyiség.</li>
+<li>Az <strong>entrópia</strong> a rendszer bizonytalanságát méri, képlete H = − Σ pᵢ · log₂ pᵢ, ahol a valószínűségek összege 1.</li>
+<li>Az <strong>átlagos kódhossz</strong> Σ pᵢ·hᵢ, a <strong>kódolási hatásfok</strong> ennek és az entrópiának a hányadosa — jó kódolásnál közel 1.</li>
+<li>A <strong>Shannon-Fano</strong> eljárás gyakoriság szerint csökkenően rendez, közel egyenlő részekre osztja a listát és 0/1-et rendel, rekurzívan halad.</li>
+<li>A <strong>Huffman-kódolás</strong> összevonja a két legkisebb valószínűségű jelet és visszafelé olvassa ki a kódokat — optimális prefix kódot ad.</li>
+<li><strong>Fixpontos számábrázolás</strong>: bináris, a legmagasabb bit az előjel, a negatív számokat kettes komplemenssel ábrázoljuk.</li>
+<li><strong>Lebegőpontos (IEEE 754, 32 bit)</strong>: 1 előjelbit + 8 karakterisztika (eltolásos +127) + 23 mantissza (implicit bittel).</li>
+<li>A <strong>karakterkódolás</strong> ASCII (128 karakter) vagy Unicode (UTF-8) — a gép számára teszi értelmezhetővé a szöveget.</li>
+</ol>
+<hr />
+<h2>1.b Elsőrendű logika</h2>
+<ol>
+<li>Az elsőrendű logika <strong>paraméteres állításokkal (predikátumokkal)</strong> dolgozik, amik termeken értelmezettek — termek: konstansok, változók, függvények.</li>
+<li>Két <strong>kvantor</strong> van: ∀ ("minden x-re") és ∃ ("van olyan x"); a nyelv egy ⟨Var, Pr, Fn⟩ formális hármas.</li>
+<li>A <strong>szintaxis</strong> a helyes formulák nyelvtana, a <strong>szemantika</strong> az értelmezés: az interpretáció definiálja a <strong>domaint</strong> és minden szimbólumhoz értéket rendel.</li>
+<li>Egy formula <strong>tautológia</strong> (minden interpretációban igaz), <strong>kontradikció</strong> (mindig hamis) vagy <strong>kielégíthető</strong> (legalább egyben igaz).</li>
+<li>A <strong>KNF-re hozás 6 lépése</strong>: implikáció eltüntetése, változótiszta alak, prenexizálás, Skolemizálás, KNF-re hozás disztributivitással, klózokra bontás.</li>
+<li><strong>Skolemizálás</strong>: az ∃x kvantort eltüntetjük, és x helyébe új <strong>Skolem-függvényt</strong> írunk, amelynek paraméterei az előtte álló ∀ kvantorok változói; ∀ nélkül Skolem-konstans.</li>
+<li>A <strong>rezolúció</strong> cáfoló eljárás: a bizonyítandó állítás tagadásából indulunk, és levezetjük az üres klózt (UNSAT).</li>
+<li>Az <strong>unifikáció</strong> karakterről karakterre egyformává tesz két literált — változót konstanssal/függvénnyel illeszt, az <strong>occur check</strong> szerint x → f(x) tilos.</li>
+<li>A <strong>lineáris rezolúció</strong> mindig az előző rezolvensre épít (teljes); az <strong>SLD rezolúció</strong> célirányosabb, és <strong>Horn-klózok</strong> esetén teljes.</li>
+<li>A <strong>Prolog</strong> az első logikai programozási nyelv: Horn-klózokkal, SLD-rezolúcióval dönti el, hogy egy célformula logikai következménye-e a tényeknek és szabályoknak.</li>
+</ol>
+<hr />
+<h2>2.a Magasszintű programozási nyelvek I</h2>
+<ol>
+<li>A <strong>tömb és lista</strong> homogén, véletlen elérésű, folytonos adatszerkezet — a tömb fix méretű, a <code>List&lt;T&gt;</code> dinamikusan bővül.</li>
+<li>A <strong>rekord</strong> heterogén mezőket tartalmaz; C#-ban a <strong>class</strong> referenciatípus (heap, GC), a <strong>struct</strong> értéktípus (stack, érték szerint másolódik).</li>
+<li>A <strong>felsorolásos típus (enum)</strong> megnevezett konstansok halmaza, alapból int-re fordul.</li>
+<li>A <strong>metódus</strong> szignatúrával rendelkezik (név + paramétertípusok), lehet <strong>static</strong> (osztályszintű) vagy példányszintű, és <strong>túlterhelhető</strong>.</li>
+<li><strong>Paraméterátadás módjai</strong>: érték szerint (alapeset), <code>ref</code> (referencia, be+ki), <code>out</code> (kötelező kimenet), <code>in</code> (csak olvasható), <code>params</code> (változó paraméterszám tömbként).</li>
+<li>Nyelvek <strong>fordítási megoldásai</strong>: AOT (C, Rust — előre gépi kódra), értelmezett (Bash), vagy <strong>JIT</strong> (Java JVM, C# CLR — futáskor fordul).</li>
+<li>A <strong>.NET</strong> fő összetevői: <strong>CLR</strong> (futtatás, JIT, GC), <strong>BCL</strong> (alaposztálykönyvtár), <strong>IL</strong> (közbenső kód) és nyelvi compilerek.</li>
+<li>C# forrásból <strong>IL</strong> lesz, amit a CLR futás közben gépi kódra fordít, és kezeli a memóriát, típusbiztonságot, kivételeket.</li>
+<li>Hasonló <strong>JVM</strong> Javához (bytecode + JIT), és a skála az AOT-tól (Go, Rust) a tisztán interpretáltig (CPython) terjed.</li>
+<li>A virtuális gépes nyelvek <strong>platformfüggetlenséget</strong> adnak — ugyanaz a kód több OS-en fut ugyanazzal a runtime-mal.</li>
+</ol>
+<hr />
+<h2>2.b Adatszerkezetek és algoritmusok — programozási tételek</h2>
+<ol>
+<li>Az <strong>algoritmus</strong> véges, egyértelmű, általános, hatékony lépéssorozat a feladat megoldására.</li>
+<li><strong>Megadási módok</strong>: szöveges, pszeudokód, folyamatábra, struktogram (Nassi-Shneiderman), Jackson-diagram.</li>
+<li>A <strong>strukturált algoritmus</strong> három alapszerkezete: <strong>szekvencia, szelekció, iteráció</strong> — goto nélkül.</li>
+<li><strong>Sorozathoz elemi értéket</strong> rendelő tételek: eldöntés, kiválasztás, lineáris keresés, megszámlálás, maximumkeresés, összegzés.</li>
+<li><strong>Sorozathoz sorozatot</strong> rendelők: másolás (transzformáció), kiválogatás, szétválogatás; <strong>több sorozathoz egyet</strong>: unió, metszet, összefuttatás.</li>
+<li><strong>Rendezések</strong>: buborék/beszúrásos/kiválasztásos O(n²); <strong>quicksort/mergesort/heapsort</strong> O(n log n) — a quicksort legrosszabb esete O(n²).</li>
+<li>A <strong>mergesort</strong> stabil és mindig O(n log n), de O(n) extra memória kell; a quicksort átlagosan gyors, in-place, de instabil.</li>
+<li>A <strong>visszalépéses keresés (backtracking)</strong> rekurzív próbálkozás: zsákutcánál visszalépés és másik opció — N királynő, sudoku, gráfszínezés.</li>
+<li>A <strong>programozási tételek</strong> átültethetők különböző homogén adatszerkezetekre: tömbön, láncolt listán, halmazon, fán értelmezhetők.</li>
+<li>A <strong>halmaz adatszerkezet</strong> konstrukciói: rendezetlen lista (O(n)), rendezett tömb bináris kereséssel (O(log n)), karakterisztikus függvény bit-vektorral (O(1)), hash-tábla, fa.</li>
+</ol>
+<hr />
+<h2>3.a Adatbázisrendszerek I — modellek</h2>
+<ol>
+<li>Három klasszikus adatbázis-modell van: <strong>hierarchikus</strong> (fa, 1 szülő), <strong>hálós</strong> (több szülő, M:N), és a domináns <strong>relációs modell</strong>.</li>
+<li>A relációs modell <strong>táblákban</strong> tárol adatot, a kapcsolatokat <strong>kulcsok</strong> és <strong>idegen kulcsok</strong> reprezentálják, halmazalapú SQL-lel kérdezhető.</li>
+<li><strong>Kulcsfajták</strong>: szuperkulcs (mindent meghatároz), candidate (minimális szuperkulcs), <strong>primary</strong> (kiválasztott), <strong>foreign</strong> (másik tábla PK-jára mutat).</li>
+<li><strong>Kapcsolat-típusok</strong>: 1:1 (személy ↔ útlevél), 1:N (osztály ↔ tanuló), M:N (hallgató ↔ tantárgy) — utóbbi <strong>kapcsolótáblával</strong> valósul meg.</li>
+<li><strong>Anomáliák</strong> normalizálatlan táblákban: beszúrási (új adat csak másikkal vihető be), módosítási (több helyen kell javítani), törlési (más adat törlése értékes infót töröl).</li>
+<li>A <strong>funkcionális függőség</strong> X → Y: ha X megegyezik két sorban, Y is megegyezik; a <strong>tranzitivitás</strong> miatt X → Y és Y → Z-ből X → Z.</li>
+<li><strong>1NF</strong>: minden cella <strong>atomi</strong> (nem összetett, nem ismétlődő).</li>
+<li><strong>2NF</strong>: 1NF + minden nem-kulcs attribútum teljesen függ az <strong>összes</strong> elsődleges kulcstól (összetett kulcsnál releváns).</li>
+<li><strong>3NF</strong>: 2NF + nincs <strong>tranzitív</strong> függőség a nem-kulcs attribútumok között.</li>
+<li>A <strong>BCNF</strong> a 3NF szigorúbb változata (minden FF bal oldala szuperkulcs); gyakorlatban a 3NF/BCNF a célzott szint.</li>
+</ol>
+<hr />
+<h2>3.b Dinamikus adatszerkezetek</h2>
+<ol>
+<li>A hatékonyságot <strong>algoritmizálási</strong> (paradigma, korai kilépés) és <strong>adatkonstrukciós</strong> (cache-barát, hely-idő tradeoff) döntések befolyásolják.</li>
+<li>A <strong>verem (Stack)</strong> LIFO szerkezet <code>push/pop/peek</code> műveletekkel; használat: hívási lánc, kifejezés-kiértékelés, undo.</li>
+<li>A <strong>sor (Queue)</strong> FIFO szerkezet <code>enqueue/dequeue</code>-val; használat: ütemezés, BFS gráfbejárás, üzenetsorok.</li>
+<li>A <strong>láncolt lista</strong> csomópontokból + mutatókból áll: beszúrás/törlés ismert pozíción O(1), hozzáférés index szerint O(n) — szemben a tömbbel.</li>
+<li>A <strong>hash-tábla</strong> hash-függvénnyel képez kulcsot indexre, átlag O(1) műveletek; ütközéskezelés <strong>láncolással</strong> vagy <strong>nyílt címzéssel</strong>.</li>
+<li><strong>Kereső algoritmusok</strong>: lineáris O(n), bináris (rendezett) O(log n), hash O(1), kiegyensúlyozott fa O(log n).</li>
+<li>A <strong>programozási tételek</strong> átültethetők: tömbön index-iteráció, láncolt listán mutatóval, fán bejárások keretében.</li>
+<li>A <strong>rekurzió</strong> önhívás bázisesettel + rekurzív hívással; klasszikus: faktoriális, Fibonacci, Hanoi, fa-bejárások.</li>
+<li><strong>Rekurzió vs iteráció</strong>: a rekurzió a hívási vermet használja (stack overflow!), az iteráció konstans memóriájú — minden rekurzív átírható iteratívra.</li>
+<li>A <strong>fa</strong> csomópontokból + gyökérből áll; a <strong>BST</strong>-n bal részfa &lt; csomópont &lt; jobb részfa, bejárások: <strong>preorder, inorder</strong> (rendezett kimenet), <strong>postorder</strong>, BFS.</li>
+</ol>
+<hr />
+<h2>4.a Magasszintű programozási nyelvek I — alapok</h2>
+<ol>
+<li><strong>Primitív típusok</strong>: byte/short/int (32)/long (64), float/double/decimal, bool, char (Unicode), és a <code>string</code> mint immutable referenciatípus.</li>
+<li>A <strong>változó</strong> memóriaterület + név + típus; a <strong>const</strong> fordításkor rögzül, a <strong>readonly</strong> csak konstruktorban kaphat értéket, a <strong>literál</strong> beégetett érték.</li>
+<li><strong>Operátorok</strong>: aritmetikai, összehasonlító, logikai rövidzárú (<code>&amp;&amp;</code>, <code>||</code>), bitenkénti, ternáris, null-coalescing (<code>??</code>).</li>
+<li><strong>Szelekciós szerkezetek</strong>: <code>if/else if/else</code>, <code>switch</code> (modern C#-ban pattern matchinggel).</li>
+<li><strong>Ciklusok</strong>: <code>while</code> (elöl), <code>do-while</code> (hátul), <code>for</code> (számláló), <code>foreach</code> (IEnumerable-n); vezérlés: <code>break</code>, <code>continue</code>, <code>return</code>.</li>
+<li><strong>Értéktípusok</strong> (struct, int) a <strong>stack</strong>-en, érték szerint másolódnak; <strong>referenciatípusok</strong> (class) a <strong>heap</strong>-en, csak referenciát másolunk.</li>
+<li>A <strong>stack</strong> gyors LIFO és korlátos méretű (stack overflow); a <strong>heap</strong> dinamikus, a <strong>GC</strong> kezeli; a <strong>boxing/unboxing</strong> lassú, kerülendő.</li>
+<li>A változó <strong>hatásköre</strong> mondja meg, hol látszik (block, metódus, osztály), az <strong>élettartama</strong> azt, mikor él (lokális, mező, static).</li>
+<li><strong>Nyelvgenerációk</strong>: 1GL gépi kód, 2GL assembly, 3GL magas szintű (C, C#, Java), 4GL DSL (SQL), 5GL logikai (Prolog).</li>
+<li><strong>Paradigma-családok</strong>: imperatív (hogyan), funkcionális (függvény-kompozíció, immutable), deklaratív (mit — SQL), objektum-orientált, logikai.</li>
+</ol>
+<hr />
+<h2>4.b Operációs rendszerek</h2>
+<ol>
+<li>Az operációs rendszer a <strong>hardver és az alkalmazások közötti réteg</strong>, ami erőforrást menedzsel és API-t nyújt.</li>
+<li>A <strong>kernel</strong> privilegizált módban fut és közvetlenül a hardverrel beszél — lehet <strong>monolitikus</strong> (Linux), <strong>mikrokernel</strong> (Minix), vagy <strong>hibrid</strong> (Windows NT).</li>
+<li>A <strong>processz</strong> saját címtérrel + PID-del + állapottal rendelkezik; a <strong>szál</strong> processzen belüli, közös memóriájú végrehajtási egység gyors kontextusváltással.</li>
+<li>A <strong>virtualizáció</strong> lehet teljes (külön OS, hypervisor), para- (vendég tud róla), vagy <strong>OS-szintű</strong> (konténer, közös kernel — Docker).</li>
+<li><strong>Fájlrendszerek</strong> hierarchikus szervezést, attribútumokat, ACL-eket, lock-olást, <strong>journalingot</strong> nyújtanak — NTFS, ext4, APFS, ZFS, FAT32.</li>
+<li><strong>RAID</strong> szintek: 0 (striping, nincs redundancia), 1 (mirror), 5 (striping + 1 paritás), 6 (2 paritás), 10 (mirror + stripe).</li>
+<li><strong>Átirányítások</strong> (<code>&gt;</code>, <code>&gt;&gt;</code>, <code>&lt;</code>, <code>|</code>) és <strong>szűrők</strong> (<code>grep</code>, <code>sed</code>, <code>awk</code>, <code>sort</code>, <code>uniq</code>) láncolnak parancsokat Unix-filozófiásan.</li>
+<li><strong>Jogosultságok</strong>: Linuxon owner/group/others × r/w/x (<code>chmod 755</code>); Windowson részletes <strong>ACL</strong> Allow/Deny szabályokkal.</li>
+<li><strong>Processz-állapotok</strong>: new → ready → running → waiting → terminated; ütemezők: FCFS, SJF, Round Robin, prioritás, multilevel feedback.</li>
+<li><strong>Szignálok</strong> (SIGTERM, SIGKILL, SIGINT) aszinkron értesítések; <strong>backup</strong>: full/inkrementális/differenciális (3-2-1 szabály); <strong>shell-script</strong> automatizál parancsokat shebanggel és vezérléssel.</li>
+</ol>
+<hr />
+<h2>5.a OOP alapok</h2>
+<ol>
+<li>Az <strong>OOP négy alapelve</strong>: egységbe zárás, adatrejtés, öröklődés, polimorfizmus.</li>
+<li>Az <strong>osztály</strong> sablon az objektumokhoz: <strong>mezők</strong> az adatot tárolják, <strong>metódusok</strong> a viselkedést, a <strong>konstruktor</strong> az inicializálást.</li>
+<li><strong>Láthatóság-szabályozók</strong>: <code>private</code> (csak az osztály), <code>public</code>, <code>protected</code> (+ leszármazottak), <code>internal</code> (assembly-n belül).</li>
+<li>A <strong>property</strong> C# specifikus: getter/setter mögött metódus fut, ezért validáció és invariáns érvényesíthető hozzáféréskor.</li>
+<li><strong>Konténerosztályok</strong> a <code>System.Collections.Generic</code>-ben: <code>List&lt;T&gt;</code>, <code>Dictionary&lt;K,V&gt;</code>, <code>Stack&lt;T&gt;</code>, <code>Queue&lt;T&gt;</code>, <code>HashSet&lt;T&gt;</code> — mind generikus, típusbiztos.</li>
+<li>Az <strong>indexelő</strong> (<code>this[int i]</code>) lehetővé teszi, hogy az objektum <strong>tömbszerűen indexelhető</strong> legyen saját getter/setterrel.</li>
+<li><strong>Static (osztályszintű)</strong> tag az osztályhoz tartozik (Math.Sqrt), nem példányhoz; a <strong>static konstruktor</strong> egyszer fut, az osztály első használatakor.</li>
+<li><strong>Névterek (namespace)</strong> logikailag csoportosítják a típusokat és kerülik a névütközést — pl. <code>System.IO</code>, <code>System.Linq</code>.</li>
+<li><strong>Bővítő metódus</strong>: static osztály static metódusa, első paraméter elé <code>this</code> — meglévő típushoz adunk metódust forrásmódosítás nélkül; a LINQ erre épül.</li>
+<li><strong>Operator overloading</strong>: saját operátorok definiálhatók (csak static); az <code>==</code> és <code>!=</code> párban, és ha <code>==</code>-t definiálsz, <code>Equals</code> és <code>GetHashCode</code> is felülbírálandó.</li>
+</ol>
+<hr />
+<h2>5.b Architektúrák — cache + I/O</h2>
+<ol>
+<li>A <strong>cache</strong> kis, gyors átmeneti tároló a CPU és a memória közt — <strong>cache hit</strong> esetén nincs memóriához fordulás, <strong>miss</strong> esetén várni kell.</li>
+<li>A cache működésének alapja a <strong>lokalitási elv</strong>: <strong>időbeli</strong> (a most használt adatot újra használjuk) és <strong>térbeli</strong> (a szomszéd is jön).</li>
+<li><strong>Memória-hierarchia</strong>: regiszter → L1 (32-64 KB, 3-5 ciklus) → L2 → L3 → RAM (100-200 ciklus) → SSD/HDD; a cache a CPU és a RAM közé ékelődik.</li>
+<li>A cache <strong>sorokra (cache line, ~64 bájt)</strong> van osztva: tag (cím), adatblokk, <strong>valid bit</strong>, <strong>dirty bit</strong>.</li>
+<li><strong>Elérési változatok</strong>: direkt leképezésű (1 hely, gyors, ütközhet), fully associative (bárhova, drága), n-way set associative (n hely, kompromisszum).</li>
+<li>A <strong>cím három részre</strong> bomlik: <strong>tag</strong> (blokkot azonosít), <strong>index</strong> (melyik sor/halmaz), <strong>offset</strong> (blokkon belüli bájt).</li>
+<li><strong>Write-through</strong>: minden módosítás azonnal a memóriába is megy (egyszerű, lassú); <strong>write-back</strong>: csak cache-be + dirty bit, sor kiváltásakor írunk vissza.</li>
+<li>A <strong>valid bit</strong> jelzi, hogy a sor adata érvényes-e (induláskor 0); a <strong>dirty bit</strong> jelzi, hogy módosult-e (kiváltás előtt visszaírás kell).</li>
+<li><strong>I/O módok</strong>: programmed I/O (polling, CPU-igényes), interrupt-vezérelt (periféria szól), <strong>DMA</strong> (közvetlen memória-periféria adatmozgás, CPU csak indít).</li>
+<li><strong>Perifériák</strong>: PC-n USB billentyűzet/monitor/SSD; mobilon érintőképernyő, accelerometer, GPS, kamera; robotikán LIDAR, IMU, enkóder + GPIO/PWM/I²C/SPI vezérlés.</li>
+</ol>
+<hr />
+<h2>6.a Numerikus matematika</h2>
+<ol>
+<li><strong>Hibák négy típusa</strong>: kiküszöbölhetetlen input-hibák, modell-hiba, módszer-hiba, gépi (kerekítési) hibák.</li>
+<li><strong>Abszolút hiba</strong> |a − a₀|, <strong>relatív hiba</strong> (a − a₀)/a₀, <strong>hibaterjedés</strong> Δy ≈ |f'(x)|·Δx — a relatív hiba és a biztos számjegyek között logaritmikus kapcsolat van.</li>
+<li><strong>Nemlineáris egyenletekre</strong> (f(x) = 0) az <strong>intervallumfelező eljárás</strong> biztos, de lassú; feltétele: f(a)·f(b) &lt; 0 előjelváltás.</li>
+<li>A <strong>Newton-Raphson</strong> érintő-módszer <strong>kvadratikus konvergenciát</strong> ad: xₙ₊₁ = xₙ − f(xₙ)/f'(xₙ); deriválhatóság és jó kezdőérték kell.</li>
+<li><strong>Numerikus integrálás</strong>: téglalap-módszer nulladfokú, <strong>trapéz</strong> elsőfokú, <strong>Simpson</strong> másodfokú interpoláción alapul — egyre pontosabb.</li>
+<li>A <strong>Simpson-formula</strong> súlyozása <code>1-4-2-4-2-...-4-1</code> mintát ad, (h/3) szorzóval — feltétele páros n.</li>
+<li><strong>Lineáris egyenletrendszereket</strong> <strong>Gauss-eliminációval</strong> oldunk: kiterjesztett mátrixot felső háromszögre alakítjuk elemi sorekvivalens átalakításokkal, visszahelyettesítünk.</li>
+<li><strong>Polinomok kiértékelésére</strong> a <strong>Horner-módszer</strong> szorzás-összeadássá rendezi a kifejezést (nincs hatványozás); a <strong>Taylor-polinom</strong> egy a pont körül polinomi sorral közelít.</li>
+<li><strong>Interpoláció</strong>: ismert pontokra polinomot illeszt — a <strong>Lagrange</strong> minden új pontnál újraszámol, a <strong>Newton-féle (osztott differenciás)</strong> inkrementális, csak az új tagot adjuk hozzá.</li>
+<li>A <strong>legkisebb négyzetek módszere</strong> ponthalmazhoz a legjobban illeszkedő egyenest keresi az eltérések négyzetösszegét minimalizálva — nem interpoláció.</li>
+</ol>
+<hr />
+<h2>6.b Operációs rendszerek — funkciók</h2>
+<ol>
+<li>Az OS <strong>fő funkciói</strong>: erőforrás-menedzsment, processz/szál kezelés, memóriakezelés, fájlrendszer, I/O, biztonság, hálózat, felhasználói felület.</li>
+<li>A <strong>kernel</strong> privilegizált módban fut, a processzek user módban; a kontextusváltás közöttük <strong>system call</strong>-okon át történik.</li>
+<li>A <strong>processz</strong> saját címtérrel + PID-del rendelkezik; a <strong>szál</strong> processzen belüli, közös memóriájú végrehajtási egység gyors váltással.</li>
+<li><strong>Ütemezési algoritmusok</strong>: FCFS, SJF, Round Robin (időszelet), prioritás-alapú, multilevel feedback queue — méltányosság és válaszidő közti tradeoff.</li>
+<li><strong>Virtualizáció</strong>: teljes (külön OS hypervisorral) vagy <strong>konténer</strong> (közös kernel, izolált processz-tér, pl. Docker).</li>
+<li>A <strong>fájlrendszer</strong> hierarchikus szervezést, jogosultság-vezérlést, lock-olást, <strong>journalingot</strong> nyújt — utóbbi crash után konzisztens állapotot ad.</li>
+<li><strong>Tipikus fájlrendszerek</strong>: NTFS (Windows), ext4 (Linux), APFS (macOS), ZFS/Btrfs (modern, snapshot), FAT32 (kompatibilitás).</li>
+<li><strong>Hibatűrő diszk-rendszerek (RAID)</strong>: RAID 1 mirror, RAID 5 striping + 1 paritás (1 lemez-hibát tűr), RAID 6 (2), RAID 10 (mirror + stripe).</li>
+<li><strong>Jogosultsági rendszer</strong>: <strong>autentikáció</strong> (ki vagyok) + <strong>autorizáció</strong> (mit tehetek); Linuxon UID/GID + bitek, Windowson ACL.</li>
+<li><strong>Backup szintek</strong>: full (minden), inkrementális (utolsó óta), differenciális (utolsó full óta) — a <strong>3-2-1 szabály</strong> szerint 3 másolat, 2 médium, 1 off-site.</li>
+</ol>
+<hr />
+<h2>7.a OOP — öröklődés</h2>
+<ol>
+<li>Az <strong>öröklődés</strong> új osztály egy meglévő alapján: a leszármazott örökli a védett és publikus tagokat, kibővítheti, felülbírálhatja.</li>
+<li>C#-ban <strong>egyszeres osztály-öröklődés</strong> + tetszőleges interface implementálható; a <strong><code>sealed</code></strong> kulcsszó megtiltja a további öröklődést.</li>
+<li><strong>Korai kötés</strong> fordításkor a deklarált típus alapján; <strong>késői kötés</strong> futáskor az objektum tényleges típusa alapján — <code>virtual</code> + <code>override</code> kell hozzá.</li>
+<li>A <code>virtual</code> metódusokhoz az osztály egy <strong>DMT-t (vtable)</strong> épít, és ebből oldódik fel a hívás — ez működteti a polimorfizmust.</li>
+<li>A <strong>konstruktor</strong> az osztály nevével megegyezik, nincs visszatérési típusa; lehet több (overload), és <code>: this(...)</code> szintaxissal hívható másik saját konstruktor.</li>
+<li>Származtatott osztály létrehozásakor <strong>először az ős konstruktora fut le</strong>, majd a leszármazotté — explicit <code>: base(...)</code> hívással irányítható.</li>
+<li>A <strong>static (osztályszintű) konstruktor</strong> egyszer fut, automatikusan, az osztály első használata előtt — a static mezőket inicializálja.</li>
+<li><strong>Típuskompatibilitás</strong>: leszármazott implicit <strong>upcastolható</strong> ősre; <strong>downcast</strong> explicit cast vagy <code>as</code>/<code>is</code> operátorral, és kockázatos.</li>
+<li>Az <strong><code>object</code></strong> minden típus végső őse — 4 örökölt metódusa: <code>ToString</code>, <code>Equals</code>, <code>GetHashCode</code>, <code>GetType</code>.</li>
+<li>A <strong>statikus osztály</strong> nem példányosítható (csak static tagok, pl. Math); a <strong><code>dynamic</code></strong> kulcsszó (DLR-rel) futáskor oldja fel a típusokat — rugalmas, de elveszti a fordítóidejű biztonságot.</li>
+</ol>
+<hr />
+<h2>7.b Adatbázis I — SQL</h2>
+<ol>
+<li>Az <strong>SQL</strong> szabványos, deklaratív lekérdező nyelv relációs adatbázisokhoz; al-nyelvei a <strong>DDL</strong> (séma), <strong>DML</strong> (adatok), <strong>DCL</strong> (jogok), <strong>TCL</strong> (tranzakció).</li>
+<li><strong>Relációsémát</strong> <code>CREATE TABLE</code>-lel definiálunk; megszorítások: <code>PRIMARY KEY</code>, <code>FOREIGN KEY ... REFERENCES</code>, <code>NOT NULL</code>, <code>UNIQUE</code>, <code>CHECK</code>, <code>DEFAULT</code>.</li>
+<li>Az <strong>index</strong> B-fa alapú segédszerkezet, ami <strong>felgyorsítja a keresést</strong> — gyors SELECT, lassabb INSERT/UPDATE; a PK automatikusan indexelt.</li>
+<li><strong>Táblák módosítása</strong>: <code>ALTER TABLE ADD/MODIFY/DROP</code>, <code>DROP TABLE</code>.</li>
+<li>A <strong>SELECT alapforma</strong>: <code>SELECT … FROM … WHERE … GROUP BY … HAVING … ORDER BY … LIMIT</code>; a logikai kiértékelés sorrendje FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY.</li>
+<li><strong>Aggregáló függvények</strong>: <code>COUNT</code>, <code>SUM</code>, <code>AVG</code>, <code>MIN</code>, <code>MAX</code>; a <code>HAVING</code> csoportokon, a <code>WHERE</code> egyedi sorokon szűr.</li>
+<li><strong>JOIN típusok</strong>: INNER (csak párosak), LEFT (bal min., jobbon NULL), RIGHT, FULL, CROSS (Descartes-szorzat) — egyenlőségi feltétellel.</li>
+<li><strong>Beágyazott lekérdezés (subquery)</strong>: skalár, <code>IN</code>/<code>NOT IN</code>, <code>EXISTS</code>, korrelált — a belső kérdés a külső sor egy oszlopára hivatkozik.</li>
+<li><strong>GRANT</strong> és <strong>REVOKE</strong> adja és veszi vissza a privilégiumokat; a <strong>role</strong> (<code>CREATE ROLE</code>) jogosultság-csoport, felhasználókhoz rendelhető.</li>
+<li>A <strong>tranzakció ACID tulajdonságokkal</strong> rendelkezik (atomosság, konzisztencia, izoláció, tartósság); <code>COMMIT</code> véglegesít, <code>ROLLBACK</code> visszagörget, <strong>DDL implicit COMMIT-tal</strong> jár.</li>
+</ol>
+<hr />
+<h2>8.a OOP haladó — abstract, generic, lambda</h2>
+<ol>
+<li><strong>Absztrakt metódus</strong> (<code>abstract</code>, nincs törzs) még meg nem írt műveletet jelöl; ha van benne, az <strong>osztály is abstract</strong>, a gyerek kötelezően override-olja.</li>
+<li>Az <strong>interface</strong> nyelvi elem (nem osztály), ami <strong>szerződést</strong> definiál — metódus- és property-szignatúrákat tartalmazhat, mezőt és konstruktort nem.</li>
+<li><strong>Egyetlen ős-osztály + tetszőleges interface</strong> — így C# megoldja a többszörös öröklődés problémáját; az interface más interface-ből származhat.</li>
+<li>A <strong>kivételkezelés filozófiája</strong>: a program normál módban fut, hiba esetén hiba módba lép, <strong>visszaugrál a hívási láncon</strong>, ha senki sem javítja, leáll.</li>
+<li><strong>try-catch-finally</strong>: <code>try</code> a kritikus kód, <code>catch(Típus)</code> típus szerint kezel (több catch fentről le, speciális előrébb), <code>finally</code> mindig lefut — erőforrás-felszabadításhoz.</li>
+<li><strong>Generikusok</strong> típussal paraméterezhető osztályok/metódusok (<code>List&lt;T&gt;</code>, <code>Dictionary&lt;K,V&gt;</code>) — általános viselkedés definiálható kódduplikáció nélkül.</li>
+<li>A <strong>delegate</strong> metódusreferencia (funkciómutató); beépítettek: <strong>Action</strong> (eljárás), <strong>Func</strong> (függvény visszatéréssel), <strong>Predicate</strong> (1 paraméter, bool).</li>
+<li>Az <strong>event</strong> több metódust köthet egy eseményhez, és hívásra mind lefut — az <strong>anonim delegate</strong> egyszeri callbackként használható.</li>
+<li>A <strong>lambda kifejezés</strong> tömör függvényszintaxis (<code>n =&gt; n.Contains('i')</code>); a <strong>LINQ</strong> teljes egészében erre épül.</li>
+<li>A LINQ bővítő metódusokat ad (<code>Where</code>, <code>Select</code>, <code>GroupBy</code>, <code>Join</code>) IEnumerable-re, és <strong>összefűzhető láncolható</strong> lekérdezéseket épít — hasonló minta Java Streams-ben és Python comprehensionokban.</li>
+</ol>
+<hr />
+<h2>8.b Fordítóprogramok</h2>
+<ol>
+<li>A <strong>fordítóprogram</strong> forrásnyelvi szövegből tárgykódot állít elő; a <strong>compiler</strong> magas szintű kódot gépi kódra fordít, az <strong>interpreter</strong> értelmezi futás közben.</li>
+<li>A <strong>compiler felépítése</strong>: input-handler → lexikális → szintaktikai → szemantikai elemző → belső reprezentáció → kódgenerátor → optimalizáló → kód-kezelő → tárgyprogram.</li>
+<li>A <strong>lexikális elemző</strong> karaktersorozatból <strong>tokeneket</strong> állít elő és reguláris (Chomsky-3) nyelvet használ — egy <strong>lexikális hiba</strong> ismeretlen token (pl. <code>int 2ab</code>).</li>
+<li>A <strong>szimbólumtábla</strong> a programban előforduló szimbólumok nevét és attribútumait (típus, cím, sorszám) tárolja — gyakran láncolt listával.</li>
+<li>A <strong>reguláris nyelvek (Chomsky-3)</strong> szabályai <code>A → a</code> vagy <code>A → Ba</code> alakúak, egy irányban épülnek — lexikális elemzésre alkalmasak.</li>
+<li>A <strong>szintaktikai elemzők</strong> eldöntik, hogy a program nyelvtanilag helyes-e, és <strong>levezetési fát</strong> állítanak elő.</li>
+<li>A <strong>rekurzív leszállás</strong> minden szimbólumhoz eljárást rendel, amik sorban hívják egymást — egyszerű, de nem generálható, nem elterjedt.</li>
+<li>Az <strong>LR(k)</strong> elemző bottom-up, az inputból indul a kezdőszimbólum felé; az <strong>LL(k)</strong> top-down, a kezdőszimbólumból indul, balról jobbra építi a fát.</li>
+<li>A <strong>táblázatos elemző</strong> állapot-hármassal <code>(ay#, Xa#, v)</code> dolgozik: input maradéka, verem (mondatforma), alkalmazott szabályok — Első/Követő halmazok döntik a helyettesítést.</li>
+<li>A <strong>szemantikai elemzés</strong> statikus tulajdonságokat vizsgál (típuskompatibilitás, deklaráció, hatáskör, túlterhelés-egyértelműség), amik környezetfüggetlen nyelvtannal nem írhatók le.</li>
+</ol>
+<hr />
+<h2>9.a Formális nyelvek</h2>
+<ol>
+<li>Az <strong>ábécé</strong> véges, nem üres jelhalmaz; a <strong>szó</strong> az ábécé jeleiből alkotott véges sorozat (<strong>ε</strong> az üres szó); a <strong>formális nyelv</strong> az ábécé fölötti szavak részhalmaza.</li>
+<li><strong>Műveletek szavakkal</strong>: <strong>konkatenáció</strong> (asszociatív, nem kommutatív, neutrális ε), hatványozás, tükrözés (palindrom); nyelvekkel: komplexus szorzás, hatvány.</li>
+<li><strong>Szintaxisleíró eszközök</strong>: a <strong>szintaxisdiagram</strong> vizuális (terminális/nemterminális téglalapok), az <strong>EBNF</strong> karakteres jelölés programnyelvekhez.</li>
+<li>A <strong>generatív grammatika</strong> <code>G(V, W, S, P)</code> formális négyes: V terminálisok, W nemterminálisok (V ∩ W = ∅), S kezdőszimbólum, P szabályok.</li>
+<li>A <strong>Chomsky-hierarchia</strong> 0-tól 3-ig szigorodik: 0 mondatszerkezetű (Turing), 1 környezetfüggő (lin. korl. Turing), 2 környezetfüggetlen (verem-automata), 3 reguláris (véges automata).</li>
+<li>A <strong>levezetési fa</strong> környezetfüggetlen nyelvtannal dönti el, hogy egy szó generálható-e — <strong>kanonikus levezetésnél</strong> mindig a legbaloldalibb nemterminálist helyettesítjük tovább.</li>
+<li>A <strong>véges automata</strong> <code>(K, V, δ, q₀, F)</code>: nincs output, csak olvasó-fej; fix n lépés után megáll, akkor fogad el, ha elfogadó állapotban van.</li>
+<li>A <strong>verem-automata</strong> <code>(K, V, W, δ, q₀, z₀, F)</code>: van veremje, ahova szót írhat, δ-be ε is mehet input gyanánt — <strong>nem biztos, hogy megáll</strong>.</li>
+<li>A <strong>Turing-gép</strong> <code>(K, V, W, δ, q₀, B, F)</code> az input szalagra is írhat, mindkét irányban végtelen; akkor áll meg, ha δ nincs értelmezve — változatai (több szalagú, lin. korlátolt) ekvivalensek.</li>
+<li><strong>Automaták és grammatikák</strong> kapcsolata: a grammatika <strong>generál</strong>, az automata <strong>felismer</strong> — a Chomsky-osztály és az automata-típus egy-egyértelműen összepárosul.</li>
+</ol>
+<hr />
+<h2>9.b Rendszerfejlesztés technológiája</h2>
+<ol>
+<li>A szoftver <strong>egyedi</strong> (ismert megrendelő) vagy <strong>dobozos</strong> (ismeretlen vásárlók); az <strong>életciklus</strong> a módszertanok által meghatározott — cél a magas minőség minimális költséggel.</li>
+<li><strong>9 állomás</strong>: új igény → követelményspec → rendszerjavaslat → rendszerspecifikáció → logikai+fizikai tervezés → implementáció → tesztelés → rendszerátadás → üzemeltetés.</li>
+<li>A <strong>követelményspecifikáció</strong> alapja <strong>riportok</strong> (szabad és irányított); tartalmazza a jelenlegi helyzetet, vágyálomrendszert, jogszabályi hátteret, fogalomszótárt.</li>
+<li>A <strong>funkcionális specifikáció</strong> felhasználói szemszögből írja le a rendszert, a <strong>nagyvonalú rendszerterv</strong> fejlesztői szemszögből.</li>
+<li>Modern módszertanok <strong>iteratívak</strong>: a tervezés-implementáció-tesztelés ciklusok rövidek, minden iteráció szállíthat valamit.</li>
+<li>A <strong>feladatkövetés</strong> (Kanban/Scrum board) átláthatóvá teszi a feladatokat — csökkenti az állapotjelentés szükségességét.</li>
+<li>A <strong>verziókövetés</strong> (Git, SVN) a változásokat követi (ki, mikor, mit), támogat branchet, conflictnál értesít — a fejlesztés kulcseszköze.</li>
+<li><strong>Tesztelési technikák</strong>: feketedobozos (csak spec), fehérdobozos (forráskód), szürkedobozos (részleges) — kódsorokat, elágazásokat, metódusokat tesztelünk.</li>
+<li><strong>Tesztelés szintjei</strong>: unit (metódus), modul, integrációs, rendszerteszt, átadás-átvételi (alfa, béta, felhasználói, üzemeltetői).</li>
+<li>A <strong>regressziós teszt</strong> minden változtatás után <strong>az összes unit-tesztet</strong> lefuttatja — biztosítja, hogy nem rontottuk el a már működőt.</li>
+</ol>
+<hr />
+<h2>10.a Hálózati architektúrák</h2>
+<ol>
+<li>A <strong>csomagkapcsolt hálózatok</strong> az üzenetet csomagokra bontják, mindegyik fejléccel megy, különböző útvonalakon, és a sorrendet a célnak kell helyreraknia.</li>
+<li>Az <strong>OSI 7 rétegű</strong> elméleti modell: fizikai, adatkapcsolati, hálózati, szállítási, viszony, megjelenítési, alkalmazási — az oktatás referenciája.</li>
+<li>A <strong>TCP/IP 4 rétegű</strong> gyakorlati modell: network access, internet (IP), transport (TCP/UDP), application — ez fut élesben az interneten.</li>
+<li>A <strong>router</strong> útválasztási táblája alapján dönt; protokollok: statikus, <strong>distance-vector</strong> (RIP), <strong>link-state</strong> (OSPF, Dijkstra), <strong>BGP</strong> (autonóm rendszerek között).</li>
+<li>Az <strong>IPv4</strong> 32 bites cím, hálózat-azonosító + host-azonosító; az <strong>alhálózati maszk</strong> (/24) szabja meg a felosztást; <strong>privát tartományok</strong>: 10.x, 172.16.x, 192.168.x.</li>
+<li>Az <strong>IPv6</strong> 128 bites, beépített biztonsággal; a <strong>NAT</strong> privát címeket nyilvánosra fordít — IPv4-cím spórolásra.</li>
+<li>A <strong>TCP</strong> kapcsolatorientált, megbízható, stream alapú: <strong>3-way handshake</strong>, ACK-nyugtázás, újraküldés, folyamszabályozás, torlódásvezérlés.</li>
+<li>Az <strong>UDP</strong> kapcsolat nélküli, gyors, megbízhatatlan — VoIP, streaming, online játékok, <strong>DNS</strong>, DHCP.</li>
+<li>Az <strong>ICMP</strong> hálózati réteg protokoll hibajelzésre és diagnosztikára: Echo Request/Reply (<strong>ping</strong>), Time Exceeded (<strong>traceroute</strong>), Destination Unreachable.</li>
+<li>A <strong>DNS</strong> domain név → IP feloldó hierarchikus rendszer (root → TLD → authoritative); rekordtípusok A, AAAA, CNAME, MX, NS, TXT — UDP 53-as porton.</li>
+</ol>
+<hr />
+<h2>10.b Szolgáltatásorientált programozás</h2>
+<ol>
+<li>Az <strong>RPC</strong> távoli eljáráshívás: a kliens stub-bal marshallolja a paramétereket, hálózaton átküldi, szerver oldalon kicsomagolódik és visszatér.</li>
+<li>A <strong>gRPC</strong> a Google modern RPC-je: HTTP/2 transzporton, bináris üzenetekkel, 4 streaming-móddal, többnyelvű kódgenerálással .proto fájlokból.</li>
+<li>A <strong>protocol buffers</strong> a gRPC szerializációs nyelve — séma-alapú, bináris, kisebb és gyorsabb mint a JSON, és kompatibilis verziókezelést támogat.</li>
+<li>A <strong>WEB</strong> decentralizált, HTTP-alapú; az <strong>egyrétegű (monolit)</strong> architektúrában minden egy alkalmazásban van.</li>
+<li>A <strong>többrétegű (3-tier)</strong> felosztja a rendszert prezentáció (UI), üzleti logika, adat rétegre — minden réteg külön skálázható.</li>
+<li><strong>Vékony kliens</strong>: kevés a kliensen, sok szerveren (webalkalmazás); <strong>vastag kliens</strong>: sok kliens-oldali logika (asztali alkalmazás, SPA).</li>
+<li><strong>Elosztott rendszerek</strong> skálázhatóak (horizontálisan), hibatűrőek; a <strong>CAP-tétel</strong> szerint a Consistency-Availability-Partition tolerance hármasából csak 2 lehet.</li>
+<li>A <strong>REST</strong> HTTP-alapú architekturális stílus: <strong>resource-orientált URI</strong>, <strong>stateless</strong>, HTTP-igék (GET/POST/PUT/PATCH/DELETE), cache-elhető, JSON.</li>
+<li>A <strong>web service</strong> hálózaton elérhető gép-gép API; <strong>SOAP/XML</strong> vagy <strong>REST/JSON</strong> — utóbbi ma az elterjedt.</li>
+<li>A <strong>WCF</strong> Microsoft technológia szolgáltatásokhoz, <strong>ABC</strong> modellel (Address, Binding, Contract); az ASMX csak HTTP/SOAP, a WCF rugalmas és sokoldalú, de a modern alternatíva ASP.NET Core Web API vagy gRPC.</li>
+</ol>
+<hr />
+<h2>11.a Rendszerfejlesztés — módszertanok</h2>
+<ol>
+<li>Az <strong>életciklus dokumentumai</strong>: követelményspecifikáció, funkcionális specifikáció, nagyvonalú rendszerterv, tesztterv, átadás-átvételi jegyzőkönyv — a funkspec <strong>megfeleltetést</strong> is tartalmaz a kövspechez.</li>
+<li>A <strong>módszertanok</strong> osztályozhatók: életciklus-sorrend (lineáris/iteratív), dokumentáltság (könnyű/nehézsúlyú), megközelítés (jól dokumentált, prototípus, agilis), középpont.</li>
+<li><strong>Strukturált (hagyományos)</strong> módszertanok lineárisak, nehézsúlyúak: <strong>vízesés</strong> nem enged visszatérést, a <strong>V-modell</strong> teszteléssel egészíti ki.</li>
+<li><strong>Hagyományos vs agilis</strong>: a hagyományos sok dokumentációt és merev fázisokat, az agilis működő kódot és rugalmas iterációkat, direkt kommunikációt preferál.</li>
+<li><strong>Prototípus alapú megközelítés</strong>: a felhasználó ne a projekt végén lássa először a terméket — <strong>eldobható</strong> (csak felmérésre) vagy <strong>evolúciós</strong> (a rendszer lelke lesz).</li>
+<li>A <strong>Scrum</strong> agilis módszertan, 2-4 hetes <strong>sprintekkel</strong>: Sprint Planning, Daily Meeting, Sprint Review, és a legfontosabb <strong>Retrospective</strong>.</li>
+<li><strong>Scrum szerepkörök</strong>: <strong>Scrum Master</strong> (folyamat-felügyelő), <strong>Product Owner</strong> (priorizál, nem azonos SM-mel), <strong>Team</strong> (5-9 fő); a <strong>Product Backlog</strong> priorizált sztorikat tartalmaz.</li>
+<li>Az <strong>extrém programozás (XP)</strong> 4 tevékenységre (kódolás, tesztelés, odafigyelés, tervezés) és 5 értékre (kommunikáció, egyszerűség, visszacsatolás, bátorság, tisztelet) épül.</li>
+<li><strong>XP technikák</strong>: páros programozás, <strong>TDD</strong>, code review, folyamatos integráció, <strong>refactoring</strong> — akkor jó, ha a megrendelő tud átláthatóan együttműködni.</li>
+<li>A <strong>kockázatmenedzsment</strong> két vetülete: bekövetkezés valószínűsége és kár mértéke; a <strong>súlyosság = valószínűség × kár</strong>, lépései: azonosítás, értékelés, csökkentés, kommunikáció (COBIT, Common Criteria).</li>
+</ol>
+<hr />
+<h2>11.b Nulladrendű logika</h2>
+<ol>
+<li>A <strong>nulladrendű logika</strong> ítéletváltozókat kapcsol logikai műveletekkel — minden objektum igaz/hamis; a <strong>szintaxis</strong> a helyes formulák nyelvtana, a <strong>szemantika</strong> az értelmezés.</li>
+<li>Az <strong>igazságtábla</strong> segít összetett kifejezést kiértékelni; egy <strong>interpretáció</strong> minden atomhoz igaz/hamis értéket rendel.</li>
+<li><strong>Szemantikai tulajdonságok</strong>: <strong>tautológia</strong> (minden interpretációban igaz), <strong>kontradikció</strong> (mindig hamis), <strong>kielégíthető</strong> (legalább egyben igaz).</li>
+<li><strong>Normálformák</strong>: <strong>literál</strong> (atom vagy negáltja), <strong>klóz</strong> (literálok diszjunkciója), <strong>KNF</strong> (klózok konjunkciója), <strong>DNF</strong> (elemi konjunkciók diszjunkciója).</li>
+<li><strong>KNF-re hozás</strong>: ekvivalencia eltüntetése, implikáció <code>A → B ≡ ¬A ∨ B</code>, negációk bevitele atomokig (de Morgan), <strong>disztributivitás</strong>.</li>
+<li>A <strong>Tseitin transzformáció</strong> lineáris algoritmus: minden nem-literál részformulához új X ítéletváltozót vezet be, és konjugál hozzá egy <code>X ↔ A</code> ekvivalenciát.</li>
+<li>A <strong>Plaisted-Greenbaum kódolás</strong> csökkenti a Tseitin klózszámát: az ekvivalencia két implikációra bontható, és a <strong>polaritás függvényében</strong> csak az egyik megtartandó.</li>
+<li>A <strong>rezolúció</strong> cáfoló eljárás: a tagadásból az <strong>üres klóz</strong> levezetésével UNSAT-ot bizonyítunk — nulladrendűben <strong>véges levezetés garantált</strong>.</li>
+<li>A <strong>SAT</strong> (KNF kielégíthetősége) <strong>NP-teljes</strong>; <strong>3-SAT</strong> is, <strong>2-SAT</strong> polinomiális; a <strong>DPLL</strong> visszalépéses keresés + <strong>unit propagáció</strong> az egységklózokra.</li>
+<li>A <strong>DIMACS</strong> a SAT solverek standard input formátuma (sorszámok, <code>-</code> negálás, <code>0</code> klózvég); az <strong>SMT</strong> kiterjeszti aritmetikára/tömbökre/listákra, az <strong>SMT-LIB</strong> ennek emberközelibb formátuma.</li>
+</ol>
+<hr />
+<h2>12.a Adatbázis II — PL/SQL</h2>
+<ol>
+<li>A <strong>PL/SQL</strong> az Oracle procedurális kiterjesztése — változókkal, vezérléssel, kivételkezeléssel ágyazza be az SQL-utasításokat.</li>
+<li><strong>Típusok</strong>: skalár (NUMBER, VARCHAR2, DATE, BOOLEAN); <strong><code>%TYPE</code></strong> (oszlop típusa), <strong><code>%ROWTYPE</code></strong> (sor típusa), RECORD, TABLE (asszociatív tömb), VARRAY.</li>
+<li>Változó deklarálása <code>név típus := kezdőérték</code>; <strong><code>CONSTANT</code></strong> konstanst, <strong><code>NOT NULL</code></strong> kötelező értéket ad.</li>
+<li><strong>Vezérlési szerkezetek</strong>: <code>IF/ELSIF/ELSE</code>, <code>CASE</code>, <code>LOOP-EXIT WHEN</code>, <code>WHILE</code>, <code>FOR i IN 1..10</code>, és cursor-FOR-loop ami automatikusan kezeli a kurzort.</li>
+<li><strong>SQL beágyazása</strong>: <code>SELECT INTO</code> egy sort egy változóba (NO_DATA_FOUND, TOO_MANY_ROWS); INSERT/UPDATE/DELETE közvetlenül; DDL csak <code>EXECUTE IMMEDIATE</code>-tel.</li>
+<li>Egy <strong>PL/SQL blokk</strong> 3 részből áll: <code>DECLARE</code> (deklarációk), <code>BEGIN-END</code> (kötelező), <code>EXCEPTION</code> (opcionális) — blokkok egymásba ágyazhatók.</li>
+<li>A <strong>tárolt eljárás (PROCEDURE)</strong> nem ad vissza értéket (csak OUT-on), önállóan hívható; a <strong>tárolt függvény (FUNCTION)</strong> <code>RETURN</code>-nel ad értéket és SELECT-ben is hívható.</li>
+<li>A <strong>csomag (PACKAGE)</strong> logikailag összetartozó alprogramokat csoportosít: <strong>specifikáció</strong> (interface) és <strong>body</strong> (implementáció), encapsulation, memóriába egészében töltődik.</li>
+<li><strong>Paraméter-módok</strong>: <strong>IN</strong> (alapeset, csak olvasható), <strong>OUT</strong> (kimenet, null-ról indul), <strong>IN OUT</strong> (be- és kimenet) — pozicionális vagy megnevezett (<code>a =&gt; 1</code>) hívás.</li>
+<li><strong>Kivételkezelés</strong>: <code>WHEN</code> beépített kivétel (NO_DATA_FOUND, TOO_MANY_ROWS, ZERO_DIVIDE, OTHERS) vagy saját <code>EXCEPTION</code> + <code>RAISE</code>; <code>RAISE_APPLICATION_ERROR</code> -20000-től -20999-ig.</li>
+</ol>
+<hr />
+<h2>12.b Számítógépi grafika</h2>
+<ol>
+<li>A <strong>DDA szakaszrajzoló</strong> az egyenes y = mx + b alakjából lépésekkel rajzolja a pixeleket, de lebegőpontos + kerekítés miatt nem ideális.</li>
+<li>A <strong>MidPoint szakasz</strong> csak egész számokkal: az aktuális pont után a <strong>felezőpont</strong> alapján dönt East vagy NorthEast pixelről.</li>
+<li>A <strong>MidPoint körrajzoló</strong> kihasználja a <strong>nyolcas szimmetriát</strong> (elég a kör 1/8-át kiszámolni), és a felezőpont alapján E vagy SE pixelt választ.</li>
+<li>A <strong>Cohen-Sutherland vágó</strong> algoritmus 4 bites kódot rendel a sík 9 részéhez; 0000 kódok → belül, AND ≠ 0 → kívül, egyébként élvonalakkal vágunk.</li>
+<li>A <strong>Hermite-ív</strong> két végpont és két érintővektor alapján harmadfokú polinom — négy Hermite-polinom súlyozott kombinációja.</li>
+<li>A <strong>Bézier-görbe</strong> approximáció (csak végpont-interpoláció), <strong>Bernstein-polinommal</strong> előállítva — <strong>konvex burok</strong> tulajdonság, affin invariancia, magas fokszámnál merev.</li>
+<li>A <strong>B-Spline</strong> lokálisan hat (új kontrollpont nem mozgatja az egész görbét), automatikus folytonossággal csatlakoznak az ívek.</li>
+<li>A <strong>homogén koordináták</strong> egy 3D pontot <code>(x, y, z, 1)</code> alakkal reprezentálnak — így az <strong>eltolás is mátrixszorzással</strong> leírható, <strong>4×4 mátrixokkal</strong>.</li>
+<li><strong>Pont-transzformációk</strong>: eltolás, forgatás, tükrözés, skálázás, nyírás; <strong>vetítések</strong>: párhuzamos (megtartja arányokat), centrális (perspektív, realisztikus), <strong>axonometria</strong>.</li>
+<li>Poliédereket <strong>Wire Frame</strong> (csak csúcs+él) vagy <strong>B-Rep</strong> (geometriai+topológiai) tárol; megjelenítés: hátsó lapok eltávolítása normállal, <strong>Z-Buffer</strong>; árnyalás: <strong>Flat</strong> (lapszín), <strong>Gouraud</strong> (csúcs-szín interp.), <strong>Phong</strong> (normál interp., legszebb).</li>
+</ol>
+<hr />
+<h2>13.a Webprogramozás II — PHP</h2>
+<ol>
+<li>A <strong>statikus weboldal</strong> mindig ugyanazt küldi; a <strong>dinamikus</strong> futás közben generálja a tartalmat felhasználó/adatbázis alapján (PHP, Python, Node.js).</li>
+<li>A <strong>PHP</strong> szerver-oldali, dinamikusan típusos, interpretált nyelv — C-szerű szintaxis, HTML-be ágyazható (WordPress, Drupal).</li>
+<li>A futáshoz <strong>webszerver</strong> (Apache/Nginx) és <strong>PHP interpreter</strong> kell — a klasszikus <strong>LAMP stack</strong>: Linux + Apache + MySQL + PHP.</li>
+<li><strong>Típusrendszer</strong>: skalár (int, float, string, bool), összetett (array, object, callable), speciális (null, resource) — a típus futás közben változhat.</li>
+<li>A változó <strong><code>$</code></strong> prefixxel, a <strong>konstans</strong> <code>define()</code>-fal vagy <code>const</code>-tal; <strong>superglobálisok</strong>: <code>$_GET</code>, <code>$_POST</code>, <code>$_SESSION</code>, <code>$_COOKIE</code>, <code>$_FILES</code>, <code>$_SERVER</code>.</li>
+<li><strong>HTML-PHP kapcsolat</strong>: <code>&lt;?php ?&gt;</code> blokkokkal — a PHP feldolgozza a kódot, a többit változatlanul küldi a kliensnek.</li>
+<li><strong>Modulszerkezet</strong>: <code>include</code>/<code>require</code> (utóbbi fatális hiba hiányzó fájlnál), <code>*_once</code> (csak egyszer), <strong>PSR-4 autoloading</strong> modern projekteknél.</li>
+<li><strong>Adatcsere</strong>: GET URL-ben (látható, cache-elhető), POST body-ban (rejtett), <strong>AJAX</strong> aszinkron a böngészőből, <strong>JSON</strong> az API-knál.</li>
+<li><strong>Biztonsági kérdések</strong>: SQL Injection ellen <strong>prepared statement</strong>; XSS ellen <code>htmlspecialchars</code>; CSRF ellen token + SameSite cookie; jelszó <code>password_hash</code>/<code>password_verify</code>.</li>
+<li>A <strong>süti (cookie)</strong> kliensen tárolt 4 KB-ig terjedő adat (HttpOnly, Secure, SameSite flag-ekkel); a <strong>session</strong> szerveroldali állapot, csak a session ID megy cookie-ban.</li>
+</ol>
+<hr />
+<h2>13.b Programozási technológiák — tervezési minták</h2>
+<ol>
+<li>A <strong>tervezési minta</strong> újrahasznosítható megoldás egy gyakori problémára — közös szókincs, bevált megoldás, karbantarthatóság; a <strong>Gang of Four</strong> 23 mintát rendszerezett.</li>
+<li><strong>Három fő kategória</strong>: <strong>létrehozási</strong> (objektum-példányosítás), <strong>szerkezeti</strong> (összeszerelés), <strong>viselkedési</strong> (kommunikáció).</li>
+<li>A <strong>Stratégia</strong> minta interface-t és cserélhető implementációkat ad, a kontextus <strong>kompozícióval</strong> tartja a stratégiát — futás közben váltható.</li>
+<li>A <strong>Sablon metódus</strong> minta absztrakt osztály template metódusával adja az algoritmus vázát; a változó lépéseket absztrakt metódusként hagyja — <strong>öröklődéssel</strong> működik.</li>
+<li>A Stratégia és a Sablon metódus különbsége: az előbbi <strong>kompozíció + futás-közbeni csere</strong>, az utóbbi <strong>öröklődés + fordításkori rögzítés</strong>.</li>
+<li>A <strong>Megfigyelő (Observer)</strong> egy alany állapotváltozásairól értesít minden megfigyelőt anélkül, hogy ismerné őket — fajtái <strong>push</strong> (adatot is ad) és <strong>pull</strong> (csak értesít).</li>
+<li>A <strong>SOLID</strong> alapelvek: Single Responsibility, <strong>Open/Closed</strong>, Liskov Substitution, Interface Segregation, Dependency Inversion.</li>
+<li>A <strong>nyitva-zárt alapelv</strong> szerint a kód bővítésre nyitott, módosításra zárt — új viselkedés új osztály, a meglévőt nem nyúljuk; <strong>interface + polimorfizmus</strong> a kulcs.</li>
+<li><strong>GOF1</strong>: programozz interfészre, ne implementációra; <strong>GOF2</strong>: részesítsd előnyben a kompozíciót az öröklődéssel szemben.</li>
+<li>A <strong>TDD három lépése</strong> Red-Green-Refactor: bukó teszt, minimális kód a zöldhöz, majd szépítés — kiegészíti a code review, CI/CD, refactoring, naming conventions.</li>
+</ol>
+<hr />
+<h2>14.a Programozási technológiák — OOP elvek + minták</h2>
+<ol>
+<li>Az <strong>osztály</strong> <strong>felület</strong> (mit kínál kívülről) és <strong>megvalósítás</strong> (hogyan oldja meg) két részből áll — a felület stabil, a megvalósítás cserélhető.</li>
+<li>Az <strong>objektum három jellemzője</strong>: felület (publikus metódusai), <strong>belső állapot</strong> (privát mezők értéke), <strong>viselkedés</strong> (hogyan reagál a hívásokra).</li>
+<li>Az <strong>OOP négy alapelve</strong> a fenti fogalmakkal: egységbe zárás (adat + művelet együtt), adatrejtés (állapot csak felületen át), öröklődés (felület + megvalósítás), polimorfizmus (azonos felület, eltérő viselkedés).</li>
+<li>A <strong>GOF1</strong> alapelv interface-re programozást ír elő — a változó típusa legyen a legabsztraktabb, így a konkrét osztály cserélhető.</li>
+<li>A <strong>GOF2</strong> alapelv a <strong>kompozíciót</strong> részesíti előnyben az öröklődéssel szemben — futás közben cserélhető, lazább kapcsolat, mint az "is-a".</li>
+<li>A <strong>Stratégia minta</strong> közös interface + kontextust ad, ami kompozícióval tartja a stratégia-példányt; <code>SetStrategy()</code> metódussal cserélhető — <strong>nyitva-zárt</strong> elv teljesül.</li>
+<li><strong>Viselkedési minták általában</strong>: Strategy, Template Method, Observer, Iterator, Command, State, Chain of Responsibility, Mediator, Visitor.</li>
+<li>Az <strong>Egyke (Singleton)</strong> garantálja az egyetlen példányt: <strong>privát konstruktor</strong>, <strong>static Instance property</strong>, lazy init lock-kal (vagy <code>Lazy&lt;T&gt;</code>) — logger, konfiguráció, connection pool.</li>
+<li><strong>Létrehozási minták általában</strong>: Singleton, Factory Method, Abstract Factory, Builder, Prototype.</li>
+<li>A <strong>Díszítő (Decorator)</strong> ugyanazt az interface-t implementálja, mint a díszítendő, körbeveszi, és funkciót ad hozzá (Compress, Encrypt) — <strong>szerkezeti minták</strong>: Adapter, Bridge, Composite, Decorator, Facade, Flyweight, Proxy.</li>
+</ol>
+<hr />
+<h2>14.b Adatbázis II — kurzor + trigger + kollekció</h2>
+<ol>
+<li>A <strong>kurzor</strong> a memóriában lévő környezeti terület azonosítója, ami az SQL eredményét tárolja és mutatóval halad a sorokon.</li>
+<li><strong>Implicit kurzor</strong> automatikusan jön létre DML-utasításokhoz és 1 sort visszaadó SELECT-hez; attribútumai <code>SQL%FOUND</code>, <code>SQL%NOTFOUND</code>, <code>SQL%ROWCOUNT</code>, <code>SQL%ISOPEN</code> (mindig FALSE).</li>
+<li><strong>Explicit kurzor 4 lépése</strong>: <code>DECLARE</code> (<code>CURSOR név IS …</code>), <code>OPEN</code> (lefuttatja a lekérdezést), <code>FETCH</code> (egy sort betölt), <code>CLOSE</code> (felszabadít).</li>
+<li>Az <strong>egyszerűsített FOR-LOOP</strong> automatikusan kezeli az open-fetch-close-t: <code>FOR rec IN (SELECT …) LOOP … END LOOP</code>.</li>
+<li><strong>Explicit kurzor-attribútumok</strong>: <code>%FOUND</code> (sikeres FETCH után TRUE), <code>%NOTFOUND</code>, <code>%ISOPEN</code>, <code>%ROWCOUNT</code> (eddig betöltött sorok); nincs megnyitva → <code>INVALID_CURSOR</code> kivétel.</li>
+<li>A <strong>kurzorváltozó (<code>REF CURSOR</code>)</strong> dinamikus — futás közben bármely kompatibilis lekérdezéshez kapcsolható; <strong>erős</strong> (RETURN típussal) vagy <strong>gyenge</strong> (típus nélkül).</li>
+<li><strong>Tranzakciókezelés</strong>: <code>COMMIT</code> véglegesít, <code>ROLLBACK</code> visszagörget, <code>SAVEPOINT</code> köztes mentés; DDL implicit COMMIT-tal jár.</li>
+<li>A <strong>trigger</strong> automatikusan végrehajtódó kód egy eseményre (tábla módosulás, rendszer); típusai <strong>sor-</strong> vs <strong>utasításszint</strong>, <strong>BEFORE/AFTER/INSTEAD OF</strong>, rendszer-trigger.</li>
+<li><strong>Trigger-felhasználás</strong>: naplózás, integritás, származtatott érték frissítése, üzleti szabály — sor-szintű triggerben <code>:NEW</code> és <code>:OLD</code> érhető el.</li>
+<li><strong>Kollekciók 3 típusa</strong>: <strong>asszociatív tömb</strong> (hash, csak PL/SQL, int/string index), <strong>beágyazott tábla</strong> (DB oszlop is lehet, lyukak, törölhető elem), <strong>VARRAY</strong> (fix max méret, folytonos, nem törölhető elem).</li>
+</ol>
+  </div>
+</body>
+</html>

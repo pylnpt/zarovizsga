@@ -1,5 +1,6 @@
 # Forrás PDF-ek (túl nagyok, nem kellenek webre)
 *.pdf
+!mondatok.pdf
 
 # Python segédscriptek és cache
 *.py
